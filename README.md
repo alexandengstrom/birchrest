@@ -5,18 +5,35 @@
 
 **BirchRest** is a simple, lightweight framework for setting up RESTful APIs with minimal configuration. It is designed to be intuitive and flexible, allowing developers to quickly create APIs without heavy dependencies.
 
-## Features
-
-- Simple, clean, and lightweight
-- Built-in middleware for authentication, validation, logging, rate-limiting, and more
-- Custom middleware support for full flexibility
-- Easily handles requests and responses with minimal boilerplate
-- Automatic routing setup
+## Table of contents
 
 ## Installation
 
-BirchRest can be installed via pip:
+## Quickstart
 
-```bash
-pip install birchrest
-```
+## Defining Controllers
+In Birchrest, controllers are the core units of the API. Each controller can define multiple endpoints, and controllers can be modularly organized into subcontrollers to create nested API routes.
+
+Each controller has a base path, which defines where its routes are available in the API. If a controller includes subcontrollers, their base paths are concatenated, allowing for a hierarchical API design.
+## Middleware
+Middleware allows you to perform tasks before or after a request is processed by a controller, such as logging, modifying the request, or checking permissions. Birchrest provides built-in middleware for common tasks and the ability to define your own custom middleware.
+
+### Custom Middlewares
+You can create your own middleware to handle specific logic or modify request and response objects. This section will outline how to define and register custom middleware in your application.
+### Built-in Middlewarea
+Birchrest comes with several built-in middleware options that help manage common use cases, such as request logging, rate limiting or CORS support. These can be easily added to your API with minimal configuration.
+## Data Validation
+Data validation in Birchrest is supported via Python data classes. This allows for strict validation of request data (body, queries, and params) to ensure that all incoming data adheres to the expected structure
+
+### Body Validation
+
+### Query Validation
+
+### URL Param Validation
+
+## Authentication
+Birchrest makes it easy to protect your API routes with authentication mechanisms. It allows you to define custom authentication handlers and easily mark routes as protected, ensuring that only authenticated requests are allowed access.
+### Custom Auth Handlers
+You can define your own authentication handler to manage how users are authenticated in your system. Once defined, Birchrest will handle the integration with the API.
+### Protecting Routes
+You can easily protect individual routes or entire controllers by marking them as requiring authentication. Birchrest will automatically handle unauthorized access by returning predefined error messages.
