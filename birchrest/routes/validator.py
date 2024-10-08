@@ -1,13 +1,7 @@
 from dataclasses import MISSING, fields, is_dataclass
-from typing import Any, Type, get_origin
+from typing import Any, Type, get_args, get_origin
 import re
-import sys
 
-if sys.version_info >= (3, 8):
-    from typing import get_args
-else:
-    def get_args(tp):
-        return getattr(tp, "__args__", ())
 
 def parse_data_class(data_class: Type[Any], data: Any) -> Any:
         if not is_dataclass(data_class):
