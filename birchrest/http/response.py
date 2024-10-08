@@ -33,7 +33,7 @@ class Response:
 
         :param name: The name of the header
         :param value: The value of the header
-        :return: self to allow for chaining
+        :return: self to allow chaining
         """
         self._headers[name] = value
         return self
