@@ -42,7 +42,7 @@ def my_middleware(req: Request, res: Response, next: NextFunction):
 If you want to keep a state in your middleware, it is recommended to create a class that implements the call method.
 
 ```python
-from birchrest import Request, Response, NextFunction
+from birchrest import Request, Response, NextFunction, ApiError
 
 class MyMiddleware:
     def __init__(self, state: int):
@@ -52,7 +52,7 @@ class MyMiddleware:
         if self.state:
             next()
         else:
-            res.status(400).send()
+            raise ApiError.BAD_REQUEST()
 ```
 ### Built-in Middlewarea
 Birchrest comes with several built-in middleware options that help manage common use cases, such as request logging, rate limiting or CORS support. These can be easily added to your API with minimal configuration.
