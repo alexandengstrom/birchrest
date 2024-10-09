@@ -14,9 +14,17 @@
 ## Quickstart
 
 ## Defining Controllers
-In Birchrest, controllers are the core units of the API. Each controller can define multiple endpoints, and controllers can be modularly organized into subcontrollers to create nested API routes.
+In Birchrest, controllers are the building blocks of your API. Each controller defines multiple endpoints, and controllers can be nested to create hierarchical routes.
+### Key Concepts
+- **Base Path**: Each controller has a base path that defines where its routes are accessible. If a controller has subcontrollers, their base paths are combined, creating a nested structure.
+- **Controller**: Setup: To create a controller:
+    1. Inherit from the Controller class
+    2. Use the @controller decorator on the class, passing the base path as an argument.
+### Defining Endpoints
+Inside a controller, use HTTP method decorators like @get or @post to define endpoints. These decorators can take an optional path to extend the controller’s base path for that specific route.
+### Nesting Controllers
+To nest controllers, define a constructor in your parent controller. Inside the constructor, use self.attach() to attach the subcontroller, and don’t forget to call the parent class constructor with super().
 
-Each controller has a base path, which defines where its routes are available in the API. If a controller includes subcontrollers, their base paths are concatenated, allowing for a hierarchical API design.
 ## Middleware
 Middleware allows you to perform tasks before or after a request is processed by a controller, such as logging, modifying the request, or checking permissions. Birchrest provides built-in middleware for common tasks and the ability to define your own custom middleware.
 
