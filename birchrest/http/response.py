@@ -4,7 +4,7 @@ from .status import HttpStatus
 
 
 class Response:
-    def __init__(self) -> None:
+    def __init__(self, correlation_id: str = "") -> None:
         """
         Initializes a new Response object with default values.
         """
@@ -12,6 +12,7 @@ class Response:
         self._headers: Dict[str, str] = {'Content-Type': 'text/html'}
         self._body: str = ''
         self._is_sent: bool = False
+        self.correlation_id = correlation_id
 
     def status(self, code: int) -> 'Response':
         """
@@ -50,6 +51,8 @@ class Response:
         if self._is_sent:
             raise Exception("Request was sent twice")
         
+        self.body = data
+        self.json = json.dumps(data)
         self._body = json.dumps(data)
         self.set_header('Content-Type', 'application/json')
         self._headers['Content-Length'] = str(len(self._body))
@@ -66,7 +69,7 @@ class Response:
         status_message = HttpStatus.description(self._status_code)
         response_line = f"HTTP/1.1 {self._status_code} {status_message}\r\n"
         headers = ''.join(f"{key}: {value}\r\n" for key, value in self._headers.items())
-        response = response_line + headers + "\r\n" + self._body
+        response = response_line + headers + "\r\n" + self.json
 
         return response
 

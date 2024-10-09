@@ -1,3 +1,5 @@
+# type: ignore
+
 import unittest
 from dataclasses import dataclass, field
 from typing import List
@@ -73,7 +75,6 @@ class TestParseDataClass(unittest.TestCase):
     def test_parse_nested_data_class(self):
         data = {"simple": {"name": "John", "age": 30}, "is_active": True}
         parsed = parse_data_class(NestedDataClass, data)
-        print(parsed)
         self.assertEqual(parsed.simple.name, "John")
         self.assertEqual(parsed.simple.age, 30)
         self.assertEqual(parsed.is_active, True)

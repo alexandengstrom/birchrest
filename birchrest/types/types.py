@@ -12,3 +12,5 @@ AuthHandlerFunction = Callable[[Request, Response], None]
 RouteHandler = Callable[[Request, Response], None]
 
 FuncType = TypeVar('FuncType', bound=Callable[..., Any])
+
+ErrorHandler = Callable[[Request, Response, Exception], None]

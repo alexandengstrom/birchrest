@@ -51,7 +51,10 @@ class Controller:
             self.controllers.append(controller())
             
     def resolve_paths(self, prefix: str = "", middlewares: List[MiddlewareFunction] = []) -> None:
-        new_prefix = f"{prefix}/{self._base_path}"
+        new_prefix = prefix.rstrip('/').lstrip('/')
+        base_path = self._base_path.lstrip('/')
+
+        new_prefix = f"/{new_prefix}/{base_path}".rstrip('/')
         
         for route in self.routes:
             if self._is_protected:

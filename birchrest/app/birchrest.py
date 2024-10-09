@@ -1,16 +1,20 @@
 from typing import Dict, List, Optional, Type
 
+from birchrest.exceptions.api_error import ApiError
 from birchrest.http.server import Server
 from birchrest.routes import Route, Controller
+from birchrest.utils.artwork import get_artwork
 from ..http import Request, Response, HttpStatus
 from ..exceptions import InvalidControllerRegistration
-from ..types import MiddlewareFunction, AuthHandlerFunction
+from ..types import MiddlewareFunction, AuthHandlerFunction, ErrorHandler
+from birchrest.version import __version__
 
 class BirchRest:
     def __init__(self) -> None:
         self.controllers: List[Controller] = []
         self.global_middlewares: List[MiddlewareFunction] = []
         self.auth_handler: Optional[AuthHandlerFunction] = None
+        self.error_handler: Optional[ErrorHandler] = None
             
     def register(self, *controllers: Type[Controller]) -> None:
         for controller in controllers:
@@ -24,14 +28,50 @@ class BirchRest:
         
     def middleware(self, handler: MiddlewareFunction) -> None:
         self.global_middlewares.append(handler)
+        
+    def error(self, handler: ErrorHandler) -> None:
+        self.error_handler = handler
          
     def serve(self, host: str = "127.0.0.1", port: int = 13337) -> None:
         self._build_api()
         server = Server(self.handle_request, host=host, port=port)
-        server.start()
+        
+        print(get_artwork(host, port, __version__))
+        
+        try:
+            server.start()
+        except KeyboardInterrupt:
+            print("\nServer shutdown initiated by user. Exiting...")
+        finally:
+            server.shutdown()
+            print("Server stopped.")
+
         
     def handle_request(self, request: Request) -> Response:
-        response = Response()
+        response = Response(request.correlation_id)
+                
+        try:
+            return self._handle_request(request, response)
+        except ApiError as e:
+            if self.error_handler:
+                self.error_handler(request, response, e)
+                return response
+            
+            return e.convert_to_response(response)
+        except Exception as e:
+            if self.error_handler:
+                self.error_handler(request, response, e)
+                return response
+                
+            return response.status(500).send({
+                "error": {
+                    "status": 500,
+                    "code": "Internal Server Error"
+                    }
+                })
+            
+        
+    def _handle_request(self, request: Request, response: Response) -> Response:
         matched_route: Optional[Route] = None
         path_params: Optional[Dict[str, str]] = {}
 
@@ -50,21 +90,19 @@ class BirchRest:
 
         if matched_route:
             if matched_route.requires_params and not path_params:
-                response.status(400).send(
-                    {"error": "400 Bad Request - Missing Parameters"}
-                )
+                raise ApiError.BAD_REQUEST("400 Bad Request - Missing Parameters")
             else:
 
                 request.params = path_params if path_params is not None else {}
 
                 matched_route(request, response)
+
         else:
 
             if route_exists:
-                response.status(405).send({"error": "405 Method Not Allowed"})
+                raise ApiError.METHOD_NOT_ALLOWED()
             else:
-
-                response.status(404).send({"error": "404 Not Found"})
+                raise ApiError.NOT_FOUND()
 
         return response
                 

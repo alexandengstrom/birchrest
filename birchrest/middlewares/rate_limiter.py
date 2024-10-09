@@ -54,6 +54,7 @@ class RateLimiter:
                     "error": "Too Many Requests"
                 }
             )
+            return
         else:
             self.request_log[client_id]["timestamps"].append(time.time())
             self.request_log[client_id]["request_count"] += 1

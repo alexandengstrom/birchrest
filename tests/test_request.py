@@ -1,3 +1,5 @@
+# type: ignore
+
 import unittest
 from datetime import datetime
 from birchrest import Request

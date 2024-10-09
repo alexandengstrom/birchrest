@@ -37,3 +37,19 @@ Birchrest makes it easy to protect your API routes with authentication mechanism
 You can define your own authentication handler to manage how users are authenticated in your system. Once defined, Birchrest will handle the integration with the API.
 ### Protecting Routes
 You can easily protect individual routes or entire controllers by marking them as requiring authentication. Birchrest will automatically handle unauthorized access by returning predefined error messages.
+
+## Error Handling
+By default, Birchrest will respond will standardized error messages with as good information as possible. For example, 404 when route doesnt exist or 400 if body validation fails. If any unhandled exceptions occurs in the controllers 500 will be returned.
+
+### ApiError
+The error handling is done via the class ApiError which have static methods to raise exceptions corresponding to HTTP status codes. For example, with this code:
+```python
+from birchrest import ApiError
+
+raise ApiError.NOT_FOUND()
+```
+This will automatically be converted into a 404 response to the user.
+
+An ApiError exception will have the attributes status_code and base_message which can be 404 and "Not Found" for example. It can also contain the attribute "user_message" if more specific info was given when the exception was raised. For example, if validation fails we will give the user information about why it failed.
+### Custom Error Handler
+If you want more control over the error handling, you can catch the exceptions by defining your own error handler. The handler must be callable and will receive a request, response and exception. If a custom error handler is defined it must handle the exception, otherwise 500 internal server error will always be returned to the user.

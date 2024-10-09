@@ -1,6 +1,7 @@
 import re
 from typing import Any, Dict, List, Optional, Tuple
 
+from birchrest.exceptions.api_error import ApiError
 from birchrest.routes.validator import parse_data_class
 from ..types import RouteHandler, MiddlewareFunction, AuthHandlerFunction
 from ..http import Request, Response
@@ -29,8 +30,8 @@ class Route:
         self.auth_handler: Optional[AuthHandlerFunction] = None
         
     def resolve(self, prefix: str, middlewares: List[MiddlewareFunction]) -> None:
-        new_prefix = "" if not prefix else f"{prefix}/"
-        self.path = f"{new_prefix}{self.path}"
+        new_prefix = prefix.rstrip('/')
+        self.path = f"{new_prefix}/{self.path.lstrip('/')}"
         self.middlewares = middlewares + self.middlewares
         
         path_regex = re.sub(r':(\w+)', r'(?P<\1>[^/]+)', self.path)
@@ -49,24 +50,24 @@ class Route:
                 user_data = self.auth_handler(req, res)
                 
                 if not user_data:
-                    return res.status(401).send({"error": "Unauthorized"})
+                    raise ApiError.UNAUTHORIZED()
                 
                 req.user = user_data
             except:
-                return res.status(401).send({"error": "Unauthorized"})
+                raise ApiError.UNAUTHORIZED()
 
         if self.validate_body:
             try:
                 body_data = req.body
                 if not body_data:
-                    return res.status(400).send({"error": "Request body is required"})
+                    raise ApiError.BAD_REQUEST(f"Request body is required")
 
                 parsed_data = parse_data_class(self.validate_body, body_data)
 
                 req.body = parsed_data
         
             except ValueError as e:
-                return res.status(400).send({"error": f"Body validation failed: {str(e)}"})
+                raise ApiError.BAD_REQUEST(f"Body validation failed: {str(e)}")
             
         if self.validate_queries:
             try:
@@ -75,7 +76,7 @@ class Route:
                 req.queries = parsed_data
         
             except ValueError as e:
-                return res.status(400).send({"error": f"Query validation failed: {str(e)}"})
+                raise ApiError.BAD_REQUEST(f"Query validation failed: {str(e)}")
             
         if self.validate_params:
             try:
@@ -84,7 +85,7 @@ class Route:
                 req.queries = parsed_data
         
             except ValueError as e:
-                return res.status(400).send({"error": f"Param validation failed: {str(e)}"})
+                raise ApiError.BAD_REQUEST(f"Param validation failed: {str(e)}")
                 
             
         

@@ -31,7 +31,8 @@ class Server:
         self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.server_socket.bind((self.host, self.port))
         self.server_socket.listen(self.backlog)
-        print(f"Server started at {self.host}:{self.port}")
+        print(f"\033[92mRunning on: {self.host}:{self.port}\033[0m")
+        print("\033[93mPress Ctrl+C to stop the server.\033[0m")
 
         self._accept_connections()
 
@@ -81,8 +82,9 @@ class Server:
                 return
                 
             response = self.request_handler(request)
-
-            client_socket.sendall(response.end().encode('utf-8'))
+            
+            if response._is_sent:
+                client_socket.sendall(response.end().encode('utf-8'))
         except Exception as e:
             print(e)
             client_socket.sendall(Response().status(500).send(
@@ -93,7 +95,7 @@ class Server:
 
     def shutdown(self) -> None:
         """
-        Shut down the server gracefully.
+        Shut down the server.
         """
         if self.server_socket:
             self.server_socket.close()

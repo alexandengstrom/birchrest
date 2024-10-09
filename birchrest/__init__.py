@@ -1,15 +1,21 @@
 from .app import BirchRest
-from .decorators import get, post, controller, middleware, protected, body, queries, params
+from .decorators import get, post, controller, middleware, protected, body, queries, params, patch, put, delete, options, head
 from .routes import Controller
 from .http import Request, Response, HttpStatus, Server
-from .types import MiddlewareFunction, NextFunction, RouteHandler, AuthHandlerFunction, FuncType
-from .exceptions import InvalidControllerRegistration, MissingAuthHandlerError
+from .types import MiddlewareFunction, NextFunction, RouteHandler, AuthHandlerFunction, FuncType, ErrorHandler
+from .exceptions import InvalidControllerRegistration, MissingAuthHandlerError, ApiError
 from .middlewares import RateLimiter, Logger, Cors
+import unittest
 
 __all__ = ["BirchRest",
            "Controller"
            "get", 
            "post",
+           "put",
+           "patch",
+           "delete",
+           "options",
+           "head"
            "protected",
            "body",
            "queries",
@@ -29,5 +35,8 @@ __all__ = ["BirchRest",
            "Logger",
            "Cors",
            "Server",
-           "FuncType"
+           "FuncType",
+           "ApiError",
+           "ErrorHandler",
+           "unittest"
            ]
