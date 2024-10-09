@@ -2,6 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python Versions](https://img.shields.io/pypi/pyversions/birchrest.svg)](https://pypi.org/project/birchrest/)
+![Unit Tests](https://github.com/alexandengstrom/birchrest/actions/workflows/unit_test.yml.badge.svg)
+
 
 **BirchRest** is a simple, lightweight framework for setting up RESTful APIs with minimal configuration. It is designed to be intuitive and flexible, allowing developers to quickly create APIs without heavy dependencies.
 
@@ -19,7 +21,39 @@ Each controller has a base path, which defines where its routes are available in
 Middleware allows you to perform tasks before or after a request is processed by a controller, such as logging, modifying the request, or checking permissions. Birchrest provides built-in middleware for common tasks and the ability to define your own custom middleware.
 
 ### Custom Middlewares
-You can create your own middleware to handle specific logic or modify request and response objects. This section will outline how to define and register custom middleware in your application.
+You can create custom middleware to handle specific logic or modify request and response objects. This section explains how to define and register middleware in your application.
+
+Middleware operates hierarchically, meaning it applies to all routes below the point where it’s defined. You can set up global middleware directly at the application level, or use decorators on controllers and routes. When applied to a controller, the middleware will affect all routes within that controller, as well as any nested controllers attached to it. If applied to a route it will be applied only on that route.
+
+#### Requirements
+A middleware must be callable and take three arguments. The Request object, Response object and NextFunction object.
+
+```python
+from birchrest import Request, Response, NextFunction
+
+def my_middleware(req: Request, res: Response, next: NextFunction):
+    if something:
+        next()
+    else:
+        pass
+        # By not calling next, we wont continue the callchain. 
+```
+
+If you want to keep a state in your middleware, it is recommended to create a class that implements the call method.
+
+```python
+from birchrest import Request, Response, NextFunction
+
+class MyMiddleware:
+    def __init__(self, state: int):
+        self.state = state
+
+    def __call__(self, req: Request, res: Response, next: NextFunction):
+        if self.state:
+            next()
+        else:
+            res.status(400).send()
+```
 ### Built-in Middlewarea
 Birchrest comes with several built-in middleware options that help manage common use cases, such as request logging, rate limiting or CORS support. These can be easily added to your API with minimal configuration.
 ## Data Validation
