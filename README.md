@@ -87,3 +87,8 @@ This will automatically be converted into a 404 response to the user.
 An ApiError exception will have the attributes status_code and base_message which can be 404 and "Not Found" for example. It can also contain the attribute "user_message" if more specific info was given when the exception was raised. For example, if validation fails we will give the user information about why it failed.
 ### Custom Error Handler
 If you want more control over the error handling, you can catch the exceptions by defining your own error handler. The handler must be callable and will receive a request, response and exception. If a custom error handler is defined it must handle the exception, otherwise 500 internal server error will always be returned to the user.
+
+## Unit Testing
+To simplify testing, the framework includes a test adapter class that simulates sending HTTP requests to your API. This allows you to test everything except the server itself, with all middlewares, authentication handlers, and other components functioning exactly as they would in a real request. The adapter returns the final response object, which you can inspect and assert in your tests.
+
+
