@@ -2,7 +2,7 @@ from .app import BirchRest
 from .decorators import get, post, controller, middleware, protected, body, queries, params
 from .routes import Controller
 from .http import Request, Response, HttpStatus, Server
-from .types import MiddlewareFunction, NextFunction, RouteHandler
+from .types import MiddlewareFunction, NextFunction, RouteHandler, AuthHandlerFunction, FuncType
 from .exceptions import InvalidControllerRegistration, MissingAuthHandlerError
 from .middlewares import RateLimiter, Logger, Cors
 
@@ -21,11 +21,13 @@ __all__ = ["BirchRest",
            "HttpStatus",
            "NextFunction",
            "MiddlewareFunction",
+           "AuthHandlerFunction"
            "RouteHandler",
            "InvalidControllerRegistration",
            "MissingAuthHandlerError",
            "RateLimiter",
            "Logger",
            "Cors",
-           "Server"
+           "Server",
+           "FuncType"
            ]

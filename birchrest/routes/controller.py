@@ -1,9 +1,10 @@
-from typing import List
+from __future__ import annotations
+from typing import Generator, List, Type
 from .route import Route
 from ..types import MiddlewareFunction
 
 class Controller:
-    def __init__(self):
+    def __init__(self) -> None:
         self._base_path: str = getattr(self.__class__, "_base_path", "")
         self._middlewares: List[MiddlewareFunction] = getattr(self.__class__, "_middlewares", [])
         self._is_protected: str = getattr(self.__class__, "_is_protected", "")
@@ -45,21 +46,23 @@ class Controller:
                                          validate_params
                                          ))
                 
-    def attach(self, *controllers):
+    def attach(self, *controllers: Type[Controller]) -> None:
         for controller in controllers:            
             self.controllers.append(controller())
             
-    def resolve_paths(self, prefix: str = "", middlewares: List[MiddlewareFunction] = []):
+    def resolve_paths(self, prefix: str = "", middlewares: List[MiddlewareFunction] = []) -> None:
         new_prefix = f"{prefix}/{self._base_path}"
         
         for route in self.routes:
-            route.make_protected()
+            if self._is_protected:
+                route.make_protected()
+            
             route.resolve(new_prefix, middlewares + self._middlewares)
             
         for controller in self.controllers:
             controller.resolve_paths(new_prefix, middlewares + self._middlewares)
             
-    def collect_routes(self):
+    def collect_routes(self) -> Generator[Route, None, None]:
         for route in self.routes:
             yield route
             

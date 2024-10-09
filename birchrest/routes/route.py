@@ -1,8 +1,8 @@
 import re
-from typing import List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from birchrest.routes.validator import parse_data_class
-from ..types import RouteHandler, MiddlewareFunction
+from ..types import RouteHandler, MiddlewareFunction, AuthHandlerFunction
 from ..http import Request, Response
 from ..exceptions import MissingAuthHandlerError
 
@@ -14,10 +14,10 @@ class Route:
                  path: str, 
                  middlewares: List[MiddlewareFunction], 
                  protected: bool,
-                 validate_body,
-                 validate_queries,
-                 validate_params,
-                 ):
+                 validate_body: Optional[Any],
+                 validate_queries: Optional[Any],
+                 validate_params: Optional[Any],
+                 ) -> None:
         self.func = func
         self.method = method
         self.path = path
@@ -26,8 +26,9 @@ class Route:
         self.validate_body = validate_body
         self.validate_queries = validate_queries
         self.validate_params = validate_params
+        self.auth_handler: Optional[AuthHandlerFunction] = None
         
-    def resolve(self, prefix: str, middlewares: List[MiddlewareFunction]):
+    def resolve(self, prefix: str, middlewares: List[MiddlewareFunction]) -> None:
         new_prefix = "" if not prefix else f"{prefix}/"
         self.path = f"{new_prefix}{self.path}"
         self.middlewares = middlewares + self.middlewares
@@ -39,13 +40,13 @@ class Route:
         self.requires_params = len(self.param_names) > 0
         self.regex = re.compile(path_regex)
         
-    def __call__(self, req: Request, res: Response):
+    def __call__(self, req: Request, res: Response) -> Any:
         if self.is_protected:
             if not self.auth_handler:
                 raise MissingAuthHandlerError()
             
             try:
-                user_data = self.auth_handler(req)
+                user_data = self.auth_handler(req, res)
                 
                 if not user_data:
                     return res.status(401).send({"error": "Unauthorized"})
@@ -87,28 +88,28 @@ class Route:
                 
             
         
-        def run_middlewares(index):
+        def run_middlewares(index: int) -> Any:
             if index < len(self.middlewares):
                 middleware = self.middlewares[index]
-                middleware(req, res, lambda: run_middlewares(index + 1))
+                return middleware(req, res, lambda: run_middlewares(index + 1))
             else:
                 return self.func(req, res)
         
         return run_middlewares(0)
     
-    def match(self, request_path: str):
+    def match(self, request_path: str) -> Optional[Dict[str, str]]:
         match = self.regex.match(request_path)
         if match:
             return match.groupdict()
         return None
     
-    def is_method_allowed(self, method: str):
+    def is_method_allowed(self, method: str) -> bool:
         return method == self.method
     
-    def register_auth_handler(self, auth_handler):
+    def register_auth_handler(self, auth_handler: Optional[AuthHandlerFunction]) -> None:
         self.auth_handler = auth_handler
         
-    def make_protected(self):
+    def make_protected(self) -> None:
         self.is_protected = True
         
         

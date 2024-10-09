@@ -5,12 +5,13 @@ from typing import Callable, Optional, Any
 
 from .request import Request
 from .response import Response
+from ..types import RouteHandler
 
 
 class Server:
     def __init__(
         self,
-        request_handler: Callable,
+        request_handler: Callable[[Request], Response],
         host: str = "127.0.0.1",
         port: int = 5000,
         backlog: int = 5
@@ -83,7 +84,7 @@ class Server:
 
             client_socket.sendall(response.end().encode('utf-8'))
         except Exception as e:
-            print(e.with_traceback())
+            print(e)
             client_socket.sendall(Response().status(500).send(
                 {"error": "Internal server error"}).end().encode('utf-8')
             )

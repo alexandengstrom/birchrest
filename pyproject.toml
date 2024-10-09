@@ -41,3 +41,8 @@ packages = ["birchrest"]
 [tool.setuptools.package-data]
 # Include non-Python files like README.md or LICENSE, if needed
 birchrest = ["*.md", "*.txt"]
+
+[tool.mypy]
+files = ["birchrest/"]
+ignore_missing_imports = true
+strict = true

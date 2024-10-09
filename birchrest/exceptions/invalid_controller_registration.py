@@ -1,7 +1,10 @@
+from typing import Any
+
+
 class InvalidControllerRegistration(Exception):
     """Exception raised when an invalid class or instance is registered as a controller."""
     
-    def __init__(self, received_object):
+    def __init__(self, received_object: Any) -> None:
         expected_class = "Controller"
         
         if isinstance(received_object, type):

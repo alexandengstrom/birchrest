@@ -1,36 +1,36 @@
-from typing import Dict, Optional
+from typing import Dict, List, Optional, Type
 
 from birchrest.http.server import Server
 from birchrest.routes import Route, Controller
 from ..http import Request, Response, HttpStatus
 from ..exceptions import InvalidControllerRegistration
-from ..types import MiddlewareFunction
+from ..types import MiddlewareFunction, AuthHandlerFunction
 
 class BirchRest:
-    def __init__(self):
-        self.controllers = []
-        self.global_middlewares = []
-        self.auth_handler = None
+    def __init__(self) -> None:
+        self.controllers: List[Controller] = []
+        self.global_middlewares: List[MiddlewareFunction] = []
+        self.auth_handler: Optional[AuthHandlerFunction] = None
             
-    def register(self, *controllers):
+    def register(self, *controllers: Type[Controller]) -> None:
         for controller in controllers:
             if not issubclass(controller, Controller):
                 raise InvalidControllerRegistration(controller)
                         
             self.controllers.append(controller())
             
-    def auth(self, auth_handler):
+    def auth(self, auth_handler: AuthHandlerFunction) -> None:
         self.auth_handler = auth_handler
         
-    def middleware(self, handler: MiddlewareFunction):
+    def middleware(self, handler: MiddlewareFunction) -> None:
         self.global_middlewares.append(handler)
          
-    def serve(self, host="127.0.0.1", port=13337):
+    def serve(self, host: str = "127.0.0.1", port: int = 13337) -> None:
         self._build_api()
         server = Server(self.handle_request, host=host, port=port)
         server.start()
         
-    def handle_request(self, request: Request):
+    def handle_request(self, request: Request) -> Response:
         response = Response()
         matched_route: Optional[Route] = None
         path_params: Optional[Dict[str, str]] = {}
@@ -68,7 +68,7 @@ class BirchRest:
 
         return response
                 
-    def _build_api(self):
+    def _build_api(self) -> None:
         self.routes = []
         
         for controller in self.controllers:

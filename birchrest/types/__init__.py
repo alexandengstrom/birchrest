@@ -1,6 +1,8 @@
-from .types import NextFunction, MiddlewareFunction, RouteHandler
+from .types import NextFunction, MiddlewareFunction, RouteHandler, AuthHandlerFunction, FuncType
 
 __all__ = ["NextFunction",
            "MiddlewareFunction",
-           "RouteHandler"
+           "RouteHandler",
+           "AuthHandlerFunction",
+           "FuncType"
            ]

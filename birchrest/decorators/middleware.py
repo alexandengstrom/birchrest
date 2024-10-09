@@ -1,3 +1,5 @@
+# type: ignore
+
 def middleware(handler):
     """Decorator to define middleware for a route (method) or an API class."""
     def decorator(target):
