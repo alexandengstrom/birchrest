@@ -59,9 +59,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-core-module">birchrest.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.core">birchrest.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.version">birchrest.version module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-contents">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -99,11 +99,46 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="birchrest-middlewares-cors-module">
-<h2>birchrest.middlewares.cors module<a class="headerlink" href="#birchrest-middlewares-cors-module" title="Link to this heading"></a></h2>
+<section id="module-birchrest.middlewares.cors">
+<span id="birchrest-middlewares-cors-module"></span><h2>birchrest.middlewares.cors module<a class="headerlink" href="#module-birchrest.middlewares.cors" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="birchrest.middlewares.cors.Cors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.middlewares.cors.</span></span><span class="sig-name descname"><span class="pre">Cors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allow_origins</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['*']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_methods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['GET',</span> <span class="pre">'POST',</span> <span class="pre">'PUT',</span> <span class="pre">'DELETE',</span> <span class="pre">'PATCH',</span> <span class="pre">'OPTIONS']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['Content-Type',</span> <span class="pre">'Authorization']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_credentials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">86400</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/middlewares/cors.html#Cors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.middlewares.cors.Cors" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Middleware for handling Cross-Origin Resource Sharing (CORS) in HTTP requests.</p>
+<p>This middleware ensures that the server can respond to cross-origin requests by
+controlling which origins, methods, and headers are allowed. It also handles
+preflight requests (OPTIONS method) for HTTP requests that require complex CORS
+handling, such as when using methods other than GET or POST or custom headers.</p>
+<p>The CORS settings, such as allowed origins, methods, and headers, can be configured
+when initializing the middleware. By default, it allows all origins, commonly used
+methods, and a few standard headers.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>allow_origins (List[str]): List of allowed origins. Defaults to [“*”], allowing all origins.
+allow_methods (List[str]): List of allowed HTTP methods. Defaults to common methods like GET, POST, PUT, DELETE, etc.
+allow_headers (List[str]): List of allowed request headers. Defaults to [“Content-Type”, “Authorization”].
+allow_credentials (bool): Whether or not to allow credentials (cookies, HTTP authentication, etc.). Defaults to False.
+max_age (int): How long the results of a preflight request can be cached (in seconds). Defaults to 86400 seconds (24 hours).</p>
+</dd>
+<dt>Methods:</dt><dd><p>__call__(req, res, next): Main entry point for the middleware. Adds the appropriate CORS headers to the response based on the request.
+_handle_preflight(origin, res): Handles preflight (OPTIONS) requests by responding with the appropriate CORS headers.
+_add_cors_headers(origin, res): Adds CORS headers to the response for non-OPTIONS requests.
+_is_origin_allowed(origin): Checks if the origin is allowed based on the allow_origins setting.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="birchrest-middlewares-logger-module">
-<h2>birchrest.middlewares.logger module<a class="headerlink" href="#birchrest-middlewares-logger-module" title="Link to this heading"></a></h2>
+<section id="module-birchrest.middlewares.logger">
+<span id="birchrest-middlewares-logger-module"></span><h2>birchrest.middlewares.logger module<a class="headerlink" href="#module-birchrest.middlewares.logger" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="birchrest.middlewares.logger.Logger">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.middlewares.logger.</span></span><span class="sig-name descname"><span class="pre">Logger</span></span><a class="reference internal" href="_modules/birchrest/middlewares/logger.html#Logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.middlewares.logger.Logger" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Middleware to log incoming requests and outgoing responses with enhanced formatting and colors.
+Logs useful information including request method, path, client address, correlation ID, response status, and time taken.</p>
+</dd></dl>
+
 </section>
 <section id="module-birchrest.middlewares.rate_limiter">
 <span id="birchrest-middlewares-rate-limiter-module"></span><h2>birchrest.middlewares.rate_limiter module<a class="headerlink" href="#module-birchrest.middlewares.rate_limiter" title="Link to this heading"></a></h2>
@@ -116,8 +151,51 @@ client (IP or token) within a specified time window.</p>
 </dd></dl>
 
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="module-birchrest.middlewares">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-birchrest.middlewares" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="birchrest.middlewares.Cors">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.middlewares.</span></span><span class="sig-name descname"><span class="pre">Cors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allow_origins</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['*']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_methods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['GET',</span> <span class="pre">'POST',</span> <span class="pre">'PUT',</span> <span class="pre">'DELETE',</span> <span class="pre">'PATCH',</span> <span class="pre">'OPTIONS']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['Content-Type',</span> <span class="pre">'Authorization']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_credentials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">86400</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/middlewares/cors.html#Cors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.middlewares.Cors" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Middleware for handling Cross-Origin Resource Sharing (CORS) in HTTP requests.</p>
+<p>This middleware ensures that the server can respond to cross-origin requests by
+controlling which origins, methods, and headers are allowed. It also handles
+preflight requests (OPTIONS method) for HTTP requests that require complex CORS
+handling, such as when using methods other than GET or POST or custom headers.</p>
+<p>The CORS settings, such as allowed origins, methods, and headers, can be configured
+when initializing the middleware. By default, it allows all origins, commonly used
+methods, and a few standard headers.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>allow_origins (List[str]): List of allowed origins. Defaults to [“*”], allowing all origins.
+allow_methods (List[str]): List of allowed HTTP methods. Defaults to common methods like GET, POST, PUT, DELETE, etc.
+allow_headers (List[str]): List of allowed request headers. Defaults to [“Content-Type”, “Authorization”].
+allow_credentials (bool): Whether or not to allow credentials (cookies, HTTP authentication, etc.). Defaults to False.
+max_age (int): How long the results of a preflight request can be cached (in seconds). Defaults to 86400 seconds (24 hours).</p>
+</dd>
+<dt>Methods:</dt><dd><p>__call__(req, res, next): Main entry point for the middleware. Adds the appropriate CORS headers to the response based on the request.
+_handle_preflight(origin, res): Handles preflight (OPTIONS) requests by responding with the appropriate CORS headers.
+_add_cors_headers(origin, res): Adds CORS headers to the response for non-OPTIONS requests.
+_is_origin_allowed(origin): Checks if the origin is allowed based on the allow_origins setting.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="birchrest.middlewares.Logger">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.middlewares.</span></span><span class="sig-name descname"><span class="pre">Logger</span></span><a class="reference internal" href="_modules/birchrest/middlewares/logger.html#Logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.middlewares.Logger" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Middleware to log incoming requests and outgoing responses with enhanced formatting and colors.
+Logs useful information including request method, path, client address, correlation ID, response status, and time taken.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="birchrest.middlewares.RateLimiter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.middlewares.</span></span><span class="sig-name descname"><span class="pre">RateLimiter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_requests</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_seconds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/middlewares/rate_limiter.html#RateLimiter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.middlewares.RateLimiter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A rate-limiting middleware that limits the number of requests per
+client (IP or token) within a specified time window.</p>
+</dd></dl>
+
 </section>
 </section>
 

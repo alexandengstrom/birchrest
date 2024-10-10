@@ -76,7 +76,7 @@
 
 
 <div class="viewcode-block" id="Controller">
-<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.routes.controller.Controller">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.Controller">[docs]</a>
 <span class="k">class</span> <span class="nc">Controller</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for defining a collection of routes and subcontrollers for an HTTP API.</span>
@@ -152,7 +152,7 @@
                 <span class="p">)</span>
 
 <div class="viewcode-block" id="Controller.attach">
-<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.routes.controller.Controller.attach">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.Controller.attach">[docs]</a>
     <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">controllers</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Controller</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Attach one or more subcontrollers to this controller.</span>
@@ -169,7 +169,7 @@
 
 
 <div class="viewcode-block" id="Controller.resolve_paths">
-<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.routes.controller.Controller.resolve_paths">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.Controller.resolve_paths">[docs]</a>
     <span class="k">def</span> <span class="nf">resolve_paths</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">middlewares</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MiddlewareFunction</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -201,7 +201,7 @@
 
 
 <div class="viewcode-block" id="Controller.collect_routes">
-<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.routes.controller.Controller.collect_routes">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.Controller.collect_routes">[docs]</a>
     <span class="k">def</span> <span class="nf">collect_routes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Route</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Collect and yield all routes defined in this controller and its subcontrollers.</span>

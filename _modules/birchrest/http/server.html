@@ -80,7 +80,7 @@
 
 
 <div class="viewcode-block" id="Server">
-<a class="viewcode-back" href="../../../birchrest.http.html#birchrest.http.server.Server">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.http.html#birchrest.Server">[docs]</a>
 <span class="k">class</span> <span class="nc">Server</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A simple socket-based HTTP server that handles incoming client connections</span>
@@ -120,7 +120,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">request_handler</span> <span class="o">=</span> <span class="n">request_handler</span>
 
 <div class="viewcode-block" id="Server.start">
-<a class="viewcode-back" href="../../../birchrest.http.html#birchrest.http.server.Server.start">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.http.html#birchrest.Server.start">[docs]</a>
     <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Starts the server and begins listening for incoming connections.</span>
@@ -220,7 +220,7 @@
             <span class="n">client_socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Server.shutdown">
-<a class="viewcode-back" href="../../../birchrest.http.html#birchrest.http.server.Server.shutdown">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.http.html#birchrest.Server.shutdown">[docs]</a>
     <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Shuts down the server by closing the server socket.</span>

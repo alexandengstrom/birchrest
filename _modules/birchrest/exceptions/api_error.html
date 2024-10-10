@@ -76,7 +76,7 @@
 
 
 <div class="viewcode-block" id="ApiError">
-<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.exceptions.api_error.ApiError">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.ApiError">[docs]</a>
 <span class="k">class</span> <span class="nc">ApiError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A custom exception class used to represent API errors. Each error has a status code,</span>
@@ -109,7 +109,7 @@
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user_message</span><span class="si">}</span><span class="s2">&quot;</span>
 
 <div class="viewcode-block" id="ApiError.convert_to_response">
-<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.exceptions.api_error.ApiError.convert_to_response">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.ApiError.convert_to_response">[docs]</a>
     <span class="k">def</span> <span class="nf">convert_to_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert the ApiError into an HTTP response object.</span>
@@ -136,7 +136,7 @@
 
 
 <div class="viewcode-block" id="ApiError.BAD_REQUEST">
-<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.exceptions.api_error.ApiError.BAD_REQUEST">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.ApiError.BAD_REQUEST">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">BAD_REQUEST</span><span class="p">(</span><span class="n">user_message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ApiError&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -153,7 +153,7 @@
 
 
 <div class="viewcode-block" id="ApiError.UNAUTHORIZED">
-<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.exceptions.api_error.ApiError.UNAUTHORIZED">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.ApiError.UNAUTHORIZED">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">UNAUTHORIZED</span><span class="p">(</span><span class="n">user_message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ApiError&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -170,7 +170,7 @@
 
 
 <div class="viewcode-block" id="ApiError.FORBIDDEN">
-<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.exceptions.api_error.ApiError.FORBIDDEN">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.ApiError.FORBIDDEN">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">FORBIDDEN</span><span class="p">(</span><span class="n">user_message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ApiError&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -187,7 +187,7 @@
 
 
 <div class="viewcode-block" id="ApiError.NOT_FOUND">
-<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.exceptions.api_error.ApiError.NOT_FOUND">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.ApiError.NOT_FOUND">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">NOT_FOUND</span><span class="p">(</span><span class="n">user_message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ApiError&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -204,7 +204,7 @@
 
 
 <div class="viewcode-block" id="ApiError.METHOD_NOT_ALLOWED">
-<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.exceptions.api_error.ApiError.METHOD_NOT_ALLOWED">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.ApiError.METHOD_NOT_ALLOWED">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">METHOD_NOT_ALLOWED</span><span class="p">(</span><span class="n">user_message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ApiError&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -221,7 +221,7 @@
 
 
 <div class="viewcode-block" id="ApiError.INTERNAL_SERVER_ERROR">
-<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.exceptions.api_error.ApiError.INTERNAL_SERVER_ERROR">[docs]</a>
+<a class="viewcode-back" href="../../../birchrest.exceptions.html#birchrest.ApiError.INTERNAL_SERVER_ERROR">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">INTERNAL_SERVER_ERROR</span><span class="p">(</span><span class="n">user_message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ApiError&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
