@@ -59,6 +59,9 @@ class Route:
         self.validate_queries = validate_queries
         self.validate_params = validate_params
         self.auth_handler: Optional[AuthHandlerFunction] = None
+        self.param_names: List[Any] = []
+        self.requires_params = 0
+        self.regex = re.compile("*")
 
     def resolve(self, prefix: str, middlewares: List[MiddlewareFunction]) -> None:
         """
@@ -105,14 +108,14 @@ class Route:
                     raise ApiError.UNAUTHORIZED()
 
                 req.user = user_data
-            except:
-                raise ApiError.UNAUTHORIZED()
+            except Exception as e:
+                raise ApiError.UNAUTHORIZED() from e
 
         if self.validate_body:
             try:
                 body_data = req.body
                 if not body_data:
-                    raise ApiError.BAD_REQUEST(f"Request body is required")
+                    raise ApiError.BAD_REQUEST("Request body is required")
 
                 parsed_data = parse_data_class(self.validate_body, body_data)
 
@@ -155,7 +158,7 @@ class Route:
         :param request_path: The incoming request path.
         :return: A dictionary of matched parameters if the path matches, otherwise None.
         """
-        
+
         match = self.regex.match(request_path)
         if match:
             return match.groupdict()

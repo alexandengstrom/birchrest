@@ -47,8 +47,8 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
             if field_type is int:
                 try:
                     field_value = int(field_value)
-                except ValueError:
-                    raise ValueError(f"Field '{field_name}' must be a valid integer.")
+                except ValueError as e:
+                    raise ValueError(f"Field '{field_name}' must be a valid integer.") from e
 
             if isinstance(field_value, str):
                 min_length = field_metadata.get("min_length", None)
