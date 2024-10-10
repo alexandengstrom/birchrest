@@ -1,6 +1,6 @@
 class MissingAuthHandlerError(Exception):
     """Exception raised when a protected route is used without an authentication handler."""
-    
+
     def __init__(self) -> None:
         message = (
             "Missing authentication handler: In order to use the `protected` decorator, "

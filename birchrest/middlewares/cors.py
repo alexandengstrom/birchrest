@@ -5,13 +5,39 @@ from ..types import NextFunction
 
 
 class Cors:
+    """
+    Middleware for handling Cross-Origin Resource Sharing (CORS) in HTTP requests.
+
+    This middleware ensures that the server can respond to cross-origin requests by
+    controlling which origins, methods, and headers are allowed. It also handles
+    preflight requests (OPTIONS method) for HTTP requests that require complex CORS
+    handling, such as when using methods other than GET or POST or custom headers.
+
+    The CORS settings, such as allowed origins, methods, and headers, can be configured
+    when initializing the middleware. By default, it allows all origins, commonly used
+    methods, and a few standard headers.
+
+    Attributes:
+        allow_origins (List[str]): List of allowed origins. Defaults to ["*"], allowing all origins.
+        allow_methods (List[str]): List of allowed HTTP methods. Defaults to common methods like GET, POST, PUT, DELETE, etc.
+        allow_headers (List[str]): List of allowed request headers. Defaults to ["Content-Type", "Authorization"].
+        allow_credentials (bool): Whether or not to allow credentials (cookies, HTTP authentication, etc.). Defaults to False.
+        max_age (int): How long the results of a preflight request can be cached (in seconds). Defaults to 86400 seconds (24 hours).
+
+    Methods:
+        __call__(req, res, next): Main entry point for the middleware. Adds the appropriate CORS headers to the response based on the request.
+        _handle_preflight(origin, res): Handles preflight (OPTIONS) requests by responding with the appropriate CORS headers.
+        _add_cors_headers(origin, res): Adds CORS headers to the response for non-OPTIONS requests.
+        _is_origin_allowed(origin): Checks if the origin is allowed based on the allow_origins setting.
+    """
+
     def __init__(
         self,
         allow_origins: List[str] = ["*"],
         allow_methods: List[str] = ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
         allow_headers: List[str] = ["Content-Type", "Authorization"],
         allow_credentials: bool = False,
-        max_age: int = 86400
+        max_age: int = 86400,
     ):
         """
         Initialize the CORS middleware.

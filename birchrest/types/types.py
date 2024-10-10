@@ -1,6 +1,9 @@
+"""
+Contains more complicated types that are used in the project.
+"""
+
+from typing import Callable, TypeVar, Any
 from ..http import Request, Response
-from typing import Callable, TypeVar, Any, cast
-from functools import wraps
 
 
 NextFunction = Callable[[], None]
@@ -11,6 +14,6 @@ AuthHandlerFunction = Callable[[Request, Response], None]
 
 RouteHandler = Callable[[Request, Response], None]
 
-FuncType = TypeVar('FuncType', bound=Callable[..., Any])
+FuncType = TypeVar("FuncType", bound=Callable[..., Any])
 
 ErrorHandler = Callable[[Request, Response, Exception], None]

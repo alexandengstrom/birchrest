@@ -1,7 +1,7 @@
 from .get import get
 from .post import post
 from .controller import controller
-from .middleware import middleware # type: ignore
+from .middleware import middleware  # type: ignore
 from .protected import protected
 from .body import body
 from .queries import queries
@@ -13,17 +13,17 @@ from .options import options
 from .head import head
 
 __all__ = [
-    "get", 
+    "get",
     "post",
     "patch",
     "put",
     "delete",
     "options",
     "head",
-    "controller", 
+    "controller",
     "middleware",
     "protected",
     "body",
     "queries",
-    "params"
-    ]
+    "params",
+]

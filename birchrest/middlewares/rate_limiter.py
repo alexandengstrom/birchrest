@@ -11,6 +11,7 @@ class RateLimiter:
     A rate-limiting middleware that limits the number of requests per
     client (IP or token) within a specified time window.
     """
+
     def __init__(self, max_requests: int = 2, window_seconds: int = 10) -> None:
         """
         :param max_requests: Maximum number of requests allowed within the time window
@@ -20,10 +21,7 @@ class RateLimiter:
         self.max_requests = max_requests
         self.window_seconds = window_seconds
         self.request_log: Dict[str, Any] = defaultdict(
-            lambda: {
-                "timestamps": [],
-                "request_count": 0
-            }
+            lambda: {"timestamps": [], "request_count": 0}
         )
 
     def _clean_old_requests(self, client_id: str) -> None:
@@ -32,8 +30,11 @@ class RateLimiter:
         """
         current_time = time.time()
         client_log = self.request_log[client_id]
-        client_log["timestamps"] = [timestamp for timestamp in client_log["timestamps"]
-                                    if current_time - timestamp <= self.window_seconds]
+        client_log["timestamps"] = [
+            timestamp
+            for timestamp in client_log["timestamps"]
+            if current_time - timestamp <= self.window_seconds
+        ]
         client_log["request_count"] = len(client_log["timestamps"])
 
     def __call__(self, req: Request, res: Response, next: NextFunction) -> None:
@@ -49,11 +50,7 @@ class RateLimiter:
         self._clean_old_requests(client_id)
 
         if self.request_log[client_id]["request_count"] >= self.max_requests:
-            res.status(429).send(
-                {
-                    "error": "Too Many Requests"
-                }
-            )
+            res.status(429).send({"error": "Too Many Requests"})
             return
         else:
             self.request_log[client_id]["timestamps"].append(time.time())
