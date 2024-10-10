@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>birchrest documentation &mdash; birchrest 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="birchrest" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            birchrest
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">birchrest</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">birchrest</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">birchrest documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="birchrest-documentation">
+<h1>birchrest documentation<a class="headerlink" href="#birchrest-documentation" title="Link to this heading"></a></h1>
+<p>Add your content using <code class="docutils literal notranslate"><span class="pre">reStructuredText</span></code> syntax. See the
+<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html">reStructuredText</a>
+documentation for details.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">birchrest</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="birchrest.html">birchrest package</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="birchrest">
+<h2>BirchRest<a class="headerlink" href="#birchrest" title="Link to this heading"></a></h2>
+<p><a class="reference internal" href="#LICENSE"><span class="xref myst"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg" /></span></a>
+<a class="reference external" href="https://pypi.org/project/birchrest/"><img alt="Python Versions" src="https://img.shields.io/pypi/pyversions/birchrest.svg" /></a>
+<img alt="Unit Tests" src="https://github.com/alexandengstrom/birchrest/actions/workflows/unit_test.yml.badge.svg" /></p>
+<p><strong>BirchRest</strong> is a simple, lightweight framework for setting up RESTful APIs with minimal configuration. It is designed to be intuitive and flexible, allowing developers to quickly create APIs without heavy dependencies.</p>
+<section id="table-of-contents">
+<h3>Table of contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h3>
+</section>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h3>
+</section>
+<section id="quickstart">
+<h3>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h3>
+</section>
+<section id="defining-controllers">
+<h3>Defining Controllers<a class="headerlink" href="#defining-controllers" title="Link to this heading"></a></h3>
+<p>In Birchrest, controllers are the building blocks of your API. Each controller defines multiple endpoints, and controllers can be nested to create hierarchical routes.</p>
+<section id="key-concepts">
+<h4>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>Base Path</strong>: Each controller has a base path that defines where its routes are accessible. If a controller has subcontrollers, their base paths are combined, creating a nested structure.</p></li>
+<li><p><strong>Controller</strong>: Setup: To create a controller:</p>
+<ol class="arabic simple">
+<li><p>Inherit from the Controller class</p></li>
+<li><p>Use the &#64;controller decorator on the class, passing the base path as an argument.</p></li>
+</ol>
+</li>
+</ul>
+</section>
+<section id="defining-endpoints">
+<h4>Defining Endpoints<a class="headerlink" href="#defining-endpoints" title="Link to this heading"></a></h4>
+<p>Inside a controller, use HTTP method decorators like &#64;get or &#64;post to define endpoints. These decorators can take an optional path to extend the controller’s base path for that specific route.</p>
+</section>
+<section id="nesting-controllers">
+<h4>Nesting Controllers<a class="headerlink" href="#nesting-controllers" title="Link to this heading"></a></h4>
+<p>To nest controllers, define a constructor in your parent controller. Inside the constructor, use self.attach() to attach the subcontroller, and don’t forget to call the parent class constructor with super().</p>
+</section>
+</section>
+<section id="middleware">
+<h3>Middleware<a class="headerlink" href="#middleware" title="Link to this heading"></a></h3>
+<p>Middleware allows you to perform tasks before or after a request is processed by a controller, such as logging, modifying the request, or checking permissions. Birchrest provides built-in middleware for common tasks and the ability to define your own custom middleware.</p>
+<section id="custom-middlewares">
+<h4>Custom Middlewares<a class="headerlink" href="#custom-middlewares" title="Link to this heading"></a></h4>
+<p>You can create custom middleware to handle specific logic or modify request and response objects. This section explains how to define and register middleware in your application.</p>
+<p>Middleware operates hierarchically, meaning it applies to all routes below the point where it’s defined. You can set up global middleware directly at the application level, or use decorators on controllers and routes. When applied to a controller, the middleware will affect all routes within that controller, as well as any nested controllers attached to it. If applied to a route it will be applied only on that route.</p>
+<section id="requirements">
+<h5>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h5>
+<p>A middleware must be callable and take three arguments. The Request object, Response object and NextFunction object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">NextFunction</span>
+
+<span class="k">def</span> <span class="nf">my_middleware</span><span class="p">(</span><span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="nb">next</span><span class="p">:</span> <span class="n">NextFunction</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">something</span><span class="p">:</span>
+        <span class="nb">next</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+        <span class="c1"># By not calling next, we wont continue the callchain.</span>
+</pre></div>
+</div>
+<p>If you want to keep a state in your middleware, it is recommended to create a class that implements the call method.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">NextFunction</span><span class="p">,</span> <span class="n">ApiError</span>
+
+<span class="k">class</span> <span class="nc">MyMiddleware</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="nb">next</span><span class="p">:</span> <span class="n">NextFunction</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span>
+            <span class="nb">next</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="built-in-middlewarea">
+<h4>Built-in Middlewarea<a class="headerlink" href="#built-in-middlewarea" title="Link to this heading"></a></h4>
+<p>Birchrest comes with several built-in middleware options that help manage common use cases, such as request logging, rate limiting or CORS support. These can be easily added to your API with minimal configuration.</p>
+</section>
+</section>
+<section id="data-validation">
+<h3>Data Validation<a class="headerlink" href="#data-validation" title="Link to this heading"></a></h3>
+<p>Data validation in Birchrest is supported via Python data classes. This allows for strict validation of request data (body, queries, and params) to ensure that all incoming data adheres to the expected structure</p>
+<section id="body-validation">
+<h4>Body Validation<a class="headerlink" href="#body-validation" title="Link to this heading"></a></h4>
+</section>
+<section id="query-validation">
+<h4>Query Validation<a class="headerlink" href="#query-validation" title="Link to this heading"></a></h4>
+</section>
+<section id="url-param-validation">
+<h4>URL Param Validation<a class="headerlink" href="#url-param-validation" title="Link to this heading"></a></h4>
+</section>
+</section>
+<section id="authentication">
+<h3>Authentication<a class="headerlink" href="#authentication" title="Link to this heading"></a></h3>
+<p>Birchrest makes it easy to protect your API routes with authentication mechanisms. It allows you to define custom authentication handlers and easily mark routes as protected, ensuring that only authenticated requests are allowed access.</p>
+<section id="custom-auth-handlers">
+<h4>Custom Auth Handlers<a class="headerlink" href="#custom-auth-handlers" title="Link to this heading"></a></h4>
+<p>You can define your own authentication handler to manage how users are authenticated in your system. Once defined, Birchrest will handle the integration with the API.</p>
+</section>
+<section id="protecting-routes">
+<h4>Protecting Routes<a class="headerlink" href="#protecting-routes" title="Link to this heading"></a></h4>
+<p>You can easily protect individual routes or entire controllers by marking them as requiring authentication. Birchrest will automatically handle unauthorized access by returning predefined error messages.</p>
+</section>
+</section>
+<section id="error-handling">
+<h3>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading"></a></h3>
+<p>By default, Birchrest will respond will standardized error messages with as good information as possible. For example, 404 when route doesnt exist or 400 if body validation fails. If any unhandled exceptions occurs in the controllers 500 will be returned.</p>
+<section id="apierror">
+<h4>ApiError<a class="headerlink" href="#apierror" title="Link to this heading"></a></h4>
+<p>The error handling is done via the class ApiError which have static methods to raise exceptions corresponding to HTTP status codes. For example, with this code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">ApiError</span>
+
+<span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will automatically be converted into a 404 response to the user.</p>
+<p>An ApiError exception will have the attributes status_code and base_message which can be 404 and “Not Found” for example. It can also contain the attribute “user_message” if more specific info was given when the exception was raised. For example, if validation fails we will give the user information about why it failed.</p>
+</section>
+<section id="custom-error-handler">
+<h4>Custom Error Handler<a class="headerlink" href="#custom-error-handler" title="Link to this heading"></a></h4>
+<p>If you want more control over the error handling, you can catch the exceptions by defining your own error handler. The handler must be callable and will receive a request, response and exception. If a custom error handler is defined it must handle the exception, otherwise 500 internal server error will always be returned to the user.</p>
+</section>
+</section>
+<section id="unit-testing">
+<h3>Unit Testing<a class="headerlink" href="#unit-testing" title="Link to this heading"></a></h3>
+<p>To simplify testing, the framework includes a test adapter class that simulates sending HTTP requests to your API. This allows you to test everything except the server itself, with all middlewares, authentication handlers, and other components functioning exactly as they would in a real request. The adapter returns the final response object, which you can inspect and assert in your tests.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-right" title="birchrest" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Alexander Engström.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

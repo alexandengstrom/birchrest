@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>birchrest.http.status &mdash; birchrest 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            birchrest
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">birchrest</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">birchrest</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">birchrest.http.status</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for birchrest.http.status</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+
+
+<div class="viewcode-block" id="HttpStatus">
+<a class="viewcode-back" href="../../../birchrest.http.html#birchrest.http.status.HttpStatus">[docs]</a>
+<span class="k">class</span> <span class="nc">HttpStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">CONTINUE</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">SWITCHING_PROTOCOLS</span> <span class="o">=</span> <span class="mi">101</span>
+    <span class="n">PROCESSING</span> <span class="o">=</span> <span class="mi">102</span>
+    <span class="n">EARLY_HINTS</span> <span class="o">=</span> <span class="mi">103</span>
+
+    <span class="n">OK</span> <span class="o">=</span> <span class="mi">200</span>
+    <span class="n">CREATED</span> <span class="o">=</span> <span class="mi">201</span>
+    <span class="n">ACCEPTED</span> <span class="o">=</span> <span class="mi">202</span>
+    <span class="n">NON_AUTHORITATIVE_INFORMATION</span> <span class="o">=</span> <span class="mi">203</span>
+    <span class="n">NO_CONTENT</span> <span class="o">=</span> <span class="mi">204</span>
+    <span class="n">RESET_CONTENT</span> <span class="o">=</span> <span class="mi">205</span>
+    <span class="n">PARTIAL_CONTENT</span> <span class="o">=</span> <span class="mi">206</span>
+
+    <span class="n">MULTIPLE_CHOICES</span> <span class="o">=</span> <span class="mi">300</span>
+    <span class="n">MOVED_PERMANENTLY</span> <span class="o">=</span> <span class="mi">301</span>
+    <span class="n">FOUND</span> <span class="o">=</span> <span class="mi">302</span>
+    <span class="n">SEE_OTHER</span> <span class="o">=</span> <span class="mi">303</span>
+    <span class="n">NOT_MODIFIED</span> <span class="o">=</span> <span class="mi">304</span>
+    <span class="n">TEMPORARY_REDIRECT</span> <span class="o">=</span> <span class="mi">307</span>
+    <span class="n">PERMANENT_REDIRECT</span> <span class="o">=</span> <span class="mi">308</span>
+
+    <span class="n">BAD_REQUEST</span> <span class="o">=</span> <span class="mi">400</span>
+    <span class="n">UNAUTHORIZED</span> <span class="o">=</span> <span class="mi">401</span>
+    <span class="n">PAYMENT_REQUIRED</span> <span class="o">=</span> <span class="mi">402</span>
+    <span class="n">FORBIDDEN</span> <span class="o">=</span> <span class="mi">403</span>
+    <span class="n">NOT_FOUND</span> <span class="o">=</span> <span class="mi">404</span>
+    <span class="n">METHOD_NOT_ALLOWED</span> <span class="o">=</span> <span class="mi">405</span>
+    <span class="n">NOT_ACCEPTABLE</span> <span class="o">=</span> <span class="mi">406</span>
+    <span class="n">PROXY_AUTHENTICATION_REQUIRED</span> <span class="o">=</span> <span class="mi">407</span>
+    <span class="n">REQUEST_TIMEOUT</span> <span class="o">=</span> <span class="mi">408</span>
+    <span class="n">CONFLICT</span> <span class="o">=</span> <span class="mi">409</span>
+    <span class="n">GONE</span> <span class="o">=</span> <span class="mi">410</span>
+    <span class="n">LENGTH_REQUIRED</span> <span class="o">=</span> <span class="mi">411</span>
+    <span class="n">PRECONDITION_FAILED</span> <span class="o">=</span> <span class="mi">412</span>
+    <span class="n">PAYLOAD_TOO_LARGE</span> <span class="o">=</span> <span class="mi">413</span>
+    <span class="n">URI_TOO_LONG</span> <span class="o">=</span> <span class="mi">414</span>
+    <span class="n">UNSUPPORTED_MEDIA_TYPE</span> <span class="o">=</span> <span class="mi">415</span>
+    <span class="n">RANGE_NOT_SATISFIABLE</span> <span class="o">=</span> <span class="mi">416</span>
+    <span class="n">EXPECTATION_FAILED</span> <span class="o">=</span> <span class="mi">417</span>
+    <span class="n">IM_A_TEAPOT</span> <span class="o">=</span> <span class="mi">418</span>
+    <span class="n">UNPROCESSABLE_ENTITY</span> <span class="o">=</span> <span class="mi">422</span>
+    <span class="n">TOO_EARLY</span> <span class="o">=</span> <span class="mi">425</span>
+    <span class="n">UPGRADE_REQUIRED</span> <span class="o">=</span> <span class="mi">426</span>
+    <span class="n">PRECONDITION_REQUIRED</span> <span class="o">=</span> <span class="mi">428</span>
+    <span class="n">TOO_MANY_REQUESTS</span> <span class="o">=</span> <span class="mi">429</span>
+    <span class="n">REQUEST_HEADER_FIELDS_TOO_LARGE</span> <span class="o">=</span> <span class="mi">431</span>
+
+    <span class="n">INTERNAL_SERVER_ERROR</span> <span class="o">=</span> <span class="mi">500</span>
+    <span class="n">NOT_IMPLEMENTED</span> <span class="o">=</span> <span class="mi">501</span>
+    <span class="n">BAD_GATEWAY</span> <span class="o">=</span> <span class="mi">502</span>
+    <span class="n">SERVICE_UNAVAILABLE</span> <span class="o">=</span> <span class="mi">503</span>
+    <span class="n">GATEWAY_TIMEOUT</span> <span class="o">=</span> <span class="mi">504</span>
+    <span class="n">HTTP_VERSION_NOT_SUPPORTED</span> <span class="o">=</span> <span class="mi">505</span>
+    <span class="n">VARIANT_ALSO_NEGOTIATES</span> <span class="o">=</span> <span class="mi">506</span>
+    <span class="n">INSUFFICIENT_STORAGE</span> <span class="o">=</span> <span class="mi">507</span>
+    <span class="n">LOOP_DETECTED</span> <span class="o">=</span> <span class="mi">508</span>
+    <span class="n">NOT_EXTENDED</span> <span class="o">=</span> <span class="mi">510</span>
+    <span class="n">NETWORK_AUTHENTICATION_REQUIRED</span> <span class="o">=</span> <span class="mi">511</span>
+
+<div class="viewcode-block" id="HttpStatus.description">
+<a class="viewcode-back" href="../../../birchrest.http.html#birchrest.http.status.HttpStatus.description">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">status_code</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a default description for a given status code.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">descriptions</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">100</span><span class="p">:</span> <span class="s2">&quot;Continue&quot;</span><span class="p">,</span>
+            <span class="mi">101</span><span class="p">:</span> <span class="s2">&quot;Switching Protocols&quot;</span><span class="p">,</span>
+            <span class="mi">102</span><span class="p">:</span> <span class="s2">&quot;Processing&quot;</span><span class="p">,</span>
+            <span class="mi">103</span><span class="p">:</span> <span class="s2">&quot;Early Hints&quot;</span><span class="p">,</span>
+            <span class="mi">200</span><span class="p">:</span> <span class="s2">&quot;OK&quot;</span><span class="p">,</span>
+            <span class="mi">201</span><span class="p">:</span> <span class="s2">&quot;Created&quot;</span><span class="p">,</span>
+            <span class="mi">202</span><span class="p">:</span> <span class="s2">&quot;Accepted&quot;</span><span class="p">,</span>
+            <span class="mi">203</span><span class="p">:</span> <span class="s2">&quot;Non-Authoritative Information&quot;</span><span class="p">,</span>
+            <span class="mi">204</span><span class="p">:</span> <span class="s2">&quot;No Content&quot;</span><span class="p">,</span>
+            <span class="mi">205</span><span class="p">:</span> <span class="s2">&quot;Reset Content&quot;</span><span class="p">,</span>
+            <span class="mi">206</span><span class="p">:</span> <span class="s2">&quot;Partial Content&quot;</span><span class="p">,</span>
+            <span class="mi">300</span><span class="p">:</span> <span class="s2">&quot;Multiple Choices&quot;</span><span class="p">,</span>
+            <span class="mi">301</span><span class="p">:</span> <span class="s2">&quot;Moved Permanently&quot;</span><span class="p">,</span>
+            <span class="mi">302</span><span class="p">:</span> <span class="s2">&quot;Found&quot;</span><span class="p">,</span>
+            <span class="mi">303</span><span class="p">:</span> <span class="s2">&quot;See Other&quot;</span><span class="p">,</span>
+            <span class="mi">304</span><span class="p">:</span> <span class="s2">&quot;Not Modified&quot;</span><span class="p">,</span>
+            <span class="mi">307</span><span class="p">:</span> <span class="s2">&quot;Temporary Redirect&quot;</span><span class="p">,</span>
+            <span class="mi">308</span><span class="p">:</span> <span class="s2">&quot;Permanent Redirect&quot;</span><span class="p">,</span>
+            <span class="mi">400</span><span class="p">:</span> <span class="s2">&quot;Bad Request&quot;</span><span class="p">,</span>
+            <span class="mi">401</span><span class="p">:</span> <span class="s2">&quot;Unauthorized&quot;</span><span class="p">,</span>
+            <span class="mi">402</span><span class="p">:</span> <span class="s2">&quot;Payment Required&quot;</span><span class="p">,</span>
+            <span class="mi">403</span><span class="p">:</span> <span class="s2">&quot;Forbidden&quot;</span><span class="p">,</span>
+            <span class="mi">404</span><span class="p">:</span> <span class="s2">&quot;Not Found&quot;</span><span class="p">,</span>
+            <span class="mi">405</span><span class="p">:</span> <span class="s2">&quot;Method Not Allowed&quot;</span><span class="p">,</span>
+            <span class="mi">406</span><span class="p">:</span> <span class="s2">&quot;Not Acceptable&quot;</span><span class="p">,</span>
+            <span class="mi">407</span><span class="p">:</span> <span class="s2">&quot;Proxy Authentication Required&quot;</span><span class="p">,</span>
+            <span class="mi">408</span><span class="p">:</span> <span class="s2">&quot;Request Timeout&quot;</span><span class="p">,</span>
+            <span class="mi">409</span><span class="p">:</span> <span class="s2">&quot;Conflict&quot;</span><span class="p">,</span>
+            <span class="mi">410</span><span class="p">:</span> <span class="s2">&quot;Gone&quot;</span><span class="p">,</span>
+            <span class="mi">411</span><span class="p">:</span> <span class="s2">&quot;Length Required&quot;</span><span class="p">,</span>
+            <span class="mi">412</span><span class="p">:</span> <span class="s2">&quot;Precondition Failed&quot;</span><span class="p">,</span>
+            <span class="mi">413</span><span class="p">:</span> <span class="s2">&quot;Payload Too Large&quot;</span><span class="p">,</span>
+            <span class="mi">414</span><span class="p">:</span> <span class="s2">&quot;URI Too Long&quot;</span><span class="p">,</span>
+            <span class="mi">415</span><span class="p">:</span> <span class="s2">&quot;Unsupported Media Type&quot;</span><span class="p">,</span>
+            <span class="mi">416</span><span class="p">:</span> <span class="s2">&quot;Range Not Satisfiable&quot;</span><span class="p">,</span>
+            <span class="mi">417</span><span class="p">:</span> <span class="s2">&quot;Expectation Failed&quot;</span><span class="p">,</span>
+            <span class="mi">418</span><span class="p">:</span> <span class="s2">&quot;I&#39;m a Teapot&quot;</span><span class="p">,</span>
+            <span class="mi">422</span><span class="p">:</span> <span class="s2">&quot;Unprocessable Entity&quot;</span><span class="p">,</span>
+            <span class="mi">425</span><span class="p">:</span> <span class="s2">&quot;Too Early&quot;</span><span class="p">,</span>
+            <span class="mi">426</span><span class="p">:</span> <span class="s2">&quot;Upgrade Required&quot;</span><span class="p">,</span>
+            <span class="mi">428</span><span class="p">:</span> <span class="s2">&quot;Precondition Required&quot;</span><span class="p">,</span>
+            <span class="mi">429</span><span class="p">:</span> <span class="s2">&quot;Too Many Requests&quot;</span><span class="p">,</span>
+            <span class="mi">431</span><span class="p">:</span> <span class="s2">&quot;Request Header Fields Too Large&quot;</span><span class="p">,</span>
+            <span class="mi">500</span><span class="p">:</span> <span class="s2">&quot;Internal Server Error&quot;</span><span class="p">,</span>
+            <span class="mi">501</span><span class="p">:</span> <span class="s2">&quot;Not Implemented&quot;</span><span class="p">,</span>
+            <span class="mi">502</span><span class="p">:</span> <span class="s2">&quot;Bad Gateway&quot;</span><span class="p">,</span>
+            <span class="mi">503</span><span class="p">:</span> <span class="s2">&quot;Service Unavailable&quot;</span><span class="p">,</span>
+            <span class="mi">504</span><span class="p">:</span> <span class="s2">&quot;Gateway Timeout&quot;</span><span class="p">,</span>
+            <span class="mi">505</span><span class="p">:</span> <span class="s2">&quot;HTTP Version Not Supported&quot;</span><span class="p">,</span>
+            <span class="mi">506</span><span class="p">:</span> <span class="s2">&quot;Variant Also Negotiates&quot;</span><span class="p">,</span>
+            <span class="mi">507</span><span class="p">:</span> <span class="s2">&quot;Insufficient Storage&quot;</span><span class="p">,</span>
+            <span class="mi">508</span><span class="p">:</span> <span class="s2">&quot;Loop Detected&quot;</span><span class="p">,</span>
+            <span class="mi">510</span><span class="p">:</span> <span class="s2">&quot;Not Extended&quot;</span><span class="p">,</span>
+            <span class="mi">511</span><span class="p">:</span> <span class="s2">&quot;Network Authentication Required&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">descriptions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">status_code</span><span class="p">,</span> <span class="s2">&quot;Unknown Status Code&quot;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Alexander Engström.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

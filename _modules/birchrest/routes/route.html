@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>birchrest.routes.route &mdash; birchrest 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            birchrest
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">birchrest</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">birchrest</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">birchrest.routes.route</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for birchrest.routes.route</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">birchrest.exceptions.api_error</span> <span class="kn">import</span> <span class="n">ApiError</span>
+<span class="kn">from</span> <span class="nn">birchrest.routes.validator</span> <span class="kn">import</span> <span class="n">parse_data_class</span>
+<span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">RouteHandler</span><span class="p">,</span> <span class="n">MiddlewareFunction</span><span class="p">,</span> <span class="n">AuthHandlerFunction</span>
+<span class="kn">from</span> <span class="nn">..http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">..exceptions</span> <span class="kn">import</span> <span class="n">MissingAuthHandlerError</span>
+
+
+<div class="viewcode-block" id="Route">
+<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.routes.route.Route">[docs]</a>
+<span class="k">class</span> <span class="nc">Route</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents an HTTP route in the application, mapping a specific HTTP method and path</span>
+<span class="sd">    to a handler function. A `Route` can have middlewares, be protected with authentication,</span>
+<span class="sd">    and validate request bodies, query parameters, and URL parameters.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        func (RouteHandler): The handler function to execute when the route is matched.</span>
+<span class="sd">        method (str): The HTTP method for this route (e.g., GET, POST).</span>
+<span class="sd">        path (str): The URL path pattern for this route (e.g., &#39;/users/:id&#39;).</span>
+<span class="sd">        middlewares (List[MiddlewareFunction]): A list of middleware functions to run before the handler.</span>
+<span class="sd">        is_protected (bool): Indicates if this route requires authentication.</span>
+<span class="sd">        validate_body (Optional[Any]): A dataclass or schema to validate the request body.</span>
+<span class="sd">        validate_queries (Optional[Any]): A dataclass or schema to validate the query parameters.</span>
+<span class="sd">        validate_params (Optional[Any]): A dataclass or schema to validate the URL parameters.</span>
+<span class="sd">        auth_handler (Optional[AuthHandlerFunction]): A function to handle authentication for protected routes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">func</span><span class="p">:</span> <span class="n">RouteHandler</span><span class="p">,</span>
+        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">middlewares</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MiddlewareFunction</span><span class="p">],</span>
+        <span class="n">protected</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">validate_body</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+        <span class="n">validate_queries</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+        <span class="n">validate_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a new `Route` object with the provided handler, method, path, and configurations.</span>
+
+<span class="sd">        :param func: The handler function to be executed when the route is matched.</span>
+<span class="sd">        :param method: The HTTP method (GET, POST, etc.) for this route.</span>
+<span class="sd">        :param path: The URL path for this route, which may include dynamic parameters (e.g., &#39;/users/:id&#39;).</span>
+<span class="sd">        :param middlewares: A list of middleware functions to apply to this route.</span>
+<span class="sd">        :param protected: Whether the route requires authentication.</span>
+<span class="sd">        :param validate_body: A dataclass or schema to validate the request body, if applicable.</span>
+<span class="sd">        :param validate_queries: A dataclass or schema to validate the query parameters, if applicable.</span>
+<span class="sd">        :param validate_params: A dataclass or schema to validate the URL parameters, if applicable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="n">method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">middlewares</span> <span class="o">=</span> <span class="n">middlewares</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_protected</span> <span class="o">=</span> <span class="n">protected</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validate_body</span> <span class="o">=</span> <span class="n">validate_body</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validate_queries</span> <span class="o">=</span> <span class="n">validate_queries</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validate_params</span> <span class="o">=</span> <span class="n">validate_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auth_handler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthHandlerFunction</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Route.resolve">
+<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.routes.route.Route.resolve">[docs]</a>
+    <span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">middlewares</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MiddlewareFunction</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Resolves the final path and middlewares for the route, combining the given prefix</span>
+<span class="sd">        with the route&#39;s path and appending any global middlewares.</span>
+
+<span class="sd">        :param prefix: The path prefix to prepend to the route&#39;s path.</span>
+<span class="sd">        :param middlewares: A list of global middleware functions to apply before the route-specific middlewares.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">new_prefix</span> <span class="o">=</span> <span class="n">prefix</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_prefix</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">middlewares</span> <span class="o">=</span> <span class="n">middlewares</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">middlewares</span>
+
+        <span class="n">path_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;:(\w+)&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;(?P&lt;\1&gt;[^/]+)&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="n">path_regex</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;^</span><span class="si">{</span><span class="n">path_regex</span><span class="si">}</span><span class="s2">$&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param_names</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;:(\w+)&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">requires_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">path_regex</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes the route&#39;s middleware stack and handler function when the route is matched.</span>
+
+<span class="sd">        This method checks if the route is protected and performs authentication if needed.</span>
+<span class="sd">        It also validates the request body, query parameters, and URL parameters if validation</span>
+<span class="sd">        is enabled. Finally, it executes the route handler.</span>
+
+<span class="sd">        :param req: The incoming HTTP request.</span>
+<span class="sd">        :param res: The outgoing HTTP response.</span>
+<span class="sd">        :raises ApiError: If authentication or validation fails.</span>
+<span class="sd">        :return: The result of the route handler function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_protected</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_handler</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">MissingAuthHandlerError</span><span class="p">()</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">user_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_handler</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">user_data</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">UNAUTHORIZED</span><span class="p">()</span>
+
+                <span class="n">req</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user_data</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">UNAUTHORIZED</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_body</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">body_data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">body</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">body_data</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request body is required&quot;</span><span class="p">)</span>
+
+                <span class="n">parsed_data</span> <span class="o">=</span> <span class="n">parse_data_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validate_body</span><span class="p">,</span> <span class="n">body_data</span><span class="p">)</span>
+
+                <span class="n">req</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="n">parsed_data</span>
+
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Body validation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_queries</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">parsed_data</span> <span class="o">=</span> <span class="n">parse_data_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validate_queries</span><span class="p">,</span> <span class="n">req</span><span class="o">.</span><span class="n">queries</span><span class="p">)</span>
+
+                <span class="n">req</span><span class="o">.</span><span class="n">queries</span> <span class="o">=</span> <span class="n">parsed_data</span>
+
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Query validation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_params</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">parsed_data</span> <span class="o">=</span> <span class="n">parse_data_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validate_params</span><span class="p">,</span> <span class="n">req</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+
+                <span class="n">req</span><span class="o">.</span><span class="n">queries</span> <span class="o">=</span> <span class="n">parsed_data</span>
+
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Param validation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">run_middlewares</span><span class="p">(</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">middlewares</span><span class="p">):</span>
+                <span class="n">middleware</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">middlewares</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">middleware</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">run_middlewares</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">run_middlewares</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Route.match">
+<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.routes.route.Route.match">[docs]</a>
+    <span class="k">def</span> <span class="nf">match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the given request path matches the route&#39;s path pattern.</span>
+
+<span class="sd">        :param request_path: The incoming request path.</span>
+<span class="sd">        :return: A dictionary of matched parameters if the path matches, otherwise None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">match</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">request_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="Route.is_method_allowed">
+<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.routes.route.Route.is_method_allowed">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_method_allowed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the given HTTP method is allowed for this route.</span>
+
+<span class="sd">        :param method: The HTTP method (e.g., GET, POST) to check.</span>
+<span class="sd">        :return: True if the method is allowed, otherwise False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">method</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span></div>
+
+
+<div class="viewcode-block" id="Route.register_auth_handler">
+<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.routes.route.Route.register_auth_handler">[docs]</a>
+    <span class="k">def</span> <span class="nf">register_auth_handler</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">auth_handler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthHandlerFunction</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registers an authentication handler for this route.</span>
+
+<span class="sd">        :param auth_handler: A function that handles authentication for protected routes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">auth_handler</span> <span class="o">=</span> <span class="n">auth_handler</span></div>
+
+
+<div class="viewcode-block" id="Route.make_protected">
+<a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.routes.route.Route.make_protected">[docs]</a>
+    <span class="k">def</span> <span class="nf">make_protected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Marks the route as protected, requiring authentication to access.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_protected</span> <span class="o">=</span> <span class="kc">True</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Alexander Engström.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

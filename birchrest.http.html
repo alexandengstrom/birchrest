@@ -1,0 +1,1060 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>birchrest.http package &mdash; birchrest 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="birchrest.middlewares package" href="birchrest.middlewares.html" />
+    <link rel="prev" title="birchrest.exceptions package" href="birchrest.exceptions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            birchrest
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">birchrest</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="birchrest.html">birchrest package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="birchrest.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="birchrest.app.html">birchrest.app package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="birchrest.decorators.html">birchrest.decorators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="birchrest.exceptions.html">birchrest.exceptions package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">birchrest.http package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="birchrest.middlewares.html">birchrest.middlewares package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="birchrest.routes.html">birchrest.routes package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="birchrest.types.html">birchrest.types package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="birchrest.unittest.html">birchrest.unittest package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="birchrest.utils.html">birchrest.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-core-module">birchrest.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.version">birchrest.version module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">birchrest</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">birchrest</a></li>
+          <li class="breadcrumb-item"><a href="birchrest.html">birchrest package</a></li>
+      <li class="breadcrumb-item active">birchrest.http package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/birchrest.http.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="birchrest-http-package">
+<h1>birchrest.http package<a class="headerlink" href="#birchrest-http-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-birchrest.http.request">
+<span id="birchrest-http-request-module"></span><h2>birchrest.http.request module<a class="headerlink" href="#module-birchrest.http.request" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="birchrest.http.request.Request">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.http.request.</span></span><span class="sig-name descname"><span class="pre">Request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/http/request.html#Request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.request.Request" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents an HTTP request, capturing the HTTP method, path, version,
+headers, body, and other relevant data.</p>
+<p>This class is responsible for parsing raw HTTP request data and extracting
+useful information such as headers, query parameters, path parameters, and
+the request body. It also generates a unique correlation ID for tracking
+the request across systems.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>method (str): The HTTP method (e.g., GET, POST).
+path (str): The requested URL path.
+version (str): The HTTP version used in the request (e.g., HTTP/1.1).
+headers (Dict[str, str]): Dictionary of HTTP headers.
+body (Optional[str]): The request body, if any, parsed as JSON if applicable.
+client_address (str): The IP address of the client making the request.
+params (Dict[str, str]): URL path parameters (set during route matching).
+correlation_id (str): A unique ID assigned to the request for tracking.
+user (Optional[Any]): Placeholder for authenticated user data.
+queries (Dict[str, str]): Query parameters parsed from the URL.
+clean_path (str): The URL path without query parameters.
+received (datetime): Timestamp of when the request was created.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.request.Request.get_header">
+<span class="sig-name descname"><span class="pre">get_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/http/request.html#Request.get_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.request.Request.get_header" title="Link to this definition"></a></dt>
+<dd><p>Get a specific header by name, case-insensitive.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>header_name</strong> – The name of the header to retrieve</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The header value, or None if not found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.request.Request.parse">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.http.request.Request" title="birchrest.http.request.Request"><span class="pre">Request</span></a></span></span><a class="reference internal" href="_modules/birchrest/http/request.html#Request.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.request.Request.parse" title="Link to this definition"></a></dt>
+<dd><p>Static method to create a Request object from raw HTTP request data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>raw_data</strong> – The raw HTTP request as a string</p></li>
+<li><p><strong>client_address</strong> – The address of the client making the request</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Request object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-birchrest.http.response">
+<span id="birchrest-http-response-module"></span><h2>birchrest.http.response module<a class="headerlink" href="#module-birchrest.http.response" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="birchrest.http.response.Response">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.http.response.</span></span><span class="sig-name descname"><span class="pre">Response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correlation_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/http/response.html#Response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.response.Response" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents an HTTP response, providing methods to set status codes, headers,
+and the response body. It also supports sending JSON-encoded data and
+generating the final raw HTTP response as a string.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>_status_code (int): The HTTP status code of the response.
+_headers (Dict[str, str]): A dictionary containing the response headers.
+_body (str): The response body.
+_is_sent (bool): A flag to indicate if the response has already been sent.
+correlation_id (str): A unique correlation ID for tracking the request-response cycle.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.response.Response.end">
+<span class="sig-name descname"><span class="pre">end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/birchrest/http/response.html#Response.end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.response.Response.end" title="Link to this definition"></a></dt>
+<dd><p>Finalize the response and return it as a raw HTTP response string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The complete HTTP response as a string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.response.Response.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></span><a class="reference internal" href="_modules/birchrest/http/response.html#Response.send"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.response.Response.send" title="Link to this definition"></a></dt>
+<dd><p>Set the response body to a JSON-encoded string and set
+Content-Type to application/json.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – A dictionary to be JSON-encoded</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>self to allow for chaining</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.response.Response.set_header">
+<span class="sig-name descname"><span class="pre">set_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></span><a class="reference internal" href="_modules/birchrest/http/response.html#Response.set_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.response.Response.set_header" title="Link to this definition"></a></dt>
+<dd><p>Set an HTTP header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The name of the header</p></li>
+<li><p><strong>value</strong> – The value of the header</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>self to allow chaining</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.response.Response.status">
+<span class="sig-name descname"><span class="pre">status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></span><a class="reference internal" href="_modules/birchrest/http/response.html#Response.status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.response.Response.status" title="Link to this definition"></a></dt>
+<dd><p>Set the HTTP status code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>code</strong> – The HTTP status code</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>self to allow for chaining</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-birchrest.http.server">
+<span id="birchrest-http-server-module"></span><h2>birchrest.http.server module<a class="headerlink" href="#module-birchrest.http.server" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="birchrest.http.server.Server">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.http.server.</span></span><span class="sig-name descname"><span class="pre">Server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request_handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#birchrest.http.request.Request" title="birchrest.http.request.Request"><span class="pre">Request</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backlog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/http/server.html#Server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.server.Server" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A simple socket-based HTTP server that handles incoming client connections
+and processes HTTP requests.</p>
+<p>The server accepts incoming TCP connections, reads and parses HTTP requests,
+passes them to a request handler, and sends back the corresponding HTTP response.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>host (str): The server’s hostname or IP address. Defaults to ‘127.0.0.1’.
+port (int): The port the server listens on. Defaults to 5000.
+backlog (int): The maximum number of queued connections. Defaults to 5.
+server_socket (Optional[socket.socket]): The server’s main socket.
+request_handler (Callable[[Request], Response]): A function that processes</p>
+<blockquote>
+<div><p>the incoming HTTP request and returns a response.</p>
+</div></blockquote>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.server.Server.shutdown">
+<span class="sig-name descname"><span class="pre">shutdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/http/server.html#Server.shutdown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.server.Server.shutdown" title="Link to this definition"></a></dt>
+<dd><p>Shuts down the server by closing the server socket.</p>
+<p>This method should be called when you want to stop the server gracefully.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.server.Server.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/http/server.html#Server.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.server.Server.start" title="Link to this definition"></a></dt>
+<dd><p>Starts the server and begins listening for incoming connections.
+Sets up the server socket, binds it to the configured host and port, and begins
+accepting connections.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>OSError</strong> – If the server cannot bind to the specified host or port.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-birchrest.http.status">
+<span id="birchrest-http-status-module"></span><h2>birchrest.http.status module<a class="headerlink" href="#module-birchrest.http.status" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.http.status.</span></span><span class="sig-name descname"><span class="pre">HttpStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names=&lt;not</span> <span class="pre">given&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/http/status.html#HttpStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.status.HttpStatus" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.ACCEPTED">
+<span class="sig-name descname"><span class="pre">ACCEPTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">202</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.ACCEPTED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.BAD_GATEWAY">
+<span class="sig-name descname"><span class="pre">BAD_GATEWAY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">502</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.BAD_GATEWAY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.BAD_REQUEST">
+<span class="sig-name descname"><span class="pre">BAD_REQUEST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">400</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.BAD_REQUEST" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.CONFLICT">
+<span class="sig-name descname"><span class="pre">CONFLICT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">409</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.CONFLICT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.CONTINUE">
+<span class="sig-name descname"><span class="pre">CONTINUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.CONTINUE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.CREATED">
+<span class="sig-name descname"><span class="pre">CREATED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">201</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.CREATED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.EARLY_HINTS">
+<span class="sig-name descname"><span class="pre">EARLY_HINTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">103</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.EARLY_HINTS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.EXPECTATION_FAILED">
+<span class="sig-name descname"><span class="pre">EXPECTATION_FAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">417</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.EXPECTATION_FAILED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.FORBIDDEN">
+<span class="sig-name descname"><span class="pre">FORBIDDEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">403</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.FORBIDDEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.FOUND">
+<span class="sig-name descname"><span class="pre">FOUND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">302</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.FOUND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.GATEWAY_TIMEOUT">
+<span class="sig-name descname"><span class="pre">GATEWAY_TIMEOUT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">504</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.GATEWAY_TIMEOUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.GONE">
+<span class="sig-name descname"><span class="pre">GONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">410</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.GONE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.HTTP_VERSION_NOT_SUPPORTED">
+<span class="sig-name descname"><span class="pre">HTTP_VERSION_NOT_SUPPORTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">505</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.HTTP_VERSION_NOT_SUPPORTED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.IM_A_TEAPOT">
+<span class="sig-name descname"><span class="pre">IM_A_TEAPOT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">418</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.IM_A_TEAPOT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.INSUFFICIENT_STORAGE">
+<span class="sig-name descname"><span class="pre">INSUFFICIENT_STORAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">507</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.INSUFFICIENT_STORAGE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.INTERNAL_SERVER_ERROR">
+<span class="sig-name descname"><span class="pre">INTERNAL_SERVER_ERROR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">500</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.INTERNAL_SERVER_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.LENGTH_REQUIRED">
+<span class="sig-name descname"><span class="pre">LENGTH_REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">411</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.LENGTH_REQUIRED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.LOOP_DETECTED">
+<span class="sig-name descname"><span class="pre">LOOP_DETECTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">508</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.LOOP_DETECTED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.METHOD_NOT_ALLOWED">
+<span class="sig-name descname"><span class="pre">METHOD_NOT_ALLOWED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">405</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.METHOD_NOT_ALLOWED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.MOVED_PERMANENTLY">
+<span class="sig-name descname"><span class="pre">MOVED_PERMANENTLY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">301</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.MOVED_PERMANENTLY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.MULTIPLE_CHOICES">
+<span class="sig-name descname"><span class="pre">MULTIPLE_CHOICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">300</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.MULTIPLE_CHOICES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.NETWORK_AUTHENTICATION_REQUIRED">
+<span class="sig-name descname"><span class="pre">NETWORK_AUTHENTICATION_REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">511</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.NETWORK_AUTHENTICATION_REQUIRED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.NON_AUTHORITATIVE_INFORMATION">
+<span class="sig-name descname"><span class="pre">NON_AUTHORITATIVE_INFORMATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">203</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.NON_AUTHORITATIVE_INFORMATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.NOT_ACCEPTABLE">
+<span class="sig-name descname"><span class="pre">NOT_ACCEPTABLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">406</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.NOT_ACCEPTABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.NOT_EXTENDED">
+<span class="sig-name descname"><span class="pre">NOT_EXTENDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">510</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.NOT_EXTENDED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.NOT_FOUND">
+<span class="sig-name descname"><span class="pre">NOT_FOUND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">404</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.NOT_FOUND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.NOT_IMPLEMENTED">
+<span class="sig-name descname"><span class="pre">NOT_IMPLEMENTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">501</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.NOT_IMPLEMENTED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.NOT_MODIFIED">
+<span class="sig-name descname"><span class="pre">NOT_MODIFIED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">304</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.NOT_MODIFIED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.NO_CONTENT">
+<span class="sig-name descname"><span class="pre">NO_CONTENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">204</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.NO_CONTENT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.OK">
+<span class="sig-name descname"><span class="pre">OK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">200</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.OK" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.PARTIAL_CONTENT">
+<span class="sig-name descname"><span class="pre">PARTIAL_CONTENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">206</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.PARTIAL_CONTENT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.PAYLOAD_TOO_LARGE">
+<span class="sig-name descname"><span class="pre">PAYLOAD_TOO_LARGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">413</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.PAYLOAD_TOO_LARGE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.PAYMENT_REQUIRED">
+<span class="sig-name descname"><span class="pre">PAYMENT_REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">402</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.PAYMENT_REQUIRED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.PERMANENT_REDIRECT">
+<span class="sig-name descname"><span class="pre">PERMANENT_REDIRECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">308</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.PERMANENT_REDIRECT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.PRECONDITION_FAILED">
+<span class="sig-name descname"><span class="pre">PRECONDITION_FAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">412</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.PRECONDITION_FAILED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.PRECONDITION_REQUIRED">
+<span class="sig-name descname"><span class="pre">PRECONDITION_REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">428</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.PRECONDITION_REQUIRED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.PROCESSING">
+<span class="sig-name descname"><span class="pre">PROCESSING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">102</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.PROCESSING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.PROXY_AUTHENTICATION_REQUIRED">
+<span class="sig-name descname"><span class="pre">PROXY_AUTHENTICATION_REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">407</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.PROXY_AUTHENTICATION_REQUIRED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.RANGE_NOT_SATISFIABLE">
+<span class="sig-name descname"><span class="pre">RANGE_NOT_SATISFIABLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">416</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.RANGE_NOT_SATISFIABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.REQUEST_HEADER_FIELDS_TOO_LARGE">
+<span class="sig-name descname"><span class="pre">REQUEST_HEADER_FIELDS_TOO_LARGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">431</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.REQUEST_HEADER_FIELDS_TOO_LARGE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.REQUEST_TIMEOUT">
+<span class="sig-name descname"><span class="pre">REQUEST_TIMEOUT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">408</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.REQUEST_TIMEOUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.RESET_CONTENT">
+<span class="sig-name descname"><span class="pre">RESET_CONTENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">205</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.RESET_CONTENT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.SEE_OTHER">
+<span class="sig-name descname"><span class="pre">SEE_OTHER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">303</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.SEE_OTHER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.SERVICE_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">SERVICE_UNAVAILABLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">503</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.SERVICE_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.SWITCHING_PROTOCOLS">
+<span class="sig-name descname"><span class="pre">SWITCHING_PROTOCOLS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">101</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.SWITCHING_PROTOCOLS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.TEMPORARY_REDIRECT">
+<span class="sig-name descname"><span class="pre">TEMPORARY_REDIRECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">307</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.TEMPORARY_REDIRECT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.TOO_EARLY">
+<span class="sig-name descname"><span class="pre">TOO_EARLY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">425</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.TOO_EARLY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.TOO_MANY_REQUESTS">
+<span class="sig-name descname"><span class="pre">TOO_MANY_REQUESTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">429</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.TOO_MANY_REQUESTS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.UNAUTHORIZED">
+<span class="sig-name descname"><span class="pre">UNAUTHORIZED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">401</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.UNAUTHORIZED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.UNPROCESSABLE_ENTITY">
+<span class="sig-name descname"><span class="pre">UNPROCESSABLE_ENTITY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">422</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.UNPROCESSABLE_ENTITY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.UNSUPPORTED_MEDIA_TYPE">
+<span class="sig-name descname"><span class="pre">UNSUPPORTED_MEDIA_TYPE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">415</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.UNSUPPORTED_MEDIA_TYPE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.UPGRADE_REQUIRED">
+<span class="sig-name descname"><span class="pre">UPGRADE_REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">426</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.UPGRADE_REQUIRED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.URI_TOO_LONG">
+<span class="sig-name descname"><span class="pre">URI_TOO_LONG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">414</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.URI_TOO_LONG" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.VARIANT_ALSO_NEGOTIATES">
+<span class="sig-name descname"><span class="pre">VARIANT_ALSO_NEGOTIATES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">506</span></em><a class="headerlink" href="#birchrest.http.status.HttpStatus.VARIANT_ALSO_NEGOTIATES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.status.HttpStatus.description">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/birchrest/http/status.html#HttpStatus.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.status.HttpStatus.description" title="Link to this definition"></a></dt>
+<dd><p>Returns a default description for a given status code.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-birchrest.http">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-birchrest.http" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.http.</span></span><span class="sig-name descname"><span class="pre">HttpStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names=&lt;not</span> <span class="pre">given&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/http/status.html#HttpStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.HttpStatus" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.ACCEPTED">
+<span class="sig-name descname"><span class="pre">ACCEPTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">202</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.ACCEPTED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.BAD_GATEWAY">
+<span class="sig-name descname"><span class="pre">BAD_GATEWAY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">502</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.BAD_GATEWAY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.BAD_REQUEST">
+<span class="sig-name descname"><span class="pre">BAD_REQUEST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">400</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.BAD_REQUEST" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.CONFLICT">
+<span class="sig-name descname"><span class="pre">CONFLICT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">409</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.CONFLICT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.CONTINUE">
+<span class="sig-name descname"><span class="pre">CONTINUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.CONTINUE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.CREATED">
+<span class="sig-name descname"><span class="pre">CREATED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">201</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.CREATED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.EARLY_HINTS">
+<span class="sig-name descname"><span class="pre">EARLY_HINTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">103</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.EARLY_HINTS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.EXPECTATION_FAILED">
+<span class="sig-name descname"><span class="pre">EXPECTATION_FAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">417</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.EXPECTATION_FAILED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.FORBIDDEN">
+<span class="sig-name descname"><span class="pre">FORBIDDEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">403</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.FORBIDDEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.FOUND">
+<span class="sig-name descname"><span class="pre">FOUND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">302</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.FOUND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.GATEWAY_TIMEOUT">
+<span class="sig-name descname"><span class="pre">GATEWAY_TIMEOUT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">504</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.GATEWAY_TIMEOUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.GONE">
+<span class="sig-name descname"><span class="pre">GONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">410</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.GONE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.HTTP_VERSION_NOT_SUPPORTED">
+<span class="sig-name descname"><span class="pre">HTTP_VERSION_NOT_SUPPORTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">505</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.HTTP_VERSION_NOT_SUPPORTED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.IM_A_TEAPOT">
+<span class="sig-name descname"><span class="pre">IM_A_TEAPOT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">418</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.IM_A_TEAPOT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.INSUFFICIENT_STORAGE">
+<span class="sig-name descname"><span class="pre">INSUFFICIENT_STORAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">507</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.INSUFFICIENT_STORAGE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.INTERNAL_SERVER_ERROR">
+<span class="sig-name descname"><span class="pre">INTERNAL_SERVER_ERROR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">500</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.INTERNAL_SERVER_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.LENGTH_REQUIRED">
+<span class="sig-name descname"><span class="pre">LENGTH_REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">411</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.LENGTH_REQUIRED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.LOOP_DETECTED">
+<span class="sig-name descname"><span class="pre">LOOP_DETECTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">508</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.LOOP_DETECTED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.METHOD_NOT_ALLOWED">
+<span class="sig-name descname"><span class="pre">METHOD_NOT_ALLOWED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">405</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.METHOD_NOT_ALLOWED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.MOVED_PERMANENTLY">
+<span class="sig-name descname"><span class="pre">MOVED_PERMANENTLY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">301</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.MOVED_PERMANENTLY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.MULTIPLE_CHOICES">
+<span class="sig-name descname"><span class="pre">MULTIPLE_CHOICES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">300</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.MULTIPLE_CHOICES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.NETWORK_AUTHENTICATION_REQUIRED">
+<span class="sig-name descname"><span class="pre">NETWORK_AUTHENTICATION_REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">511</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.NETWORK_AUTHENTICATION_REQUIRED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.NON_AUTHORITATIVE_INFORMATION">
+<span class="sig-name descname"><span class="pre">NON_AUTHORITATIVE_INFORMATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">203</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.NON_AUTHORITATIVE_INFORMATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.NOT_ACCEPTABLE">
+<span class="sig-name descname"><span class="pre">NOT_ACCEPTABLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">406</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.NOT_ACCEPTABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.NOT_EXTENDED">
+<span class="sig-name descname"><span class="pre">NOT_EXTENDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">510</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.NOT_EXTENDED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.NOT_FOUND">
+<span class="sig-name descname"><span class="pre">NOT_FOUND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">404</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.NOT_FOUND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.NOT_IMPLEMENTED">
+<span class="sig-name descname"><span class="pre">NOT_IMPLEMENTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">501</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.NOT_IMPLEMENTED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.NOT_MODIFIED">
+<span class="sig-name descname"><span class="pre">NOT_MODIFIED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">304</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.NOT_MODIFIED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.NO_CONTENT">
+<span class="sig-name descname"><span class="pre">NO_CONTENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">204</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.NO_CONTENT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.OK">
+<span class="sig-name descname"><span class="pre">OK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">200</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.OK" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.PARTIAL_CONTENT">
+<span class="sig-name descname"><span class="pre">PARTIAL_CONTENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">206</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.PARTIAL_CONTENT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.PAYLOAD_TOO_LARGE">
+<span class="sig-name descname"><span class="pre">PAYLOAD_TOO_LARGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">413</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.PAYLOAD_TOO_LARGE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.PAYMENT_REQUIRED">
+<span class="sig-name descname"><span class="pre">PAYMENT_REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">402</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.PAYMENT_REQUIRED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.PERMANENT_REDIRECT">
+<span class="sig-name descname"><span class="pre">PERMANENT_REDIRECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">308</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.PERMANENT_REDIRECT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.PRECONDITION_FAILED">
+<span class="sig-name descname"><span class="pre">PRECONDITION_FAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">412</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.PRECONDITION_FAILED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.PRECONDITION_REQUIRED">
+<span class="sig-name descname"><span class="pre">PRECONDITION_REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">428</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.PRECONDITION_REQUIRED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.PROCESSING">
+<span class="sig-name descname"><span class="pre">PROCESSING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">102</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.PROCESSING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.PROXY_AUTHENTICATION_REQUIRED">
+<span class="sig-name descname"><span class="pre">PROXY_AUTHENTICATION_REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">407</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.PROXY_AUTHENTICATION_REQUIRED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.RANGE_NOT_SATISFIABLE">
+<span class="sig-name descname"><span class="pre">RANGE_NOT_SATISFIABLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">416</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.RANGE_NOT_SATISFIABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.REQUEST_HEADER_FIELDS_TOO_LARGE">
+<span class="sig-name descname"><span class="pre">REQUEST_HEADER_FIELDS_TOO_LARGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">431</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.REQUEST_HEADER_FIELDS_TOO_LARGE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.REQUEST_TIMEOUT">
+<span class="sig-name descname"><span class="pre">REQUEST_TIMEOUT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">408</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.REQUEST_TIMEOUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.RESET_CONTENT">
+<span class="sig-name descname"><span class="pre">RESET_CONTENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">205</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.RESET_CONTENT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.SEE_OTHER">
+<span class="sig-name descname"><span class="pre">SEE_OTHER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">303</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.SEE_OTHER" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.SERVICE_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">SERVICE_UNAVAILABLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">503</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.SERVICE_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.SWITCHING_PROTOCOLS">
+<span class="sig-name descname"><span class="pre">SWITCHING_PROTOCOLS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">101</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.SWITCHING_PROTOCOLS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.TEMPORARY_REDIRECT">
+<span class="sig-name descname"><span class="pre">TEMPORARY_REDIRECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">307</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.TEMPORARY_REDIRECT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.TOO_EARLY">
+<span class="sig-name descname"><span class="pre">TOO_EARLY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">425</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.TOO_EARLY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.TOO_MANY_REQUESTS">
+<span class="sig-name descname"><span class="pre">TOO_MANY_REQUESTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">429</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.TOO_MANY_REQUESTS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.UNAUTHORIZED">
+<span class="sig-name descname"><span class="pre">UNAUTHORIZED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">401</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.UNAUTHORIZED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.UNPROCESSABLE_ENTITY">
+<span class="sig-name descname"><span class="pre">UNPROCESSABLE_ENTITY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">422</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.UNPROCESSABLE_ENTITY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE">
+<span class="sig-name descname"><span class="pre">UNSUPPORTED_MEDIA_TYPE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">415</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.UPGRADE_REQUIRED">
+<span class="sig-name descname"><span class="pre">UPGRADE_REQUIRED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">426</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.UPGRADE_REQUIRED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.URI_TOO_LONG">
+<span class="sig-name descname"><span class="pre">URI_TOO_LONG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">414</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.URI_TOO_LONG" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.VARIANT_ALSO_NEGOTIATES">
+<span class="sig-name descname"><span class="pre">VARIANT_ALSO_NEGOTIATES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">506</span></em><a class="headerlink" href="#birchrest.http.HttpStatus.VARIANT_ALSO_NEGOTIATES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.HttpStatus.description">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/birchrest/http/status.html#HttpStatus.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.HttpStatus.description" title="Link to this definition"></a></dt>
+<dd><p>Returns a default description for a given status code.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="birchrest.http.Request">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.http.</span></span><span class="sig-name descname"><span class="pre">Request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/http/request.html#Request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.Request" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents an HTTP request, capturing the HTTP method, path, version,
+headers, body, and other relevant data.</p>
+<p>This class is responsible for parsing raw HTTP request data and extracting
+useful information such as headers, query parameters, path parameters, and
+the request body. It also generates a unique correlation ID for tracking
+the request across systems.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>method (str): The HTTP method (e.g., GET, POST).
+path (str): The requested URL path.
+version (str): The HTTP version used in the request (e.g., HTTP/1.1).
+headers (Dict[str, str]): Dictionary of HTTP headers.
+body (Optional[str]): The request body, if any, parsed as JSON if applicable.
+client_address (str): The IP address of the client making the request.
+params (Dict[str, str]): URL path parameters (set during route matching).
+correlation_id (str): A unique ID assigned to the request for tracking.
+user (Optional[Any]): Placeholder for authenticated user data.
+queries (Dict[str, str]): Query parameters parsed from the URL.
+clean_path (str): The URL path without query parameters.
+received (datetime): Timestamp of when the request was created.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.Request.get_header">
+<span class="sig-name descname"><span class="pre">get_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/http/request.html#Request.get_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.Request.get_header" title="Link to this definition"></a></dt>
+<dd><p>Get a specific header by name, case-insensitive.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>header_name</strong> – The name of the header to retrieve</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The header value, or None if not found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.Request.parse">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.http.request.Request" title="birchrest.http.request.Request"><span class="pre">Request</span></a></span></span><a class="reference internal" href="_modules/birchrest/http/request.html#Request.parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.Request.parse" title="Link to this definition"></a></dt>
+<dd><p>Static method to create a Request object from raw HTTP request data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>raw_data</strong> – The raw HTTP request as a string</p></li>
+<li><p><strong>client_address</strong> – The address of the client making the request</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Request object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="birchrest.http.Response">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.http.</span></span><span class="sig-name descname"><span class="pre">Response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">correlation_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/http/response.html#Response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.Response" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents an HTTP response, providing methods to set status codes, headers,
+and the response body. It also supports sending JSON-encoded data and
+generating the final raw HTTP response as a string.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>_status_code (int): The HTTP status code of the response.
+_headers (Dict[str, str]): A dictionary containing the response headers.
+_body (str): The response body.
+_is_sent (bool): A flag to indicate if the response has already been sent.
+correlation_id (str): A unique correlation ID for tracking the request-response cycle.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.Response.end">
+<span class="sig-name descname"><span class="pre">end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/birchrest/http/response.html#Response.end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.Response.end" title="Link to this definition"></a></dt>
+<dd><p>Finalize the response and return it as a raw HTTP response string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The complete HTTP response as a string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.Response.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></span><a class="reference internal" href="_modules/birchrest/http/response.html#Response.send"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.Response.send" title="Link to this definition"></a></dt>
+<dd><p>Set the response body to a JSON-encoded string and set
+Content-Type to application/json.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – A dictionary to be JSON-encoded</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>self to allow for chaining</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.Response.set_header">
+<span class="sig-name descname"><span class="pre">set_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></span><a class="reference internal" href="_modules/birchrest/http/response.html#Response.set_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.Response.set_header" title="Link to this definition"></a></dt>
+<dd><p>Set an HTTP header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The name of the header</p></li>
+<li><p><strong>value</strong> – The value of the header</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>self to allow chaining</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.Response.status">
+<span class="sig-name descname"><span class="pre">status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></span><a class="reference internal" href="_modules/birchrest/http/response.html#Response.status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.Response.status" title="Link to this definition"></a></dt>
+<dd><p>Set the HTTP status code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>code</strong> – The HTTP status code</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>self to allow for chaining</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="birchrest.http.Server">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.http.</span></span><span class="sig-name descname"><span class="pre">Server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request_handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#birchrest.http.request.Request" title="birchrest.http.request.Request"><span class="pre">Request</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backlog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/http/server.html#Server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.Server" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A simple socket-based HTTP server that handles incoming client connections
+and processes HTTP requests.</p>
+<p>The server accepts incoming TCP connections, reads and parses HTTP requests,
+passes them to a request handler, and sends back the corresponding HTTP response.</p>
+<dl>
+<dt>Attributes:</dt><dd><p>host (str): The server’s hostname or IP address. Defaults to ‘127.0.0.1’.
+port (int): The port the server listens on. Defaults to 5000.
+backlog (int): The maximum number of queued connections. Defaults to 5.
+server_socket (Optional[socket.socket]): The server’s main socket.
+request_handler (Callable[[Request], Response]): A function that processes</p>
+<blockquote>
+<div><p>the incoming HTTP request and returns a response.</p>
+</div></blockquote>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.Server.shutdown">
+<span class="sig-name descname"><span class="pre">shutdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/http/server.html#Server.shutdown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.Server.shutdown" title="Link to this definition"></a></dt>
+<dd><p>Shuts down the server by closing the server socket.</p>
+<p>This method should be called when you want to stop the server gracefully.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.http.Server.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/http/server.html#Server.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.Server.start" title="Link to this definition"></a></dt>
+<dd><p>Starts the server and begins listening for incoming connections.
+Sets up the server socket, binds it to the configured host and port, and begins
+accepting connections.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>OSError</strong> – If the server cannot bind to the specified host or port.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="birchrest.exceptions.html" class="btn btn-neutral float-left" title="birchrest.exceptions package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="birchrest.middlewares.html" class="btn btn-neutral float-right" title="birchrest.middlewares package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Alexander Engström.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
