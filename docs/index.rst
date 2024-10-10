@@ -7,12 +7,30 @@ Birchrest Documentation
 =======================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    modules
 
+# Include your README file for the front page content
 .. include:: ../README.md
    :parser: myst_parser.sphinx_
 
+# Automatically generate summaries for all modules and submodules
+Modules and Submodules
+======================
 
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
+   birchrest
+   birchrest.app
+   birchrest.decorators
+   birchrest.exceptions
+   birchrest.http
+   birchrest.middlewares
+   birchrest.routes
+   birchrest.types
+   birchrest.unittest
+   birchrest.utils
