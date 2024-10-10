@@ -18,7 +18,14 @@ release = '1.0.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["sphinx.ext.todo", "sphinx.ext.viewcode", "sphinx.ext.autodoc", "myst_parser"]
+extensions = ["sphinx.ext.todo", "sphinx.ext.viewcode", "sphinx.ext.autodoc", "myst_parser", 'sphinx.ext.autosummary',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.intersphinx',]
+
+extensions = [
+  # Optional: Link to external projects like Python's docs
+]
+autosummary_generate = True  # Automatically generate summary pages
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
