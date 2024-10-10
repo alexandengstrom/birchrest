@@ -3,7 +3,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python Versions](https://img.shields.io/pypi/pyversions/birchrest.svg)](https://pypi.org/project/birchrest/)
 ![Unit Tests](https://github.com/alexandengstrom/birchrest/actions/workflows/unit_test.yml/badge.svg)
-[![Codecov](https://codecov.io/gh/alexandengstrom/birchrest/branch/main/graph/badge.svg)](https://codecov.io/gh/alexandengstrom/birchrest)
 ![Type Checking](https://github.com/alexandengstrom/birchrest/actions/workflows/type_checking.yml/badge.svg)
 ![Linting](https://github.com/alexandengstrom/birchrest/actions/workflows/linting.yml/badge.svg)
 
@@ -15,6 +14,25 @@
 ## Installation
 
 ## Quickstart
+This is an example of how to quickly setup an API. This will create one route with the path /api/hello.
+
+```python
+from birchrest import BirchRest, Controller
+from birchrest.decorators import get, controller
+from birchrest.http import Request, Response
+
+@controller("api")
+class MyController(Controller):
+
+    @get("hello")
+    def hello(self, req: Request, res: Response):
+        return res.send({"message": "Hello from the app!"})
+
+app = BirchRest()
+app.register(MyController)
+app.serve()
+
+```
 
 ## Defining Controllers
 In Birchrest, controllers are the building blocks of your API. Each controller defines multiple endpoints, and controllers can be nested to create hierarchical routes.
