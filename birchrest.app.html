@@ -59,9 +59,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.core">birchrest.core module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.version">birchrest.version module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-core-module">birchrest.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-version-module">birchrest.version module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -99,186 +99,11 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.app.birchrest">
-<span id="birchrest-app-birchrest-module"></span><h2>birchrest.app.birchrest module<a class="headerlink" href="#module-birchrest.app.birchrest" title="Link to this heading"></a></h2>
-<p>This module defines the <cite>BirchRest</cite> class, which is the core component of the 
-BirchRest framework. The class is responsible for handling the registration of 
-controllers, global middleware, authentication and error handling, as well as 
-serving the API via an HTTP server. It also manages routing, request handling, 
-and exception management during the lifecycle of a request.</p>
-<p>Modules imported include:
-- <cite>exceptions</cite>: Handles API-related errors and invalid controller registration.
-- <cite>http</cite>: Manages the server and request/response objects.
-- <cite>routes</cite>: Provides the base Controller and Route for registering API endpoints.
-- <cite>utils</cite>: Utility functions like <cite>get_artwork</cite> for server startup.
-- <cite>version</cite>: Holds the current version of the BirchRest framework.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="birchrest.app.birchrest.BirchRest">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.app.birchrest.</span></span><span class="sig-name descname"><span class="pre">BirchRest</span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.birchrest.BirchRest" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>The core application class for the BirchRest framework, responsible for
-registering controllers, middleware, authentication, error handling,
-and starting the HTTP server to serve the API.</p>
-<dl class="simple">
-<dt>Attributes:</dt><dd><p>controllers (List[Controller]): Registered route controllers.
-global_middlewares (List[MiddlewareFunction]): Global middleware applied to all routes.
-auth_handler (Optional[AuthHandlerFunction]): Authentication handler for protected routes.
-error_handler (Optional[ErrorHandler]): Error handler function for handling exceptions.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.app.birchrest.BirchRest.auth">
-<span class="sig-name descname"><span class="pre">auth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="birchrest.http.html#birchrest.http.request.Request" title="birchrest.http.request.Request"><span class="pre">Request</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest.auth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.birchrest.BirchRest.auth" title="Link to this definition"></a></dt>
-<dd><p>Sets the authentication handler for the application, used for protecting routes.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>auth_handler (AuthHandlerFunction): A function to handle authentication logic.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.app.birchrest.BirchRest.error">
-<span class="sig-name descname"><span class="pre">error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="birchrest.http.html#birchrest.http.request.Request" title="birchrest.http.request.Request"><span class="pre">Request</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Exception</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest.error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.birchrest.BirchRest.error" title="Link to this definition"></a></dt>
-<dd><p>Registers a global error handler for the application.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>handler (ErrorHandler): A function to handle errors during request processing.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.app.birchrest.BirchRest.handle_request">
-<span class="sig-name descname"><span class="pre">handle_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.request.Request" title="birchrest.http.request.Request"><span class="pre">Request</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest.handle_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.birchrest.BirchRest.handle_request" title="Link to this definition"></a></dt>
-<dd><p>Handles incoming HTTP requests by matching them to routes, processing middleware,
-and handling exceptions.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>request (Request): The incoming HTTP request.</p>
-</dd>
-<dt>Returns:</dt><dd><p>Response: The HTTP response generated after processing the request.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.app.birchrest.BirchRest.middleware">
-<span class="sig-name descname"><span class="pre">middleware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="birchrest.http.html#birchrest.http.request.Request" title="birchrest.http.request.Request"><span class="pre">Request</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest.middleware"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.birchrest.BirchRest.middleware" title="Link to this definition"></a></dt>
-<dd><p>Registers a global middleware that is applied to all routes.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>handler (MiddlewareFunction): A middleware function to process requests.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.app.birchrest.BirchRest.register">
-<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">controllers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="birchrest.routes.html#birchrest.routes.controller.Controller" title="birchrest.routes.controller.Controller"><span class="pre">Controller</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest.register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.birchrest.BirchRest.register" title="Link to this definition"></a></dt>
-<dd><p>Registers one or more route controllers to the application.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p><a href="#id1"><span class="problematic" id="id2">*</span></a>controllers (Type[Controller]): One or more controller classes to register.</p>
-</dd>
-<dt>Raises:</dt><dd><p>InvalidControllerRegistration: If a registered controller does not inherit from <cite>Controller</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.app.birchrest.BirchRest.serve">
-<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">13337</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest.serve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.birchrest.BirchRest.serve" title="Link to this definition"></a></dt>
-<dd><p>Starts the HTTP server to serve the API on the specified host and port.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>host (str): The hostname or IP address to bind the server to. Defaults to “127.0.0.1”.
-port (int): The port number to listen on. Defaults to 13337.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<section id="birchrest-app-birchrest-module">
+<h2>birchrest.app.birchrest module<a class="headerlink" href="#birchrest-app-birchrest-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.app">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-birchrest.app" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="birchrest.app.BirchRest">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.app.</span></span><span class="sig-name descname"><span class="pre">BirchRest</span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.BirchRest" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>The core application class for the BirchRest framework, responsible for
-registering controllers, middleware, authentication, error handling,
-and starting the HTTP server to serve the API.</p>
-<dl class="simple">
-<dt>Attributes:</dt><dd><p>controllers (List[Controller]): Registered route controllers.
-global_middlewares (List[MiddlewareFunction]): Global middleware applied to all routes.
-auth_handler (Optional[AuthHandlerFunction]): Authentication handler for protected routes.
-error_handler (Optional[ErrorHandler]): Error handler function for handling exceptions.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.app.BirchRest.auth">
-<span class="sig-name descname"><span class="pre">auth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auth_handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="birchrest.http.html#birchrest.http.request.Request" title="birchrest.http.request.Request"><span class="pre">Request</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest.auth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.BirchRest.auth" title="Link to this definition"></a></dt>
-<dd><p>Sets the authentication handler for the application, used for protecting routes.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>auth_handler (AuthHandlerFunction): A function to handle authentication logic.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.app.BirchRest.error">
-<span class="sig-name descname"><span class="pre">error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="birchrest.http.html#birchrest.http.request.Request" title="birchrest.http.request.Request"><span class="pre">Request</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Exception</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest.error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.BirchRest.error" title="Link to this definition"></a></dt>
-<dd><p>Registers a global error handler for the application.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>handler (ErrorHandler): A function to handle errors during request processing.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.app.BirchRest.handle_request">
-<span class="sig-name descname"><span class="pre">handle_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.request.Request" title="birchrest.http.request.Request"><span class="pre">Request</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest.handle_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.BirchRest.handle_request" title="Link to this definition"></a></dt>
-<dd><p>Handles incoming HTTP requests by matching them to routes, processing middleware,
-and handling exceptions.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>request (Request): The incoming HTTP request.</p>
-</dd>
-<dt>Returns:</dt><dd><p>Response: The HTTP response generated after processing the request.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.app.BirchRest.middleware">
-<span class="sig-name descname"><span class="pre">middleware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="birchrest.http.html#birchrest.http.request.Request" title="birchrest.http.request.Request"><span class="pre">Request</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest.middleware"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.BirchRest.middleware" title="Link to this definition"></a></dt>
-<dd><p>Registers a global middleware that is applied to all routes.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>handler (MiddlewareFunction): A middleware function to process requests.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.app.BirchRest.register">
-<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">controllers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="birchrest.routes.html#birchrest.routes.controller.Controller" title="birchrest.routes.controller.Controller"><span class="pre">Controller</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest.register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.BirchRest.register" title="Link to this definition"></a></dt>
-<dd><p>Registers one or more route controllers to the application.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p><a href="#id3"><span class="problematic" id="id4">*</span></a>controllers (Type[Controller]): One or more controller classes to register.</p>
-</dd>
-<dt>Raises:</dt><dd><p>InvalidControllerRegistration: If a registered controller does not inherit from <cite>Controller</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.app.BirchRest.serve">
-<span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">13337</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest.serve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.app.BirchRest.serve" title="Link to this definition"></a></dt>
-<dd><p>Starts the HTTP server to serve the API on the specified host and port.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>host (str): The hostname or IP address to bind the server to. Defaults to “127.0.0.1”.
-port (int): The port number to listen on. Defaults to 13337.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
 </section>
 </section>
 

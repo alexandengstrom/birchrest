@@ -76,231 +76,30 @@
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">birchrest</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="birchrest.html">birchrest package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="birchrest.html">birchrest package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-core-module">birchrest.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-version-module">birchrest.version module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-contents">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
-<section id="birchrest">
-<h2>BirchRest<a class="headerlink" href="#birchrest" title="Link to this heading"></a></h2>
-<p><a class="reference internal" href="#LICENSE"><span class="xref myst"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg" /></span></a>
-<a class="reference external" href="https://pypi.org/project/birchrest/"><img alt="Python Versions" src="https://img.shields.io/pypi/pyversions/birchrest.svg" /></a>
-<img alt="Unit Tests" src="https://github.com/alexandengstrom/birchrest/actions/workflows/unit_test.yml/badge.svg" />
-<img alt="Type Checking" src="https://github.com/alexandengstrom/birchrest/actions/workflows/type_checking.yml/badge.svg" />
-<img alt="Linting" src="https://github.com/alexandengstrom/birchrest/actions/workflows/linting.yml/badge.svg" /></p>
-<p><strong>BirchRest</strong> is a simple, lightweight framework for setting up RESTful APIs with minimal configuration. It is designed to be intuitive and flexible, allowing developers to quickly create APIs without heavy dependencies.</p>
-<section id="table-of-contents">
-<h3>Table of contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h3>
-</section>
-<section id="installation">
-<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h3>
-</section>
-<section id="quickstart">
-<h3>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h3>
-<p>This is an example of how to quickly setup an API. This will create one route with the path /api/hello.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span><span class="p">,</span> <span class="n">Controller</span>
-<span class="kn">from</span> <span class="nn">birchrest.decorators</span> <span class="kn">import</span> <span class="n">get</span><span class="p">,</span> <span class="n">controller</span>
-<span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
-
-<span class="nd">@controller</span><span class="p">(</span><span class="s2">&quot;api&quot;</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">MyController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
-
-    <span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello from the app!&quot;</span><span class="p">})</span>
-
-<span class="n">app</span> <span class="o">=</span> <span class="n">BirchRest</span><span class="p">()</span>
-<span class="n">app</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MyController</span><span class="p">)</span>
-<span class="n">app</span><span class="o">.</span><span class="n">serve</span><span class="p">()</span>
-
-</pre></div>
-</div>
-</section>
-<section id="defining-controllers">
-<h3>Defining Controllers<a class="headerlink" href="#defining-controllers" title="Link to this heading"></a></h3>
-<p>In Birchrest, controllers are the building blocks of your API. Each controller defines multiple endpoints, and controllers can be nested to create hierarchical routes.</p>
-<section id="key-concepts">
-<h4>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading"></a></h4>
-<ul class="simple">
-<li><p><strong>Base Path</strong>: Each controller has a base path that defines where its routes are accessible. If a controller has subcontrollers, their base paths are combined, creating a nested structure.</p></li>
-<li><p><strong>Controller Setup</strong>: To create a controller:</p>
-<ol class="arabic simple">
-<li><p>Inherit from the Controller class</p></li>
-<li><p>Use the &#64;controller decorator on the class, passing the base path as an argument.</p></li>
-</ol>
-</li>
-</ul>
-</section>
-<section id="defining-endpoints">
-<h4>Defining Endpoints<a class="headerlink" href="#defining-endpoints" title="Link to this heading"></a></h4>
-<p>Inside a controller, use HTTP method decorators like &#64;get or &#64;post to define endpoints. These decorators can take an optional path to extend the controller’s base path for that specific route.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an endpoint that accepts PATCH method on route /myendpoint.</span>
-<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;myendpoint&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">})</span>
-</pre></div>
-</div>
-<p>You can use path variables by using colon in the path and then access them via the request object.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;user/:id&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
-    <span class="n">userId</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">userId</span><span class="p">})</span>
-</pre></div>
-</div>
-<p>A route can also access queries in the same way:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
-</pre></div>
-</div>
-<p>It is possible to set automatic contraints for the body, queries and params via validation decorators. See section about validation.</p>
-</section>
-<section id="nesting-controllers">
-<h4>Nesting Controllers<a class="headerlink" href="#nesting-controllers" title="Link to this heading"></a></h4>
-<p>To nest controllers, define a constructor in your parent controller. Inside the constructor, use self.attach() to attach the subcontroller, and don’t forget to call the parent class constructor with super().</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span><span class="p">,</span> <span class="n">Controller</span>
-<span class="kn">from</span> <span class="nn">birchrest.decorators</span> <span class="kn">import</span> <span class="n">get</span><span class="p">,</span> <span class="n">controller</span>
-<span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
-
-<span class="nd">@controller</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">ResourceController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
-    <span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello from the app!&quot;</span><span class="p">})</span>
-
-<span class="nd">@controller</span><span class="p">(</span><span class="s2">&quot;api&quot;</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">BaseController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">ResourceController</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>This will create the endpoint /api/resouce/hello</p>
-</section>
-</section>
-<section id="middleware">
-<h3>Middleware<a class="headerlink" href="#middleware" title="Link to this heading"></a></h3>
-<p>Middleware allows you to perform tasks before or after a request is processed by a controller, such as logging, modifying the request, or checking permissions. Birchrest provides built-in middleware for common tasks and the ability to define your own custom middleware.</p>
-<section id="custom-middlewares">
-<h4>Custom Middlewares<a class="headerlink" href="#custom-middlewares" title="Link to this heading"></a></h4>
-<p>You can create custom middleware to handle specific logic or modify request and response objects. This section explains how to define and register middleware in your application.</p>
-<p>Middleware operates hierarchically, meaning it applies to all routes below the point where it’s defined. You can set up global middleware directly at the application level, or use decorators on controllers and routes. When applied to a controller, the middleware will affect all routes within that controller, as well as any nested controllers attached to it. If applied to a route it will be applied only on that route.</p>
-<section id="requirements">
-<h5>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h5>
-<p>A middleware must be callable and take three arguments. The Request object, Response object and NextFunction object.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">NextFunction</span>
-
-<span class="k">def</span> <span class="nf">my_middleware</span><span class="p">(</span><span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="nb">next</span><span class="p">:</span> <span class="n">NextFunction</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">something</span><span class="p">:</span>
-        <span class="nb">next</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">pass</span>
-        <span class="c1"># By not calling next, we wont continue the callchain.</span>
-</pre></div>
-</div>
-<p>If you want to keep a state in your middleware, you can create a class that implements the call method.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">NextFunction</span><span class="p">,</span> <span class="n">ApiError</span>
-
-<span class="k">class</span> <span class="nc">MyMiddleware</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
-
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="nb">next</span><span class="p">:</span> <span class="n">NextFunction</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span>
-            <span class="nb">next</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">()</span>
-</pre></div>
-</div>
-</section>
-</section>
-<section id="built-in-middlewarea">
-<h4>Built-in Middlewarea<a class="headerlink" href="#built-in-middlewarea" title="Link to this heading"></a></h4>
-<p>Birchrest comes with several built-in middleware options that help manage common use cases, such as request logging, rate limiting or CORS support. These can be easily added to your API with minimal configuration.</p>
-</section>
-</section>
-<section id="data-validation">
-<h3>Data Validation<a class="headerlink" href="#data-validation" title="Link to this heading"></a></h3>
-<p>Data validation in Birchrest is supported via Python data classes. This allows for strict validation of request data (body, queries, and params) to ensure that all incoming data adheres to the expected structure.</p>
-<p>To be able to use validation, you must also define the models. Example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">Address</span><span class="p">:</span>
-    <span class="n">street</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;max_length&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
-    <span class="n">city</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_length&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;max_length&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">})</span>
-
-<span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
-    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;max_length&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
-    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;regex&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^[\w\.-]+@[\w\.-]+\.\w+$&quot;</span><span class="p">})</span>
-    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">120</span><span class="p">})</span>
-    <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
-</pre></div>
-</div>
-<p>You can then use the &#64;body, &#64;queries and &#64;params decorator with the dataclass as argument.</p>
-<p>Example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@post</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">)</span>
-<span class="nd">@body</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
-    <span class="c1"># It is safe to pass the body directly since we have already validated it.</span>
-    <span class="n">save_to_database</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">201</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>If the validation fails, the user will get an automatic response. For example, if we try to post a user to the route above but passes a username with only two letters. We will receive this response:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bad Request&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;correlationId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;67ad2218-262e-478b-b767-04cfafd4315b&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Body validation failed: Field &#39;username&#39; must have at least 3 characters.&quot;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Read more about how automatic error responses are handled in the error section.</p>
-<section id="query-and-url-param-validation">
-<h4>Query and URL Param Validation<a class="headerlink" href="#query-and-url-param-validation" title="Link to this heading"></a></h4>
-<p>Validating queries and params is done in the same way, just use the &#64;queries and &#64;params decorators instead.</p>
-</section>
-</section>
-<section id="authentication">
-<h3>Authentication<a class="headerlink" href="#authentication" title="Link to this heading"></a></h3>
-<p>Birchrest makes it easy to protect your API routes with authentication mechanisms. It allows you to define custom authentication handlers and easily mark routes as protected, ensuring that only authenticated requests are allowed access.</p>
-<section id="custom-auth-handlers">
-<h4>Custom Auth Handlers<a class="headerlink" href="#custom-auth-handlers" title="Link to this heading"></a></h4>
-<p>You can define your own authentication handler to manage how users are authenticated in your system. Once defined, Birchrest will handle the integration with the API.</p>
-</section>
-<section id="protecting-routes">
-<h4>Protecting Routes<a class="headerlink" href="#protecting-routes" title="Link to this heading"></a></h4>
-<p>You can easily protect individual routes or entire controllers by marking them as requiring authentication. Birchrest will automatically handle unauthorized access by returning predefined error messages.</p>
-</section>
-</section>
-<section id="error-handling">
-<h3>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading"></a></h3>
-<p>By default, Birchrest will respond will standardized error messages with as good information as possible. For example, 404 when route doesnt exist or 400 if body validation fails. If any unhandled exceptions occurs in the controllers 500 will be returned.</p>
-<section id="apierror">
-<h4>ApiError<a class="headerlink" href="#apierror" title="Link to this heading"></a></h4>
-<p>The error handling is done via the class ApiError which have static methods to raise exceptions corresponding to HTTP status codes. For example, with this code:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">ApiError</span>
-
-<span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>This will automatically be converted into a 404 response to the user.</p>
-<p>An ApiError exception will have the attributes status_code and base_message which can be 404 and “Not Found” for example. It can also contain the attribute “user_message” if more specific info was given when the exception was raised. For example, if validation fails we will give the user information about why it failed.</p>
-</section>
-<section id="custom-error-handler">
-<h4>Custom Error Handler<a class="headerlink" href="#custom-error-handler" title="Link to this heading"></a></h4>
-<p>If you want more control over the error handling, you can catch the exceptions by defining your own error handler. The handler must be callable and will receive a request, response and exception. If a custom error handler is defined it must handle the exception, otherwise 500 internal server error will always be returned to the user.</p>
-</section>
-</section>
-<section id="unit-testing">
-<h3>Unit Testing<a class="headerlink" href="#unit-testing" title="Link to this heading"></a></h3>
-<p>To simplify testing, the framework includes a test adapter class that simulates sending HTTP requests to your API. This allows you to test everything except the server itself, with all middlewares, authentication handlers, and other components functioning exactly as they would in a real request. The adapter returns the final response object, which you can inspect and assert in your tests.</p>
-</section>
-</section>
+<p># Include your README file for the front page content
+.. include:: ../README.md</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">parser<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a href="#id1"><span class="problematic" id="id2">myst_parser.sphinx_</span></a></p>
+</dd>
+</dl>
+</div></blockquote>
+<p># Automatically generate summaries for all modules and submodules
+Modules and Submodules
+======================</p>
 </section>
 
 

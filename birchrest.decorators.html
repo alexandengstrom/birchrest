@@ -59,9 +59,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.core">birchrest.core module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.version">birchrest.version module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-core-module">birchrest.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-version-module">birchrest.version module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -99,203 +99,47 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators.body">
-<span id="birchrest-decorators-body-module"></span><h2>birchrest.decorators.body module<a class="headerlink" href="#module-birchrest.decorators.body" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.body.body">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.body.</span></span><span class="sig-name descname"><span class="pre">body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/body.html#body"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.body.body" title="Link to this definition"></a></dt>
-<dd><p>Decorator to attach a model for body validation to a function.</p>
-</dd></dl>
-
+<section id="birchrest-decorators-body-module">
+<h2>birchrest.decorators.body module<a class="headerlink" href="#birchrest-decorators-body-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators.controller">
-<span id="birchrest-decorators-controller-module"></span><h2>birchrest.decorators.controller module<a class="headerlink" href="#module-birchrest.decorators.controller" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.controller.controller">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.controller.</span></span><span class="sig-name descname"><span class="pre">controller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/controller.html#controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.controller.controller" title="Link to this definition"></a></dt>
-<dd><p>Decorator to attach a base path to a controller class.</p>
-</dd></dl>
-
+<section id="birchrest-decorators-controller-module">
+<h2>birchrest.decorators.controller module<a class="headerlink" href="#birchrest-decorators-controller-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators.delete">
-<span id="birchrest-decorators-delete-module"></span><h2>birchrest.decorators.delete module<a class="headerlink" href="#module-birchrest.decorators.delete" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.delete.delete">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.delete.</span></span><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/delete.html#delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.delete.delete" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define a DELETE route inside an API class.</p>
-</dd></dl>
-
+<section id="birchrest-decorators-delete-module">
+<h2>birchrest.decorators.delete module<a class="headerlink" href="#birchrest-decorators-delete-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators.get">
-<span id="birchrest-decorators-get-module"></span><h2>birchrest.decorators.get module<a class="headerlink" href="#module-birchrest.decorators.get" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.get.get">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.get.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/get.html#get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.get.get" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define a GET route inside an API class.</p>
-</dd></dl>
-
+<section id="birchrest-decorators-get-module">
+<h2>birchrest.decorators.get module<a class="headerlink" href="#birchrest-decorators-get-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators.head">
-<span id="birchrest-decorators-head-module"></span><h2>birchrest.decorators.head module<a class="headerlink" href="#module-birchrest.decorators.head" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.head.head">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.head.</span></span><span class="sig-name descname"><span class="pre">head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/head.html#head"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.head.head" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define a HEAD route inside an API class.</p>
-</dd></dl>
-
+<section id="birchrest-decorators-head-module">
+<h2>birchrest.decorators.head module<a class="headerlink" href="#birchrest-decorators-head-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators.middleware">
-<span id="birchrest-decorators-middleware-module"></span><h2>birchrest.decorators.middleware module<a class="headerlink" href="#module-birchrest.decorators.middleware" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.middleware.middleware">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.middleware.</span></span><span class="sig-name descname"><span class="pre">middleware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/decorators/middleware.html#middleware"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.middleware.middleware" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define middleware for a route (method) or an API class.</p>
-</dd></dl>
-
+<section id="birchrest-decorators-middleware-module">
+<h2>birchrest.decorators.middleware module<a class="headerlink" href="#birchrest-decorators-middleware-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators.options">
-<span id="birchrest-decorators-options-module"></span><h2>birchrest.decorators.options module<a class="headerlink" href="#module-birchrest.decorators.options" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.options.options">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.options.</span></span><span class="sig-name descname"><span class="pre">options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/options.html#options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.options.options" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define an OPTIONS route inside an API class.</p>
-</dd></dl>
-
+<section id="birchrest-decorators-options-module">
+<h2>birchrest.decorators.options module<a class="headerlink" href="#birchrest-decorators-options-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators.params">
-<span id="birchrest-decorators-params-module"></span><h2>birchrest.decorators.params module<a class="headerlink" href="#module-birchrest.decorators.params" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.params.params">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.params.</span></span><span class="sig-name descname"><span class="pre">params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/params.html#params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.params.params" title="Link to this definition"></a></dt>
-<dd><p>Decorator to attach a model for parameter validation to a function.</p>
-</dd></dl>
-
+<section id="birchrest-decorators-params-module">
+<h2>birchrest.decorators.params module<a class="headerlink" href="#birchrest-decorators-params-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators.patch">
-<span id="birchrest-decorators-patch-module"></span><h2>birchrest.decorators.patch module<a class="headerlink" href="#module-birchrest.decorators.patch" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.patch.patch">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.patch.</span></span><span class="sig-name descname"><span class="pre">patch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/patch.html#patch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.patch.patch" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define a PATCH route inside an API class.</p>
-</dd></dl>
-
+<section id="birchrest-decorators-patch-module">
+<h2>birchrest.decorators.patch module<a class="headerlink" href="#birchrest-decorators-patch-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators.post">
-<span id="birchrest-decorators-post-module"></span><h2>birchrest.decorators.post module<a class="headerlink" href="#module-birchrest.decorators.post" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.post.post">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.post.</span></span><span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/post.html#post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.post.post" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define a POST route inside an API class.</p>
-</dd></dl>
-
+<section id="birchrest-decorators-post-module">
+<h2>birchrest.decorators.post module<a class="headerlink" href="#birchrest-decorators-post-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators.protected">
-<span id="birchrest-decorators-protected-module"></span><h2>birchrest.decorators.protected module<a class="headerlink" href="#module-birchrest.decorators.protected" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.protected.protected">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.protected.</span></span><span class="sig-name descname"><span class="pre">protected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/protected.html#protected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.protected.protected" title="Link to this definition"></a></dt>
-<dd><p>Decorator to mark a route as protected inside an API class.</p>
-</dd></dl>
-
+<section id="birchrest-decorators-protected-module">
+<h2>birchrest.decorators.protected module<a class="headerlink" href="#birchrest-decorators-protected-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators.put">
-<span id="birchrest-decorators-put-module"></span><h2>birchrest.decorators.put module<a class="headerlink" href="#module-birchrest.decorators.put" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.put.put">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.put.</span></span><span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/put.html#put"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.put.put" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define a PUT route inside an API class.</p>
-</dd></dl>
-
+<section id="birchrest-decorators-put-module">
+<h2>birchrest.decorators.put module<a class="headerlink" href="#birchrest-decorators-put-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators.queries">
-<span id="birchrest-decorators-queries-module"></span><h2>birchrest.decorators.queries module<a class="headerlink" href="#module-birchrest.decorators.queries" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.queries.queries">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.queries.</span></span><span class="sig-name descname"><span class="pre">queries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/queries.html#queries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.queries.queries" title="Link to this definition"></a></dt>
-<dd><p>Decorator to attach a model for query validation to a function.</p>
-</dd></dl>
-
+<section id="birchrest-decorators-queries-module">
+<h2>birchrest.decorators.queries module<a class="headerlink" href="#birchrest-decorators-queries-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-birchrest.decorators">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-birchrest.decorators" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.body">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/body.html#body"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.body" title="Link to this definition"></a></dt>
-<dd><p>Decorator to attach a model for body validation to a function.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.controller">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">controller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/controller.html#controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.controller" title="Link to this definition"></a></dt>
-<dd><p>Decorator to attach a base path to a controller class.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.delete">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/delete.html#delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.delete" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define a DELETE route inside an API class.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.get">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/get.html#get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.get" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define a GET route inside an API class.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.head">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/head.html#head"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.head" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define a HEAD route inside an API class.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.middleware">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">middleware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handler</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/decorators/middleware.html#middleware"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.middleware" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define middleware for a route (method) or an API class.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.options">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/options.html#options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.options" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define an OPTIONS route inside an API class.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.params">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/params.html#params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.params" title="Link to this definition"></a></dt>
-<dd><p>Decorator to attach a model for parameter validation to a function.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.patch">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">patch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/patch.html#patch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.patch" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define a PATCH route inside an API class.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.post">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/post.html#post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.post" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define a POST route inside an API class.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.protected">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">protected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/protected.html#protected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.protected" title="Link to this definition"></a></dt>
-<dd><p>Decorator to mark a route as protected inside an API class.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.put">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/put.html#put"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.put" title="Link to this definition"></a></dt>
-<dd><p>Decorator to define a PUT route inside an API class.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="birchrest.decorators.queries">
-<span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">queries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/queries.html#queries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.queries" title="Link to this definition"></a></dt>
-<dd><p>Decorator to attach a model for query validation to a function.</p>
-</dd></dl>
-
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
 </section>
 </section>
 
