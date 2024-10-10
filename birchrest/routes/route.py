@@ -61,7 +61,7 @@ class Route:
         self.auth_handler: Optional[AuthHandlerFunction] = None
         self.param_names: List[Any] = []
         self.requires_params = 0
-        self.regex = re.compile("*")
+        self.regex = re.compile(".*")
 
     def resolve(self, prefix: str, middlewares: List[MiddlewareFunction]) -> None:
         """
