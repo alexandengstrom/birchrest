@@ -132,6 +132,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">validate_queries</span> <span class="o">=</span> <span class="n">validate_queries</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">validate_params</span> <span class="o">=</span> <span class="n">validate_params</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">auth_handler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthHandlerFunction</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">requires_params</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Route.resolve">
 <a class="viewcode-back" href="../../../birchrest.routes.html#birchrest.routes.route.Route.resolve">[docs]</a>
@@ -181,14 +184,14 @@
                     <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">UNAUTHORIZED</span><span class="p">()</span>
 
                 <span class="n">req</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user_data</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">UNAUTHORIZED</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">UNAUTHORIZED</span><span class="p">()</span> <span class="kn">from</span> <span class="nn">e</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_body</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">body_data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">body</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">body_data</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request body is required&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">(</span><span class="s2">&quot;Request body is required&quot;</span><span class="p">)</span>
 
                 <span class="n">parsed_data</span> <span class="o">=</span> <span class="n">parse_data_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validate_body</span><span class="p">,</span> <span class="n">body_data</span><span class="p">)</span>
 
@@ -233,7 +236,7 @@
 <span class="sd">        :param request_path: The incoming request path.</span>
 <span class="sd">        :return: A dictionary of matched parameters if the path matches, otherwise None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="n">match</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">request_path</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
