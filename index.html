@@ -123,7 +123,7 @@
 <h4>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading"></a></h4>
 <ul class="simple">
 <li><p><strong>Base Path</strong>: Each controller has a base path that defines where its routes are accessible. If a controller has subcontrollers, their base paths are combined, creating a nested structure.</p></li>
-<li><p><strong>Controller</strong>: Setup: To create a controller:</p>
+<li><p><strong>Controller Setup</strong>: To create a controller:</p>
 <ol class="arabic simple">
 <li><p>Inherit from the Controller class</p></li>
 <li><p>Use the &#64;controller decorator on the class, passing the base path as an argument.</p></li>
@@ -134,10 +134,50 @@
 <section id="defining-endpoints">
 <h4>Defining Endpoints<a class="headerlink" href="#defining-endpoints" title="Link to this heading"></a></h4>
 <p>Inside a controller, use HTTP method decorators like &#64;get or &#64;post to define endpoints. These decorators can take an optional path to extend the controller’s base path for that specific route.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an endpoint that accepts PATCH method on route /myendpoint.</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;myendpoint&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>You can use path variables by using colon in the path and then access them via the request object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;user/:id&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+    <span class="n">userId</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">userId</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>A route can also access queries in the same way:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>It is possible to set automatic contraints for the body, queries and params via validation decorators. See section about validation.</p>
 </section>
 <section id="nesting-controllers">
 <h4>Nesting Controllers<a class="headerlink" href="#nesting-controllers" title="Link to this heading"></a></h4>
 <p>To nest controllers, define a constructor in your parent controller. Inside the constructor, use self.attach() to attach the subcontroller, and don’t forget to call the parent class constructor with super().</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span><span class="p">,</span> <span class="n">Controller</span>
+<span class="kn">from</span> <span class="nn">birchrest.decorators</span> <span class="kn">import</span> <span class="n">get</span><span class="p">,</span> <span class="n">controller</span>
+<span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+
+<span class="nd">@controller</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">ResourceController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+    <span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello from the app!&quot;</span><span class="p">})</span>
+
+<span class="nd">@controller</span><span class="p">(</span><span class="s2">&quot;api&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">BaseController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">ResourceController</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will create the endpoint /api/resouce/hello</p>
 </section>
 </section>
 <section id="middleware">
@@ -160,7 +200,7 @@
         <span class="c1"># By not calling next, we wont continue the callchain.</span>
 </pre></div>
 </div>
-<p>If you want to keep a state in your middleware, it is recommended to create a class that implements the call method.</p>
+<p>If you want to keep a state in your middleware, you can create a class that implements the call method.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">NextFunction</span><span class="p">,</span> <span class="n">ApiError</span>
 
 <span class="k">class</span> <span class="nc">MyMiddleware</span><span class="p">:</span>
@@ -183,15 +223,46 @@
 </section>
 <section id="data-validation">
 <h3>Data Validation<a class="headerlink" href="#data-validation" title="Link to this heading"></a></h3>
-<p>Data validation in Birchrest is supported via Python data classes. This allows for strict validation of request data (body, queries, and params) to ensure that all incoming data adheres to the expected structure</p>
-<section id="body-validation">
-<h4>Body Validation<a class="headerlink" href="#body-validation" title="Link to this heading"></a></h4>
-</section>
-<section id="query-validation">
-<h4>Query Validation<a class="headerlink" href="#query-validation" title="Link to this heading"></a></h4>
-</section>
-<section id="url-param-validation">
-<h4>URL Param Validation<a class="headerlink" href="#url-param-validation" title="Link to this heading"></a></h4>
+<p>Data validation in Birchrest is supported via Python data classes. This allows for strict validation of request data (body, queries, and params) to ensure that all incoming data adheres to the expected structure.</p>
+<p>To be able to use validation, you must also define the models. Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Address</span><span class="p">:</span>
+    <span class="n">street</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;max_length&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
+    <span class="n">city</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_length&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;max_length&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">})</span>
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;max_length&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
+    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;regex&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^[\w\.-]+@[\w\.-]+\.\w+$&quot;</span><span class="p">})</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">120</span><span class="p">})</span>
+    <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
+</pre></div>
+</div>
+<p>You can then use the &#64;body, &#64;queries and &#64;params decorator with the dataclass as argument.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@post</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">)</span>
+<span class="nd">@body</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+    <span class="c1"># It is safe to pass the body directly since we have already validated it.</span>
+    <span class="n">save_to_database</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">201</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If the validation fails, the user will get an automatic response. For example, if we try to post a user to the route above but passes a username with only two letters. We will receive this response:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bad Request&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;correlationId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;67ad2218-262e-478b-b767-04cfafd4315b&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Body validation failed: Field &#39;username&#39; must have at least 3 characters.&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Read more about how automatic error responses are handled in the error section.</p>
+<section id="query-and-url-param-validation">
+<h4>Query and URL Param Validation<a class="headerlink" href="#query-and-url-param-validation" title="Link to this heading"></a></h4>
+<p>Validating queries and params is done in the same way, just use the &#64;queries and &#64;params decorators instead.</p>
 </section>
 </section>
 <section id="authentication">
