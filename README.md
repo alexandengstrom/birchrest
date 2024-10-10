@@ -38,13 +38,60 @@ app.serve()
 In Birchrest, controllers are the building blocks of your API. Each controller defines multiple endpoints, and controllers can be nested to create hierarchical routes.
 ### Key Concepts
 - **Base Path**: Each controller has a base path that defines where its routes are accessible. If a controller has subcontrollers, their base paths are combined, creating a nested structure.
-- **Controller**: Setup: To create a controller:
+
+- **Controller Setup**: To create a controller:
     1. Inherit from the Controller class
     2. Use the @controller decorator on the class, passing the base path as an argument.
 ### Defining Endpoints
 Inside a controller, use HTTP method decorators like @get or @post to define endpoints. These decorators can take an optional path to extend the controller’s base path for that specific route.
+
+```python
+# Create an endpoint that accepts PATCH method on route /myendpoint.
+@patch("myendpoint")
+def patch(self, req: Request, res: Response):
+    print(req.body)
+    return res.send({"message": "success"})
+```
+
+You can use path variables by using colon in the path and then access them via the request object.
+```python
+@get("user/:id")
+def patch(self, req: Request, res: Response):
+    userId = req.params.get("id")
+    return res.send({"id": userId})
+```
+
+A route can also access queries in the same way:
+```python
+@get("user")
+def patch(self, req: Request, res: Response):
+    name = req.queries.get("name")
+    return res.send({"name": name})
+```
+
+It is possible to set automatic contraints for the body, queries and params via validation decorators. See section about validation.
+
 ### Nesting Controllers
 To nest controllers, define a constructor in your parent controller. Inside the constructor, use self.attach() to attach the subcontroller, and don’t forget to call the parent class constructor with super().
+
+```python
+from birchrest import BirchRest, Controller
+from birchrest.decorators import get, controller
+from birchrest.http import Request, Response
+
+@controller("resource")
+class ResourceController(Controller):
+    @get("hello")
+    def hello(self, req: Request, res: Response):
+        return res.send({"message": "Hello from the app!"})
+
+@controller("api")
+class BaseController(Controller):
+    def __init__(self):
+        super().__init__()
+        self.attach(ResourceController)
+```
+This will create the endpoint /api/resouce/hello
 
 ## Middleware
 Middleware allows you to perform tasks before or after a request is processed by a controller, such as logging, modifying the request, or checking permissions. Birchrest provides built-in middleware for common tasks and the ability to define your own custom middleware.
@@ -68,7 +115,7 @@ def my_middleware(req: Request, res: Response, next: NextFunction):
         # By not calling next, we wont continue the callchain. 
 ```
 
-If you want to keep a state in your middleware, it is recommended to create a class that implements the call method.
+If you want to keep a state in your middleware, you can create a class that implements the call method.
 
 ```python
 from birchrest import Request, Response, NextFunction, ApiError
@@ -86,13 +133,50 @@ class MyMiddleware:
 ### Built-in Middlewarea
 Birchrest comes with several built-in middleware options that help manage common use cases, such as request logging, rate limiting or CORS support. These can be easily added to your API with minimal configuration.
 ## Data Validation
-Data validation in Birchrest is supported via Python data classes. This allows for strict validation of request data (body, queries, and params) to ensure that all incoming data adheres to the expected structure
+Data validation in Birchrest is supported via Python data classes. This allows for strict validation of request data (body, queries, and params) to ensure that all incoming data adheres to the expected structure.
 
-### Body Validation
+To be able to use validation, you must also define the models. Example:
+```python
+@dataclass
+class Address:
+    street: str = field(metadata={"min_length": 3, "max_length": 100})
+    city: str = field(metadata={"min_length": 2, "max_length": 50})
 
-### Query Validation
+@dataclass
+class User:
+    username: str = field(metadata={"min_length": 3, "max_length": 20})
+    email: str = field(metadata={"regex": r"^[\w\.-]+@[\w\.-]+\.\w+$"})
+    age: int = field(metadata={"min_value": 0, "max_value": 120})
+    address: Address
+```
 
-### URL Param Validation
+You can then use the @body, @queries and @params decorator with the dataclass as argument.
+
+Example:
+```python
+@post("user")
+@body(User)
+def create_user(self, req: Request, res: Response):
+    # It is safe to pass the body directly since we have already validated it.
+    save_to_database(request.body)
+    return res.status(201).send()
+```
+If the validation fails, the user will get an automatic response. For example, if we try to post a user to the route above but passes a username with only two letters. We will receive this response:
+```json
+{
+    "error": {
+        "status": 400,
+        "code": "Bad Request",
+        "correlationId": "67ad2218-262e-478b-b767-04cfafd4315b",
+        "message": "Body validation failed: Field 'username' must have at least 3 characters."
+    }
+}
+```
+
+Read more about how automatic error responses are handled in the error section.
+
+### Query and URL Param Validation
+Validating queries and params is done in the same way, just use the @queries and @params decorators instead.
 
 ## Authentication
 Birchrest makes it easy to protect your API routes with authentication mechanisms. It allows you to define custom authentication handlers and easily mark routes as protected, ensuring that only authenticated requests are allowed access.

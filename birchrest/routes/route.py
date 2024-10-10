@@ -74,6 +74,7 @@ class Route:
 
         new_prefix = prefix.rstrip("/")
         self.path = f"{new_prefix}/{self.path.lstrip('/')}"
+        print(self.path)
         self.middlewares = middlewares + self.middlewares
 
         path_regex = re.sub(r":(\w+)", r"(?P<\1>[^/]+)", self.path)

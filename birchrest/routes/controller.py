@@ -109,8 +109,11 @@ class Controller:
 
         new_prefix = prefix.rstrip("/").lstrip("/")
         base_path = self._base_path.lstrip("/")
-
-        new_prefix = f"/{new_prefix}/{base_path}".rstrip("/")
+        
+        if new_prefix:
+            new_prefix = f"/{new_prefix}/{base_path}".rstrip("/")
+        else:
+            new_prefix = f"/{base_path}".rstrip("/")
 
         for route in self.routes:
             if self._is_protected:
