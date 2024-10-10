@@ -86,7 +86,6 @@
 <p><a class="reference internal" href="#LICENSE"><span class="xref myst"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg" /></span></a>
 <a class="reference external" href="https://pypi.org/project/birchrest/"><img alt="Python Versions" src="https://img.shields.io/pypi/pyversions/birchrest.svg" /></a>
 <img alt="Unit Tests" src="https://github.com/alexandengstrom/birchrest/actions/workflows/unit_test.yml/badge.svg" />
-<a class="reference external" href="https://codecov.io/gh/alexandengstrom/birchrest"><img alt="Codecov" src="https://codecov.io/gh/alexandengstrom/birchrest/branch/main/graph/badge.svg" /></a>
 <img alt="Type Checking" src="https://github.com/alexandengstrom/birchrest/actions/workflows/type_checking.yml/badge.svg" />
 <img alt="Linting" src="https://github.com/alexandengstrom/birchrest/actions/workflows/linting.yml/badge.svg" /></p>
 <p><strong>BirchRest</strong> is a simple, lightweight framework for setting up RESTful APIs with minimal configuration. It is designed to be intuitive and flexible, allowing developers to quickly create APIs without heavy dependencies.</p>
@@ -98,6 +97,24 @@
 </section>
 <section id="quickstart">
 <h3>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h3>
+<p>This is an example of how to quickly setup an API. This will create one route with the path /api/hello.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span><span class="p">,</span> <span class="n">Controller</span>
+<span class="kn">from</span> <span class="nn">birchrest.decorators</span> <span class="kn">import</span> <span class="n">get</span><span class="p">,</span> <span class="n">controller</span>
+<span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+
+<span class="nd">@controller</span><span class="p">(</span><span class="s2">&quot;api&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MyController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+
+    <span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello from the app!&quot;</span><span class="p">})</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">BirchRest</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MyController</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">serve</span><span class="p">()</span>
+
+</pre></div>
+</div>
 </section>
 <section id="defining-controllers">
 <h3>Defining Controllers<a class="headerlink" href="#defining-controllers" title="Link to this heading"></a></h3>
