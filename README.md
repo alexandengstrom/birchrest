@@ -12,7 +12,26 @@
 Full documentation is available here:
 https://alexandengstrom.github.io/birchrest
 
-## Table of contents
+## Table of Contents
+1. [Installation](#installation)
+2. [Quickstart](#quickstart)
+3. [Defining Controllers](#defining-controllers)
+   - [Key Concepts](#key-concepts)
+   - [Defining Endpoints](#defining-endpoints)
+   - [Nesting Controllers](#nesting-controllers)
+4. [Middleware](#middleware)
+   - [Custom Middlewares](#custom-middlewares)
+   - [Built-in Middlewares](#built-in-middlewares)
+5. [Data Validation](#data-validation)
+   - [Query and URL Param Validation](#query-and-url-param-validation)
+6. [Authentication](#authentication)
+   - [Custom Auth Handlers](#custom-auth-handlers)
+   - [Protecting Routes](#protecting-routes)
+7. [Error Handling](#error-handling)
+   - [ApiError](#apierror)
+   - [Custom Error Handler](#custom-error-handler)
+8. [Unit Testing](#unit-testing)
+
 
 ## Installation
 
