@@ -106,7 +106,7 @@
 <span class="k">class</span> <span class="nc">MyController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
 
     <span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello from the app!&quot;</span><span class="p">})</span>
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">BirchRest</span><span class="p">()</span>
@@ -136,21 +136,21 @@
 <p>Inside a controller, use HTTP method decorators like &#64;get or &#64;post to define endpoints. These decorators can take an optional path to extend the controller’s base path for that specific route.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create an endpoint that accepts PATCH method on route /myendpoint.</span>
 <span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;myendpoint&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>You can use path variables by using colon in the path and then access them via the request object.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;user/:id&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
     <span class="n">userId</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">userId</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>A route can also access queries in the same way:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
 </pre></div>
@@ -167,7 +167,7 @@
 <span class="nd">@controller</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">ResourceController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
     <span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello from the app!&quot;</span><span class="p">})</span>
 
 <span class="nd">@controller</span><span class="p">(</span><span class="s2">&quot;api&quot;</span><span class="p">)</span>
@@ -189,36 +189,31 @@
 <p>Middleware operates hierarchically, meaning it applies to all routes below the point where it’s defined. You can set up global middleware directly at the application level, or use decorators on controllers and routes. When applied to a controller, the middleware will affect all routes within that controller, as well as any nested controllers attached to it. If applied to a route it will be applied only on that route.</p>
 <section id="requirements">
 <h5>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h5>
-<p>A middleware must be callable and take three arguments. The Request object, Response object and NextFunction object.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">NextFunction</span>
+<p>A middleware should be a class that inherits from the Middleware class and it must implement an async call method. The call method will receive a Request, Response and NextFunction. If the NextFunction is called the call will continue to the next middleware or route handler. If not called, we wont continue. The next function must be awaited.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">Middleware</span>
+<span class="kn">from</span> <span class="nn">birchrest.types</span> <span class="kn">import</span> <span class="n">NextFunction</span>
+<span class="kn">from</span> <span class="nn">birchrest.exceptions</span> <span class="kn">import</span> <span class="n">ApiError</span>
 
-<span class="k">def</span> <span class="nf">my_middleware</span><span class="p">(</span><span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="nb">next</span><span class="p">:</span> <span class="n">NextFunction</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">something</span><span class="p">:</span>
-        <span class="nb">next</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">pass</span>
-        <span class="c1"># By not calling next, we wont continue the callchain.</span>
-</pre></div>
-</div>
-<p>If you want to keep a state in your middleware, you can create a class that implements the call method.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">NextFunction</span><span class="p">,</span> <span class="n">ApiError</span>
-
-<span class="k">class</span> <span class="nc">MyMiddleware</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">MyMiddleware</span><span class="p">(</span><span class="n">Middleware</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="nb">next</span><span class="p">:</span> <span class="n">NextFunction</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="nb">next</span><span class="p">:</span> <span class="n">NextFunction</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span>
-            <span class="nb">next</span><span class="p">()</span>
+            <span class="k">await</span> <span class="nb">next</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>It is possible to execute things after next is called aswell, this means you can use middlewares for postprocessing aswell.</p>
 </section>
 </section>
-<section id="built-in-middlewarea">
-<h4>Built-in Middlewarea<a class="headerlink" href="#built-in-middlewarea" title="Link to this heading"></a></h4>
-<p>Birchrest comes with several built-in middleware options that help manage common use cases, such as request logging, rate limiting or CORS support. These can be easily added to your API with minimal configuration.</p>
+<section id="built-in-middlewares">
+<h4>Built-in Middlewares<a class="headerlink" href="#built-in-middlewares" title="Link to this heading"></a></h4>
+<p>Birchrest comes with several built-in middleware options that help manage common use cases, such as request logging, rate limiting or CORS support. These can be easily added to your API with minimal configuration. These can be imported from the middlewares module.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.middlewares</span> <span class="kn">import</span> <span class="n">Cors</span><span class="p">,</span> <span class="n">Logger</span><span class="p">,</span> <span class="n">RateLimiter</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="data-validation">
@@ -242,7 +237,7 @@
 <p>Example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@post</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">)</span>
 <span class="nd">@body</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
     <span class="c1"># It is safe to pass the body directly since we have already validated it.</span>
     <span class="n">save_to_database</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">201</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
@@ -270,11 +265,36 @@
 <p>Birchrest makes it easy to protect your API routes with authentication mechanisms. It allows you to define custom authentication handlers and easily mark routes as protected, ensuring that only authenticated requests are allowed access.</p>
 <section id="custom-auth-handlers">
 <h4>Custom Auth Handlers<a class="headerlink" href="#custom-auth-handlers" title="Link to this heading"></a></h4>
-<p>You can define your own authentication handler to manage how users are authenticated in your system. Once defined, Birchrest will handle the integration with the API.</p>
+<p>You can define your own authentication handler to manage how users are authenticated in your system. Once defined, Birchrest will handle the integration with the API. If your route handler returns a falsy value or raises an Exception, the execution will be stopped. Otherwise the return value from this function will be put under the user property in the request object. It is therefore possible to put information there that tells you which user sent a request.</p>
 </section>
 <section id="protecting-routes">
 <h4>Protecting Routes<a class="headerlink" href="#protecting-routes" title="Link to this heading"></a></h4>
 <p>You can easily protect individual routes or entire controllers by marking them as requiring authentication. Birchrest will automatically handle unauthorized access by returning predefined error messages.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span><span class="p">,</span> <span class="n">Controller</span>
+<span class="kn">from</span> <span class="nn">birchrest.decorators</span> <span class="kn">import</span> <span class="n">get</span><span class="p">,</span> <span class="n">controller</span>
+<span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">auth_handler</span><span class="p">(</span><span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Authorization&quot;</span><span class="p">):</span>
+        <span class="c1"># Do your logic</span>
+        <span class="k">return</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+
+<span class="nd">@controller</span><span class="p">(</span><span class="s2">&quot;api&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MyController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+
+    <span class="nd">@protected</span><span class="p">()</span>
+    <span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;protected&quot;</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello from the app!&quot;</span><span class="p">})</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">BirchRest</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MyController</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">serve</span><span class="p">()</span>
+
+</pre></div>
+</div>
 </section>
 </section>
 <section id="error-handling">
@@ -283,7 +303,7 @@
 <section id="apierror">
 <h4>ApiError<a class="headerlink" href="#apierror" title="Link to this heading"></a></h4>
 <p>The error handling is done via the class ApiError which have static methods to raise exceptions corresponding to HTTP status codes. For example, with this code:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">ApiError</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.exceptions</span> <span class="kn">import</span> <span class="n">ApiError</span>
 
 <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">()</span>
 </pre></div>
