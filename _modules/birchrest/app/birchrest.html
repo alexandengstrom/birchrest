@@ -13,7 +13,7 @@
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../../_static/documentation_options.js?v=8d563738"></script>
-      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -84,7 +84,8 @@
 <span class="sd">- `version`: Holds the current version of the BirchRest framework.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Awaitable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
 
 <span class="kn">from</span> <span class="nn">birchrest.exceptions.api_error</span> <span class="kn">import</span> <span class="n">ApiError</span>
 <span class="kn">from</span> <span class="nn">birchrest.http.server</span> <span class="kn">import</span> <span class="n">Server</span>
@@ -198,41 +199,40 @@
         <span class="nb">print</span><span class="p">(</span><span class="n">get_artwork</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">__version__</span><span class="p">))</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">server</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+            <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">start</span><span class="p">())</span>
         <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Server shutdown initiated by user. Exiting...&quot;</span><span class="p">)</span>
         <span class="k">finally</span><span class="p">:</span>
-            <span class="n">server</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+            <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">shutdown</span><span class="p">())</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Server stopped.&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BirchRest.handle_request">
 <a class="viewcode-back" href="../../../birchrest.app.html#birchrest.BirchRest.handle_request">[docs]</a>
-    <span class="k">def</span> <span class="nf">handle_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">handle_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Handles incoming HTTP requests by matching them to routes, processing middleware,</span>
-<span class="sd">        and handling exceptions.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            request (Request): The incoming HTTP request.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Response: The HTTP response generated after processing the request.</span>
+<span class="sd">        and handling exceptions asynchronously.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">response</span> <span class="o">=</span> <span class="n">Response</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">correlation_id</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+            <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">ApiError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">iscoroutinefunction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">):</span>
+                    <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">response</span>
 
             <span class="k">return</span> <span class="n">e</span><span class="o">.</span><span class="n">convert_to_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">iscoroutinefunction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">):</span>
+                    <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">response</span>
 
             <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
@@ -240,21 +240,7 @@
             <span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_handle_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Core logic for handling requests, including matching routes and applying middleware.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            request (Request): The HTTP request object.</span>
-<span class="sd">            response (Response): The HTTP response object.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            ApiError: If the route is not found, method is not allowed, or required parameters are missing.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Response: The finalized HTTP response after routing and processing.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_handle_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
         <span class="n">matched_route</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Route</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">path_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -275,13 +261,9 @@
             <span class="k">if</span> <span class="n">matched_route</span><span class="o">.</span><span class="n">requires_params</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">path_params</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">(</span><span class="s2">&quot;400 Bad Request - Missing Parameters&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-
                 <span class="n">request</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">path_params</span> <span class="k">if</span> <span class="n">path_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
-
-                <span class="n">matched_route</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
-
+                <span class="k">await</span> <span class="n">matched_route</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-
             <span class="k">if</span> <span class="n">route_exists</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">METHOD_NOT_ALLOWED</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>

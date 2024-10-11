@@ -13,7 +13,7 @@
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../../_static/documentation_options.js?v=8d563738"></script>
-      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -73,11 +73,12 @@
 <span class="kn">from</span> <span class="nn">..http</span> <span class="kn">import</span> <span class="n">Request</span>
 <span class="kn">from</span> <span class="nn">..http</span> <span class="kn">import</span> <span class="n">Response</span>
 <span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">NextFunction</span>
+<span class="kn">from</span> <span class="nn">.middleware</span> <span class="kn">import</span> <span class="n">Middleware</span>
 
 
 <div class="viewcode-block" id="Cors">
-<a class="viewcode-back" href="../../../birchrest.middlewares.html#birchrest.Cors">[docs]</a>
-<span class="k">class</span> <span class="nc">Cors</span><span class="p">:</span>
+<a class="viewcode-back" href="../../../birchrest.middlewares.html#birchrest.middlewares.cors.Cors">[docs]</a>
+<span class="k">class</span> <span class="nc">Cors</span><span class="p">(</span><span class="n">Middleware</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Middleware for handling Cross-Origin Resource Sharing (CORS) in HTTP requests.</span>
 
@@ -130,14 +131,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">allow_credentials</span> <span class="o">=</span> <span class="n">allow_credentials</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_age</span> <span class="o">=</span> <span class="n">max_age</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="nb">next</span><span class="p">:</span> <span class="n">NextFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="nb">next</span><span class="p">:</span> <span class="n">NextFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">origin</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get_header</span><span class="p">(</span><span class="s2">&quot;Origin&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;*&quot;</span>
 
         <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;OPTIONS&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_handle_preflight</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_add_cors_headers</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
-            <span class="nb">next</span><span class="p">()</span>
+            <span class="k">await</span> <span class="nb">next</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_handle_preflight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

@@ -13,7 +13,7 @@
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../../_static/documentation_options.js?v=8d563738"></script>
-      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -75,11 +75,12 @@
 <span class="kn">from</span> <span class="nn">..http</span> <span class="kn">import</span> <span class="n">Request</span>
 <span class="kn">from</span> <span class="nn">..http</span> <span class="kn">import</span> <span class="n">Response</span>
 <span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">NextFunction</span>
+<span class="kn">from</span> <span class="nn">.middleware</span> <span class="kn">import</span> <span class="n">Middleware</span>
 
 
 <div class="viewcode-block" id="RateLimiter">
-<a class="viewcode-back" href="../../../birchrest.middlewares.html#birchrest.RateLimiter">[docs]</a>
-<span class="k">class</span> <span class="nc">RateLimiter</span><span class="p">:</span>
+<a class="viewcode-back" href="../../../birchrest.middlewares.html#birchrest.middlewares.rate_limiter.RateLimiter">[docs]</a>
+<span class="k">class</span> <span class="nc">RateLimiter</span><span class="p">(</span><span class="n">Middleware</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A rate-limiting middleware that limits the number of requests per</span>
 <span class="sd">    client (IP or token) within a specified time window.</span>
@@ -110,7 +111,7 @@
         <span class="p">]</span>
         <span class="n">client_log</span><span class="p">[</span><span class="s2">&quot;request_count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">client_log</span><span class="p">[</span><span class="s2">&quot;timestamps&quot;</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="nb">next</span><span class="p">:</span> <span class="n">NextFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="nb">next</span><span class="p">:</span> <span class="n">NextFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Middleware to handle rate limiting for each incoming request.</span>
 <span class="sd">        :param req: The HTTP request object</span>
@@ -128,7 +129,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">request_log</span><span class="p">[</span><span class="n">client_id</span><span class="p">][</span><span class="s2">&quot;timestamps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">request_log</span><span class="p">[</span><span class="n">client_id</span><span class="p">][</span><span class="s2">&quot;request_count&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="nb">next</span><span class="p">()</span></div>
+            <span class="k">await</span> <span class="nb">next</span><span class="p">()</span></div>
 
 </pre></div>
 
