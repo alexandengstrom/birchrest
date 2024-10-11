@@ -59,7 +59,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.core">birchrest.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-core-module">birchrest.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.version">birchrest.version module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest">Module contents</a></li>
 </ul>
@@ -153,6 +153,38 @@ client (IP or token) within a specified time window.</p>
 </section>
 <section id="module-birchrest.middlewares">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-birchrest.middlewares" title="Link to this heading"></a></h2>
+<p>This module provides built-in middlewares for the BirchRest framework, as well as
+the base class for creating custom user-defined middlewares.</p>
+<p>Middlewares are used to process requests and responses, either globally or for 
+specific routes. They are executed in the order they are registered and can perform 
+tasks such as logging, handling CORS, rate-limiting, and more.</p>
+<p>Built-in middlewares:
+- <strong>RateLimiter</strong>: Limits the number of requests from a single client over a period of time.
+- <strong>Logger</strong>: Logs incoming requests and outgoing responses, providing useful insights for debugging and monitoring.
+- <strong>Cors</strong>: Handles Cross-Origin Resource Sharing (CORS) headers to manage access from different domains.</p>
+<p>Custom middlewares:
+- <strong>Middleware</strong>: This is the base class that users should inherit from to create their own middleware.</p>
+<blockquote>
+<div><p>Custom middlewares should implement the <cite>__call__</cite> method to define their specific behavior. 
+Both synchronous and asynchronous middlewares are supported.</p>
+</div></blockquote>
+<p>To use a middleware:
+1. Built-in middlewares can be registered directly to a BirchRest application instance.
+2. For custom middlewares, inherit from the <cite>Middleware</cite> class and implement the call method.</p>
+<p>Example of a user-defined middleware:</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
+from birchrest.middleware import Middleware</p>
+<dl class="simple">
+<dt>class CustomMiddleware(Middleware):</dt><dd><dl class="simple">
+<dt>async def __call__(self, req, res, next):</dt><dd><p># Custom processing logic before handling the request
+print(f”Processing request {req.method} {req.path}”)
+await next()  # Continue to the next middleware or route handler
+# Custom logic after handling the request
+print(f”Response sent with status {res.status_code}”)</p>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="birchrest.middlewares.Cors">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.middlewares.</span></span><span class="sig-name descname"><span class="pre">Cors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allow_origins</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['*']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_methods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['GET',</span> <span class="pre">'POST',</span> <span class="pre">'PUT',</span> <span class="pre">'DELETE',</span> <span class="pre">'PATCH',</span> <span class="pre">'OPTIONS']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['Content-Type',</span> <span class="pre">'Authorization']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_credentials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">86400</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/middlewares/cors.html#Cors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.middlewares.Cors" title="Link to this definition"></a></dt>

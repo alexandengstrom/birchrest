@@ -59,7 +59,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.core">birchrest.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-core-module">birchrest.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.version">birchrest.version module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest">Module contents</a></li>
 </ul>
@@ -217,6 +217,16 @@ It can also convert itself into an HTTP response.</p>
 </section>
 <section id="module-birchrest.exceptions">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-birchrest.exceptions" title="Link to this heading"></a></h2>
+<p>This module defines custom exceptions used throughout the BirchRest framework.</p>
+<p>Exceptions:
+- <strong>InvalidControllerRegistration</strong>: Raised when a controller that does not inherit from the <cite>Controller</cite> base class is registered.
+- <strong>MissingAuthHandlerError</strong>: Raised when an authentication handler is required but has not been provided.
+- <strong>ApiError</strong>: Represents errors related to API requests, such as 404 Not Found or 500 Internal Server Error, with customizable status codes and messages.</p>
+<p>These exceptions are used to manage error handling and enforce proper application behavior.</p>
+<p>Exported exceptions:
+- <cite>InvalidControllerRegistration</cite>
+- <cite>MissingAuthHandlerError</cite>
+- <cite>ApiError</cite></p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="birchrest.exceptions.ApiError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.</span></span><span class="sig-name descname"><span class="pre">ApiError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.ApiError" title="Link to this definition"></a></dt>

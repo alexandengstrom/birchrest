@@ -95,6 +95,8 @@
 <span class="kn">from</span> <span class="nn">..http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 <span class="kn">from</span> <span class="nn">..exceptions</span> <span class="kn">import</span> <span class="n">InvalidControllerRegistration</span>
 <span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">MiddlewareFunction</span><span class="p">,</span> <span class="n">AuthHandlerFunction</span><span class="p">,</span> <span class="n">ErrorHandler</span>
+<span class="kn">from</span> <span class="nn">colorama</span> <span class="kn">import</span> <span class="n">Fore</span><span class="p">,</span> <span class="n">Style</span><span class="p">,</span> <span class="n">init</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
 
 
 <div class="viewcode-block" id="BirchRest">
@@ -228,15 +230,22 @@
 
             <span class="k">return</span> <span class="n">e</span><span class="o">.</span><span class="n">convert_to_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">_is_sent</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">iscoroutinefunction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">):</span>
-                    <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">response</span>
+            
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_warn_about_unhandled_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
-                <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal Server Error&quot;</span><span class="p">}}</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;error&quot;</span><span class="p">:</span> 
+                        <span class="p">{</span>
+                            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> 
+                            <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal Server Error&quot;</span>
+                        <span class="p">}</span>
+                <span class="p">}</span>
             <span class="p">)</span></div>
 
 
@@ -247,6 +256,8 @@
         <span class="n">route_exists</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">routes</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">clean_path</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">route</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
             <span class="n">params</span> <span class="o">=</span> <span class="n">route</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">clean_path</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -283,7 +294,17 @@
         <span class="k">for</span> <span class="n">controller</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">controllers</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="n">controller</span><span class="o">.</span><span class="n">collect_routes</span><span class="p">():</span>
                 <span class="n">route</span><span class="o">.</span><span class="n">register_auth_handler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auth_handler</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">route</span><span class="p">)</span></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">route</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_warn_about_unhandled_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">init</span><span class="p">(</span><span class="n">autoreset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">RED</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">BRIGHT</span><span class="si">}</span><span class="s2">UNHANDLED EXCEPTION!</span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">RED</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">BRIGHT</span><span class="si">}</span><span class="s2">Exception type:</span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">RED</span><span class="si">}{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">RED</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">BRIGHT</span><span class="si">}</span><span class="s2">Exception message:</span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">RED</span><span class="si">}{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">BRIGHT</span><span class="si">}</span><span class="s2">Traceback information:</span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">traceback_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_tb</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}{</span><span class="n">traceback_str</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">GREEN</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">BRIGHT</span><span class="si">}</span><span class="s2">A 500 Internal Server Error response has been automatically sent to the user.</span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 

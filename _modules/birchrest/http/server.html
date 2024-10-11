@@ -71,7 +71,6 @@
   <h1>Source code for birchrest.http.server</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">json</span> <span class="kn">import</span> <span class="n">JSONDecodeError</span>
 <span class="kn">import</span> <span class="nn">socket</span>
-<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Awaitable</span>
 <span class="kn">import</span> <span class="nn">asyncio</span>
 
@@ -89,7 +88,7 @@
 
 <span class="sd">    The server accepts incoming TCP connections, reads and parses HTTP requests,</span>
 <span class="sd">    passes them to a request handler, and sends back the corresponding HTTP response.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Attributes:</span>
 <span class="sd">        host (str): The server&#39;s hostname or IP address. Defaults to &#39;127.0.0.1&#39;.</span>
 <span class="sd">        port (int): The port the server listens on. Defaults to 5000.</span>
@@ -98,6 +97,7 @@
 <span class="sd">        request_handler (Callable[[Request], Response]): A function that processes</span>
 <span class="sd">            the incoming HTTP request and returns a response.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">request_handler</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Request</span><span class="p">],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">Response</span><span class="p">]],</span>
@@ -137,7 +137,9 @@
             <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span></div>
 
 
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">_handle_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">StreamReader</span><span class="p">,</span> <span class="n">writer</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">StreamWriter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_handle_client</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">reader</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">StreamReader</span><span class="p">,</span> <span class="n">writer</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">StreamWriter</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Handles communication with a client, reading the request data, processing</span>
 <span class="sd">        the request, and sending back the response asynchronously.</span>
@@ -152,22 +154,27 @@
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1024</span><span class="p">:</span>
                     <span class="k">break</span>
 
-            <span class="n">client_address</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">get_extra_info</span><span class="p">(</span><span class="s1">&#39;peername&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">client_address</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">get_extra_info</span><span class="p">(</span><span class="s2">&quot;peername&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request_data</span><span class="p">,</span> <span class="n">client_address</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">JSONDecodeError</span><span class="p">:</span>
-                <span class="n">response</span> <span class="o">=</span> <span class="n">Response</span><span class="p">()</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
-                    <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to parse request, likely invalid JSON format&quot;</span><span class="p">}</span>
-                <span class="p">)</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
-                <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">Response</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">send</span><span class="p">(</span>
+                        <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to parse request, likely invalid JSON format&quot;</span><span class="p">}</span>
+                    <span class="p">)</span>
+                    <span class="o">.</span><span class="n">end</span><span class="p">()</span>
+                <span class="p">)</span>
+                <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
                 <span class="k">await</span> <span class="n">writer</span><span class="o">.</span><span class="n">drain</span><span class="p">()</span>
                 <span class="k">return</span>
             <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-                <span class="n">response</span> <span class="o">=</span> <span class="n">Response</span><span class="p">()</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
-                    <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Malformed request&quot;</span><span class="p">}</span>
-                <span class="p">)</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
-                <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">Response</span><span class="p">()</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Malformed request&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+                <span class="p">)</span>
+                <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
                 <span class="k">await</span> <span class="n">writer</span><span class="o">.</span><span class="n">drain</span><span class="p">()</span>
                 <span class="k">return</span>
 
@@ -178,15 +185,15 @@
                 <span class="k">await</span> <span class="n">writer</span><span class="o">.</span><span class="n">drain</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">Response</span><span class="p">()</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
-                <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal server error&quot;</span><span class="p">}</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">Response</span><span class="p">()</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal server error&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+            <span class="p">)</span>
             <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
             <span class="k">await</span> <span class="n">writer</span><span class="o">.</span><span class="n">drain</span><span class="p">()</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="k">await</span> <span class="n">writer</span><span class="o">.</span><span class="n">wait_closed</span><span class="p">()</span>
-            
+
 <div class="viewcode-block" id="Server.shutdown">
 <a class="viewcode-back" href="../../../birchrest.http.html#birchrest.http.server.Server.shutdown">[docs]</a>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

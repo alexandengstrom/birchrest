@@ -59,7 +59,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.core">birchrest.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-core-module">birchrest.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.version">birchrest.version module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest">Module contents</a></li>
 </ul>
@@ -218,6 +218,57 @@
 </section>
 <section id="module-birchrest.decorators">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-birchrest.decorators" title="Link to this heading"></a></h2>
+<p>This module provides a collection of decorators for defining routes, controllers, 
+middleware, and handling various aspects of HTTP requests in the BirchRest framework. 
+These decorators simplify the process of routing, request validation, and protecting 
+endpoints in the application.</p>
+<p>Decorators:
+- <strong>HTTP method decorators</strong>: Define routes for specific HTTP methods.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>&#64;get</cite>: Defines a route that handles HTTP GET requests.</p></li>
+<li><p><cite>&#64;post</cite>: Defines a route that handles HTTP POST requests.</p></li>
+<li><p><cite>&#64;patch</cite>: Defines a route that handles HTTP PATCH requests.</p></li>
+<li><p><cite>&#64;put</cite>: Defines a route that handles HTTP PUT requests.</p></li>
+<li><p><cite>&#64;delete</cite>: Defines a route that handles HTTP DELETE requests.</p></li>
+<li><p><cite>&#64;options</cite>: Defines a route that handles HTTP OPTIONS requests.</p></li>
+<li><p><cite>&#64;head</cite>: Defines a route that handles HTTP HEAD requests.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Controller decorator</strong>:
+- <cite>&#64;controller</cite>: Marks a class as a controller, where routes can be organized for better structure and reusability.</p></li>
+<li><p><strong>Middleware decorator</strong>:
+- <cite>&#64;middleware</cite>: Attaches middleware to specific routes or controllers for processing requests before they reach the handler.</p></li>
+<li><p><strong>Protected route decorator</strong>:
+- <cite>&#64;protected</cite>: Protects routes or controllers by enforcing authentication and authorization mechanisms.</p></li>
+<li><p><strong>Request body and query parameter decorators</strong>:
+- <cite>&#64;body</cite>: Validates and injects the body of the request into the handler.
+- <cite>&#64;queries</cite>: Validates and injects query parameters from the URL into the handler.
+- <cite>&#64;params</cite>: Validates and injects URL parameters into the handler.</p></li>
+</ul>
+<p>Usage:
+These decorators are used to define routes, middleware, and request-handling behavior in a declarative way. This enhances readability and modularity in the BirchRest framework by keeping routing and request-handling logic organized.</p>
+<p>Example of usage:</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
+from birchrest.decorators import get, post, controller, middleware, protected, body</p>
+<p>&#64;controller(“user”)
+class UserController:</p>
+<blockquote>
+<div><p>&#64;get(“:id”)
+def get_users(self, req, res):</p>
+<blockquote>
+<div><p># Handle GET request to /users
+res.send({“message”: “List of users”})</p>
+</div></blockquote>
+<p>&#64;post()
+def create_user(self, req, res):</p>
+<blockquote>
+<div><p># Handle POST request to /users with middleware, body validation, and protection
+new_user = req.body  # User object automatically parsed
+res.status(201).send({“message”: “User created”, “user”: new_user})</p>
+</div></blockquote>
+</div></blockquote>
 <dl class="py function">
 <dt class="sig sig-object py" id="birchrest.decorators.body">
 <span class="sig-prename descclassname"><span class="pre">birchrest.decorators.</span></span><span class="sig-name descname"><span class="pre">body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FuncType</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/decorators/body.html#body"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.decorators.body" title="Link to this definition"></a></dt>

@@ -59,7 +59,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.core">birchrest.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-core-module">birchrest.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.version">birchrest.version module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest">Module contents</a></li>
 </ul>
@@ -560,6 +560,17 @@ request_handler (Callable[[Request], Response]): A function that processes</p>
 </section>
 <section id="module-birchrest.http">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-birchrest.http" title="Link to this heading"></a></h2>
+<p>This module provides the core HTTP components for the BirchRest framework.</p>
+<p>Components:
+- <strong>Request</strong>: Represents an incoming HTTP request, including headers, query parameters, body, and more.
+- <strong>Response</strong>: Represents an outgoing HTTP response, used to send data back to the client.
+- <strong>HttpStatus</strong>: A collection of HTTP status codes for setting response statuses.
+- <strong>Server</strong>: A simple HTTP server that handles incoming requests, processes them, and sends back responses.</p>
+<p>Exported components:
+- <cite>Request</cite>
+- <cite>Response</cite>
+- <cite>HttpStatus</cite>
+- <cite>Server</cite></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="birchrest.http.HttpStatus">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.http.</span></span><span class="sig-name descname"><span class="pre">HttpStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names=&lt;not</span> <span class="pre">given&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/http/status.html#HttpStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.http.HttpStatus" title="Link to this definition"></a></dt>

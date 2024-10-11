@@ -59,7 +59,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.core">birchrest.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-core-module">birchrest.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.version">birchrest.version module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest">Module contents</a></li>
 </ul>
@@ -290,6 +290,15 @@ is raised with a descriptive message.</p>
 </section>
 <section id="module-birchrest.routes">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-birchrest.routes" title="Link to this heading"></a></h2>
+<p>This module provides routing and validation components for the BirchRest framework.</p>
+<p>Components:
+- <strong>Controller</strong>: A base class for defining groups of routes, organizing request handling logic.
+- <strong>Route</strong>: Represents an individual route, mapping HTTP methods and paths to handler functions.
+- <strong>parse_data_class</strong>: A utility function for validating and parsing request data using dataclasses.</p>
+<p>Exported components:
+- <cite>Controller</cite>
+- <cite>Route</cite>
+- <cite>parse_data_class</cite></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="birchrest.routes.Controller">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.routes.</span></span><span class="sig-name descname"><span class="pre">Controller</span></span><a class="reference internal" href="_modules/birchrest/routes/controller.html#Controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.routes.Controller" title="Link to this definition"></a></dt>
