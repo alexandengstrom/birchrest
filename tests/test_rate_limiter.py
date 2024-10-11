@@ -1,15 +1,15 @@
 # type: ignore
 
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, AsyncMock
 import time
 from collections import defaultdict
-from birchrest import RateLimiter
+from birchrest.middlewares import RateLimiter
 from birchrest.http import Request, Response
 from birchrest.types import NextFunction
 
 
-class TestRateLimiter(unittest.TestCase):
+class TestRateLimiter(unittest.IsolatedAsyncioTestCase):
 
     def setUp(self):
         """Set up the RateLimiter instance before each test."""
@@ -48,23 +48,23 @@ class TestRateLimiter(unittest.TestCase):
         self.assertEqual(self.rate_limiter.request_log[client_id]["request_count"], 0)
 
     @patch('time.time', return_value=1000.0)
-    def test_rate_limiter_allows_request(self, mock_time):
+    async def test_rate_limiter_allows_request(self, mock_time):
         """Test that the rate limiter allows a request if within the limit."""
         mock_request = Mock(spec=Request)
         mock_request.client_address = '127.0.0.1'
 
         mock_response = Mock(spec=Response)
-        mock_next = Mock(spec=NextFunction)
+        mock_next = AsyncMock(spec=NextFunction)
 
         # Make a first request
-        self.rate_limiter(mock_request, mock_response, mock_next)
+        await self.rate_limiter(mock_request, mock_response, mock_next)
 
         # Ensure next function was called, meaning request was allowed
         mock_next.assert_called_once()
         self.assertEqual(self.rate_limiter.request_log['127.0.0.1']["request_count"], 1)
 
     @patch('time.time', return_value=1000.0)
-    def test_rate_limiter_blocks_after_max_requests(self, mock_time):
+    async def test_rate_limiter_blocks_after_max_requests(self, mock_time):
         """Test that the rate limiter blocks a request after max requests are exceeded."""
         mock_request = Mock(spec=Request)
         mock_request.client_address = '127.0.0.1'
@@ -72,13 +72,13 @@ class TestRateLimiter(unittest.TestCase):
         mock_response = Mock(spec=Response)
         mock_response.status.return_value = mock_response
         mock_response.send.return_value = mock_response
-        mock_next = Mock(spec=NextFunction)
+        mock_next = AsyncMock(spec=NextFunction)
 
-        self.rate_limiter(mock_request, mock_response, mock_next)
+        await self.rate_limiter(mock_request, mock_response, mock_next)
 
-        self.rate_limiter(mock_request, mock_response, mock_next)
+        await self.rate_limiter(mock_request, mock_response, mock_next)
 
-        self.rate_limiter(mock_request, mock_response, mock_next)
+        await self.rate_limiter(mock_request, mock_response, mock_next)
         
         self.assertEqual(mock_next.call_count, 2)
 
@@ -88,19 +88,19 @@ class TestRateLimiter(unittest.TestCase):
 
 
     @patch('time.time', return_value=1000.0)
-    def test_rate_limiter_allows_after_time_window(self, mock_time):
+    async def test_rate_limiter_allows_after_time_window(self, mock_time):
         """Test that the rate limiter allows requests after the time window expires."""
         mock_request = Mock(spec=Request)
         mock_request.client_address = '127.0.0.1'
 
         mock_response = Mock(spec=Response)
-        mock_next = Mock(spec=NextFunction)
+        mock_next = AsyncMock(spec=NextFunction)
 
-        self.rate_limiter(mock_request, mock_response, mock_next)
-        self.rate_limiter(mock_request, mock_response, mock_next)
+        await self.rate_limiter(mock_request, mock_response, mock_next)
+        await self.rate_limiter(mock_request, mock_response, mock_next)
 
         with patch('time.time', return_value=1011.0):
-            self.rate_limiter(mock_request, mock_response, mock_next)
+            await self.rate_limiter(mock_request, mock_response, mock_next)
 
         mock_next.assert_called()
 

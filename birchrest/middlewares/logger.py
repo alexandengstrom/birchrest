@@ -3,6 +3,7 @@ import logging
 from colorama import Fore, Style, init
 from ..http import Request, Response
 from ..types import NextFunction
+from .middleware import Middleware
 
 init(autoreset=True)
 
@@ -12,13 +13,13 @@ logging.basicConfig(
 logger = logging.getLogger("RequestLogger")
 
 
-class Logger:
+class Logger(Middleware):
     """
     Middleware to log incoming requests and outgoing responses with enhanced formatting and colors.
     Logs useful information including request method, path, client address, correlation ID, response status, and time taken.
     """
 
-    def __call__(self, req: Request, res: Response, next: NextFunction) -> None:
+    async def __call__(self, req: Request, res: Response, next: NextFunction) -> None:
         """
         Middleware entry point.
         Logs the incoming request, processes the next middleware or handler,
@@ -38,7 +39,7 @@ class Logger:
             f"CorrelationID={Fore.MAGENTA}{req.correlation_id}{Style.RESET_ALL}"
         )
 
-        next()
+        await next()
 
         duration = (time.time() - start_time) * 1000
 

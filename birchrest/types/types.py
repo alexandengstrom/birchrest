@@ -1,19 +1,20 @@
-"""
-Contains more complicated types that are used in the project.
-"""
-
-from typing import Callable, TypeVar, Any
+from typing import Callable, TypeVar, Any, Awaitable
 from ..http import Request, Response
 
+# NextFunction is now expected to return an Awaitable (async function)
+NextFunction = Callable[[], Awaitable[None]]
 
-NextFunction = Callable[[], None]
+# MiddlewareFunction is now async and returns an Awaitable
+MiddlewareFunction = Callable[[Request, Response, NextFunction], Awaitable[None]]
 
-MiddlewareFunction = Callable[[Request, Response, NextFunction], None]
+# AuthHandlerFunction is async and returns an Awaitable
+AuthHandlerFunction = Callable[[Request, Response], Awaitable[Any]]
 
-AuthHandlerFunction = Callable[[Request, Response], None]
+# RouteHandler is async and returns an Awaitable
+RouteHandler = Callable[[Request, Response], Awaitable[None]]
 
-RouteHandler = Callable[[Request, Response], None]
+# FuncType remains a generic callable, but now we assume it's async
+FuncType = TypeVar("FuncType", bound=Callable[..., Awaitable[Any]])
 
-FuncType = TypeVar("FuncType", bound=Callable[..., Any])
-
-ErrorHandler = Callable[[Request, Response, Exception], None]
+# ErrorHandler is async and returns an Awaitable
+ErrorHandler = Callable[[Request, Response, Exception], Awaitable[None]]

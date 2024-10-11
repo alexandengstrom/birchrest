@@ -9,7 +9,7 @@ from birchrest.unittest import TestAdapter
 from typing import Dict, Optional, Any
 
 
-class TestTestAdapter(unittest.TestCase):
+class TestTestAdapter(unittest.IsolatedAsyncioTestCase):
 
     def setUp(self):
         """Set up the TestAdapter with a mocked BirchRest app."""
@@ -29,75 +29,75 @@ class TestTestAdapter(unittest.TestCase):
         self.assertEqual(generated_request.body, body)
         self.assertEqual(generated_request.version, "HTTP/1.1")
 
-    def test_get_request(self):
+    async def test_get_request(self):
         """Test that a GET request is correctly generated and handled."""
         path = "/test-get"
         headers = {"Authorization": "Bearer token"}
         
-        response = self.adapter.get(path, headers)
+        response = await self.adapter.get(path, headers)
         self.assertEqual(response, self.mock_response)
         
         self._assert_request("GET", path, headers, None)
 
-    def test_post_request(self):
+    async def test_post_request(self):
         """Test that a POST request is correctly generated and handled."""
         path = "/test-post"
         headers = {"Content-Type": "application/json"}
         body = {"key": "value"}
 
-        response = self.adapter.post(path, headers, body)
+        response = await self.adapter.post(path, headers, body)
         self.assertEqual(response, self.mock_response)
 
         self._assert_request("POST", path, headers, body)
 
-    def test_put_request(self):
+    async def test_put_request(self):
         """Test that a PUT request is correctly generated and handled."""
         path = "/test-put"
         headers = {"Content-Type": "application/json"}
         body = {"updated_key": "updated_value"}
 
-        response = self.adapter.put(path, headers, body)
+        response = await self.adapter.put(path, headers, body)
         self.assertEqual(response, self.mock_response)
 
         self._assert_request("PUT", path, headers, body)
 
-    def test_patch_request(self):
+    async def test_patch_request(self):
         """Test that a PATCH request is correctly generated and handled."""
         path = "/test-patch"
         headers = {"Content-Type": "application/json"}
         body = {"patched_key": "patched_value"}
 
-        response = self.adapter.patch(path, headers, body)
+        response = await self.adapter.patch(path, headers, body)
         self.assertEqual(response, self.mock_response)
 
         self._assert_request("PATCH", path, headers, body)
 
-    def test_delete_request(self):
+    async def test_delete_request(self):
         """Test that a DELETE request is correctly generated and handled."""
         path = "/test-delete"
         headers = {"Authorization": "Bearer token"}
         
-        response = self.adapter.delete(path, headers)
+        response = await self.adapter.delete(path, headers)
         self.assertEqual(response, self.mock_response)
 
         self._assert_request("DELETE", path, headers, None)
 
-    def test_head_request(self):
+    async def test_head_request(self):
         """Test that a HEAD request is correctly generated and handled."""
         path = "/test-head"
         headers = {"Authorization": "Bearer token"}
         
-        response = self.adapter.head(path, headers)
+        response = await self.adapter.head(path, headers)
         self.assertEqual(response, self.mock_response)
 
         self._assert_request("HEAD", path, headers, None)
 
-    def test_options_request(self):
+    async def test_options_request(self):
         """Test that an OPTIONS request is correctly generated and handled."""
         path = "/test-options"
         headers = {"Authorization": "Bearer token"}
         
-        response = self.adapter.options(path, headers)
+        response = await self.adapter.options(path, headers)
         self.assertEqual(response, self.mock_response)
 
         self._assert_request("OPTIONS", path, headers, None)

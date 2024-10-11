@@ -2,7 +2,7 @@
 
 import unittest
 from datetime import datetime
-from birchrest import Request
+from birchrest.http import Request
 import json
 
 class TestRequest(unittest.TestCase):

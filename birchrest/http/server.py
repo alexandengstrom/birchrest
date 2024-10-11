@@ -1,7 +1,8 @@
 from json import JSONDecodeError
 import socket
 from threading import Thread
-from typing import Callable, Optional, Any
+from typing import Callable, Optional, Any, Awaitable
+import asyncio
 
 from .request import Request
 from .response import Response
@@ -26,7 +27,7 @@ class Server:
     """
     def __init__(
         self,
-        request_handler: Callable[[Request], Response],
+        request_handler: Callable[[Request], Awaitable[Response]],
         host: str = "127.0.0.1",
         port: int = 5000,
         backlog: int = 5,
@@ -45,110 +46,79 @@ class Server:
         self.backlog: int = backlog
         self.server_socket: Optional[socket.socket] = None
         self.request_handler = request_handler
+        self._server: Optional[asyncio.AbstractServer] = None
 
-    def start(self) -> None:
+    async def start(self) -> None:
         """
-        Starts the server and begins listening for incoming connections.
-        Sets up the server socket, binds it to the configured host and port, and begins
-        accepting connections.
-
-        :raises OSError: If the server cannot bind to the specified host or port.
+        Starts the server and begins listening for incoming connections asynchronously.
         """
-        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.server_socket.bind((self.host, self.port))
-        self.server_socket.listen(self.backlog)
+        self._server = await asyncio.start_server(
+            self._handle_client, self.host, self.port
+        )
         print(f"\033[92mRunning on: {self.host}:{self.port}\033[0m")
         print("\033[93mPress Ctrl+C to stop the server.\033[0m")
 
-        self._accept_connections()
+        async with self._server:
+            await self._server.serve_forever()
 
-    def _accept_connections(self) -> None:
+    async def _handle_client(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter) -> None:
         """
-        Accepts incoming client connections and handles them in separate threads.
-
-        This method continuously waits for new connections on the server socket and 
-        spawns a new thread to handle each client connection.
-        """
-        assert self.server_socket
-
-        while True:
-            client_socket, client_address = self.server_socket.accept()
-
-            client_thread = Thread(
-                target=self._handle_client, args=(client_socket, client_address[0])
-            )
-
-            client_thread.start()
-
-    def _handle_client(self, client_socket: socket.socket, client_address: str) -> None:
-        """
-        Handles the communication with a client, reading the request data, processing
-        the request, and sending back the response.
-
-        Reads the client's request data in chunks, parses it into a Request object,
-        and uses the request handler to generate a Response. The response is then
-        sent back to the client.
-
-        :param client_socket: The socket object representing the client connection.
-        :param client_address: The IP address of the connected client.
+        Handles communication with a client, reading the request data, processing
+        the request, and sending back the response asynchronously.
         """
         try:
             request_data = ""
             while True:
-                chunk = client_socket.recv(1024).decode("utf-8")
-                request_data += chunk
-
-                if len(chunk) < 1024:
+                data = await reader.read(1024)
+                if not data:
+                    break
+                request_data += data.decode("utf-8")
+                if len(data) < 1024:
                     break
 
-            request = None
+            client_address = writer.get_extra_info('peername')[0]
 
             try:
                 request = Request.parse(request_data, client_address)
             except JSONDecodeError:
-                client_socket.sendall(
-                    Response()
-                    .status(400)
-                    .send(
-                        {"error": "Failed to parse request, likely invalid JSON format"}
-                    )
-                    .end()
-                    .encode("utf-8")
-                )
+                response = Response().status(400).send(
+                    {"error": "Failed to parse request, likely invalid JSON format"}
+                ).end()
+                writer.write(response.encode('utf-8'))
+                await writer.drain()
                 return
-            except Exception as e:
-                client_socket.sendall(
-                    Response()
-                    .status(400)
-                    .send({"error": "Malformed request"})
-                    .end()
-                    .encode("utf-8")
-                )
+            except Exception:
+                response = Response().status(400).send(
+                    {"error": "Malformed request"}
+                ).end()
+                writer.write(response.encode('utf-8'))
+                await writer.drain()
                 return
 
-            response = self.request_handler(request)
+            res: Response = await self.request_handler(request)
 
-            if response._is_sent:
-                client_socket.sendall(response.end().encode("utf-8"))
+            if res._is_sent:
+                writer.write(res.end().encode("utf-8"))
+                await writer.drain()
         except Exception as e:
             print(e)
-            client_socket.sendall(
-                Response()
-                .status(500)
-                .send({"error": "Internal server error"})
-                .end()
-                .encode("utf-8")
-            )
+            response = Response().status(500).send(
+                {"error": "Internal server error"}
+            ).end()
+            writer.write(response.encode("utf-8"))
+            await writer.drain()
         finally:
-            client_socket.close()
-
-    def shutdown(self) -> None:
+            writer.close()
+            await writer.wait_closed()
+            
+    async def shutdown(self) -> None:
         """
-        Shuts down the server by closing the server socket.
-
-        This method should be called when you want to stop the server gracefully.
+        Gracefully shuts down the server by closing the server socket and stopping the server loop.
         """
-        if self.server_socket:
-            self.server_socket.close()
-
+        if self._server is not None:
+            print("Shutting down the server...")
+            self._server.close()
+            await self._server.wait_closed()
+            print("Server successfully shut down.")
+        else:
+            print("Server is not running.")
