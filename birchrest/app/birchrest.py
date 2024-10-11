@@ -24,6 +24,8 @@ from birchrest.version import __version__
 from ..http import Request, Response
 from ..exceptions import InvalidControllerRegistration
 from ..types import MiddlewareFunction, AuthHandlerFunction, ErrorHandler
+from colorama import Fore, Style, init
+import traceback
 
 
 class BirchRest:
@@ -138,15 +140,22 @@ class BirchRest:
 
             return e.convert_to_response(response)
         except Exception as e:
+            response._is_sent = False
             if self.error_handler:
-                if asyncio.iscoroutinefunction(self.error_handler):
-                    await self.error_handler(request, response, e)
-                else:
-                    self.error_handler(request, response, e)
+                await self.error_handler(request, response, e)
                 return response
+            
+            else:
+                self._warn_about_unhandled_exception(e)
 
             return response.status(500).send(
-                {"error": {"status": 500, "code": "Internal Server Error"}}
+                {
+                    "error": 
+                        {
+                            "status": 500, 
+                            "code": "Internal Server Error"
+                        }
+                }
             )
 
     async def _handle_request(self, request: Request, response: Response) -> Response:
@@ -156,6 +165,8 @@ class BirchRest:
         route_exists = False
 
         for route in self.routes:
+            print(request.clean_path)
+            print(route.path)
             params = route.match(request.clean_path)
 
             if params is not None:
@@ -193,3 +204,13 @@ class BirchRest:
             for route in controller.collect_routes():
                 route.register_auth_handler(self.auth_handler)
                 self.routes.append(route)
+
+    def _warn_about_unhandled_exception(self, e: Exception) -> None:
+        init(autoreset=True)
+        print(f"{Fore.RED}{Style.BRIGHT}UNHANDLED EXCEPTION!{Style.RESET_ALL}")
+        print(f"{Fore.RED}{Style.BRIGHT}Exception type:{Style.RESET_ALL} {Fore.RED}{type(e).__name__}{Style.RESET_ALL}")
+        print(f"{Fore.RED}{Style.BRIGHT}Exception message:{Style.RESET_ALL} {Fore.RED}{str(e)}{Style.RESET_ALL}")
+        print(f"{Fore.YELLOW}{Style.BRIGHT}Traceback information:{Style.RESET_ALL}")
+        traceback_str = ''.join(traceback.format_tb(e.__traceback__))
+        print(f"{Fore.YELLOW}{traceback_str}{Style.RESET_ALL}")
+        print(f"{Fore.GREEN}{Style.BRIGHT}A 500 Internal Server Error response has been automatically sent to the user.{Style.RESET_ALL}")

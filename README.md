@@ -9,6 +9,9 @@
 
 **BirchRest** is a simple, lightweight framework for setting up RESTful APIs with minimal configuration. It is designed to be intuitive and flexible, allowing developers to quickly create APIs without heavy dependencies.
 
+Full documentation is available here:
+https://alexandengstrom.github.io/birchrest
+
 ## Table of contents
 
 ## Installation

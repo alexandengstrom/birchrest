@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Generator, List, Type
+from abc import ABC
 from .route import Route
 from ..types import MiddlewareFunction
 
