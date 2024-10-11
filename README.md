@@ -25,7 +25,7 @@ from birchrest.http import Request, Response
 class MyController(Controller):
 
     @get("hello")
-    def hello(self, req: Request, res: Response):
+    async def hello(self, req: Request, res: Response):
         return res.send({"message": "Hello from the app!"})
 
 app = BirchRest()
@@ -48,7 +48,7 @@ Inside a controller, use HTTP method decorators like @get or @post to define end
 ```python
 # Create an endpoint that accepts PATCH method on route /myendpoint.
 @patch("myendpoint")
-def patch(self, req: Request, res: Response):
+async def patch(self, req: Request, res: Response):
     print(req.body)
     return res.send({"message": "success"})
 ```
@@ -56,7 +56,7 @@ def patch(self, req: Request, res: Response):
 You can use path variables by using colon in the path and then access them via the request object.
 ```python
 @get("user/:id")
-def patch(self, req: Request, res: Response):
+async def patch(self, req: Request, res: Response):
     userId = req.params.get("id")
     return res.send({"id": userId})
 ```
@@ -64,7 +64,7 @@ def patch(self, req: Request, res: Response):
 A route can also access queries in the same way:
 ```python
 @get("user")
-def patch(self, req: Request, res: Response):
+async def patch(self, req: Request, res: Response):
     name = req.queries.get("name")
     return res.send({"name": name})
 ```
@@ -82,7 +82,7 @@ from birchrest.http import Request, Response
 @controller("resource")
 class ResourceController(Controller):
     @get("hello")
-    def hello(self, req: Request, res: Response):
+    async def hello(self, req: Request, res: Response):
         return res.send({"message": "Hello from the app!"})
 
 @controller("api")
@@ -102,36 +102,31 @@ You can create custom middleware to handle specific logic or modify request and 
 Middleware operates hierarchically, meaning it applies to all routes below the point where it’s defined. You can set up global middleware directly at the application level, or use decorators on controllers and routes. When applied to a controller, the middleware will affect all routes within that controller, as well as any nested controllers attached to it. If applied to a route it will be applied only on that route.
 
 #### Requirements
-A middleware must be callable and take three arguments. The Request object, Response object and NextFunction object.
+A middleware should be a class that inherits from the Middleware class and it must implement an async call method. The call method will receive a Request, Response and NextFunction. If the NextFunction is called the call will continue to the next middleware or route handler. If not called, we wont continue. The next function must be awaited.
 
 ```python
-from birchrest import Request, Response, NextFunction
+from birchrest.http import Request, Response, Middleware
+from birchrest.types import NextFunction
+from birchrest.exceptions import ApiError
 
-def my_middleware(req: Request, res: Response, next: NextFunction):
-    if something:
-        next()
-    else:
-        pass
-        # By not calling next, we wont continue the callchain. 
-```
-
-If you want to keep a state in your middleware, you can create a class that implements the call method.
-
-```python
-from birchrest import Request, Response, NextFunction, ApiError
-
-class MyMiddleware:
+class MyMiddleware(Middleware):
     def __init__(self, state: int):
         self.state = state
 
-    def __call__(self, req: Request, res: Response, next: NextFunction):
+    async def __call__(self, req: Request, res: Response, next: NextFunction):
         if self.state:
-            next()
+            await next()
         else:
             raise ApiError.BAD_REQUEST()
 ```
-### Built-in Middlewarea
-Birchrest comes with several built-in middleware options that help manage common use cases, such as request logging, rate limiting or CORS support. These can be easily added to your API with minimal configuration.
+
+It is possible to execute things after next is called aswell, this means you can use middlewares for postprocessing aswell.
+### Built-in Middlewares
+Birchrest comes with several built-in middleware options that help manage common use cases, such as request logging, rate limiting or CORS support. These can be easily added to your API with minimal configuration. These can be imported from the middlewares module.
+
+```python
+from birchrest.middlewares import Cors, Logger, RateLimiter
+```
 ## Data Validation
 Data validation in Birchrest is supported via Python data classes. This allows for strict validation of request data (body, queries, and params) to ensure that all incoming data adheres to the expected structure.
 
@@ -156,7 +151,7 @@ Example:
 ```python
 @post("user")
 @body(User)
-def create_user(self, req: Request, res: Response):
+async def create_user(self, req: Request, res: Response):
     # It is safe to pass the body directly since we have already validated it.
     save_to_database(request.body)
     return res.status(201).send()
@@ -181,9 +176,35 @@ Validating queries and params is done in the same way, just use the @queries and
 ## Authentication
 Birchrest makes it easy to protect your API routes with authentication mechanisms. It allows you to define custom authentication handlers and easily mark routes as protected, ensuring that only authenticated requests are allowed access.
 ### Custom Auth Handlers
-You can define your own authentication handler to manage how users are authenticated in your system. Once defined, Birchrest will handle the integration with the API.
+You can define your own authentication handler to manage how users are authenticated in your system. Once defined, Birchrest will handle the integration with the API. If your route handler returns a falsy value or raises an Exception, the execution will be stopped. Otherwise the return value from this function will be put under the user property in the request object. It is therefore possible to put information there that tells you which user sent a request.
 ### Protecting Routes
 You can easily protect individual routes or entire controllers by marking them as requiring authentication. Birchrest will automatically handle unauthorized access by returning predefined error messages.
+
+```python
+from birchrest import BirchRest, Controller
+from birchrest.decorators import get, controller
+from birchrest.http import Request, Response
+
+async def auth_handler(req: Request, res: Response):
+    if req.headers.get("Authorization"):
+        # Do your logic
+        return { "id": 1 }
+    
+    return False
+
+@controller("api")
+class MyController(Controller):
+
+    @protected()
+    @get("protected")
+    async def hello(self, req: Request, res: Response):
+        return res.send({"message": "Hello from the app!"})
+
+app = BirchRest()
+app.register(MyController)
+app.serve()
+
+```
 
 ## Error Handling
 By default, Birchrest will respond will standardized error messages with as good information as possible. For example, 404 when route doesnt exist or 400 if body validation fails. If any unhandled exceptions occurs in the controllers 500 will be returned.
@@ -191,7 +212,7 @@ By default, Birchrest will respond will standardized error messages with as good
 ### ApiError
 The error handling is done via the class ApiError which have static methods to raise exceptions corresponding to HTTP status codes. For example, with this code:
 ```python
-from birchrest import ApiError
+from birchrest.exceptions import ApiError
 
 raise ApiError.NOT_FOUND()
 ```
