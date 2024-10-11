@@ -1,6 +1,7 @@
 import re
 from typing import Any, Dict, List, Optional, Tuple
-
+import asyncio
+import inspect
 from birchrest.exceptions.api_error import ApiError
 from birchrest.routes.validator import parse_data_class
 from ..types import RouteHandler, MiddlewareFunction, AuthHandlerFunction
@@ -74,7 +75,6 @@ class Route:
 
         new_prefix = prefix.rstrip("/")
         self.path = f"{new_prefix}/{self.path.lstrip('/')}"
-        print(self.path)
         self.middlewares = middlewares + self.middlewares
 
         path_regex = re.sub(r":(\w+)", r"(?P<\1>[^/]+)", self.path)
@@ -84,7 +84,7 @@ class Route:
         self.requires_params = len(self.param_names) > 0
         self.regex = re.compile(path_regex)
 
-    def __call__(self, req: Request, res: Response) -> Any:
+    async def __call__(self, req: Request, res: Response) -> Any:
         """
         Executes the route's middleware stack and handler function when the route is matched.
 
@@ -103,12 +103,11 @@ class Route:
                 raise MissingAuthHandlerError()
 
             try:
-                user_data = self.auth_handler(req, res)
+                auth_result = await self.auth_handler(req, res)
 
-                if not user_data:
+                if not auth_result:
                     raise ApiError.UNAUTHORIZED()
-
-                req.user = user_data
+                req.user = auth_result
             except Exception as e:
                 raise ApiError.UNAUTHORIZED() from e
 
@@ -143,14 +142,14 @@ class Route:
             except ValueError as e:
                 raise ApiError.BAD_REQUEST(f"Param validation failed: {str(e)}")
 
-        def run_middlewares(index: int) -> Any:
+        async def run_middlewares(index: int) -> None:
             if index < len(self.middlewares):
                 middleware = self.middlewares[index]
-                return middleware(req, res, lambda: run_middlewares(index + 1))
+                await middleware(req, res, lambda: run_middlewares(index + 1))
             else:
-                return self.func(req, res)
+                await self.func(req, res)
 
-        return run_middlewares(0)
+        return await run_middlewares(0)
 
     def match(self, request_path: str) -> Optional[Dict[str, str]]:
         """

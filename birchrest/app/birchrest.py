@@ -13,7 +13,8 @@ Modules imported include:
 - `version`: Holds the current version of the BirchRest framework.
 """
 
-from typing import Dict, List, Optional, Type
+from typing import Awaitable, Dict, List, Optional, Type
+import asyncio
 
 from birchrest.exceptions.api_error import ApiError
 from birchrest.http.server import Server
@@ -111,59 +112,44 @@ class BirchRest:
         print(get_artwork(host, port, __version__))
 
         try:
-            server.start()
+            asyncio.run(server.start())
         except KeyboardInterrupt:
             print("\nServer shutdown initiated by user. Exiting...")
         finally:
-            server.shutdown()
+            asyncio.run(server.shutdown())
             print("Server stopped.")
 
-    def handle_request(self, request: Request) -> Response:
+    async def handle_request(self, request: Request) -> Response:
         """
         Handles incoming HTTP requests by matching them to routes, processing middleware,
-        and handling exceptions.
-
-        Args:
-            request (Request): The incoming HTTP request.
-
-        Returns:
-            Response: The HTTP response generated after processing the request.
+        and handling exceptions asynchronously.
         """
-
         response = Response(request.correlation_id)
 
         try:
-            return self._handle_request(request, response)
+            return await self._handle_request(request, response)
         except ApiError as e:
             if self.error_handler:
-                self.error_handler(request, response, e)
+                if asyncio.iscoroutinefunction(self.error_handler):
+                    await self.error_handler(request, response, e)
+                else:
+                    self.error_handler(request, response, e)
                 return response
 
             return e.convert_to_response(response)
         except Exception as e:
             if self.error_handler:
-                self.error_handler(request, response, e)
+                if asyncio.iscoroutinefunction(self.error_handler):
+                    await self.error_handler(request, response, e)
+                else:
+                    self.error_handler(request, response, e)
                 return response
 
             return response.status(500).send(
                 {"error": {"status": 500, "code": "Internal Server Error"}}
             )
 
-    def _handle_request(self, request: Request, response: Response) -> Response:
-        """
-        Core logic for handling requests, including matching routes and applying middleware.
-
-        Args:
-            request (Request): The HTTP request object.
-            response (Response): The HTTP response object.
-
-        Raises:
-            ApiError: If the route is not found, method is not allowed, or required parameters are missing.
-
-        Returns:
-            Response: The finalized HTTP response after routing and processing.
-        """
-
+    async def _handle_request(self, request: Request, response: Response) -> Response:
         matched_route: Optional[Route] = None
         path_params: Optional[Dict[str, str]] = {}
 
@@ -184,13 +170,9 @@ class BirchRest:
             if matched_route.requires_params and not path_params:
                 raise ApiError.BAD_REQUEST("400 Bad Request - Missing Parameters")
             else:
-
                 request.params = path_params if path_params is not None else {}
-
-                matched_route(request, response)
-
+                await matched_route(request, response)
         else:
-
             if route_exists:
                 raise ApiError.METHOD_NOT_ALLOWED()
             else:

@@ -2,7 +2,7 @@
 
 import unittest
 from dataclasses import dataclass, field
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, AsyncMock
 from birchrest.routes.route import Route
 from birchrest.http import Request, Response
 from birchrest.exceptions.api_error import ApiError
@@ -21,15 +21,15 @@ class User:
     age: int = field(metadata={"min_value": 0, "max_value": 120})
     address: Address
 
-class TestRoute(unittest.TestCase):
+class TestRoute(unittest.IsolatedAsyncioTestCase):
 
     def setUp(self):
         """Set up mocks for the tests."""
-        self.mock_func = Mock()  # Mock route handler function
+        self.mock_func = AsyncMock()
         self.mock_request = Mock(spec=Request)
         self.mock_response = Mock(spec=Response)
-        self.mock_auth_handler = Mock()
-        self.middlewares = [Mock()]
+        self.mock_auth_handler = AsyncMock()
+        self.middlewares = [AsyncMock()]
 
     def test_initialization(self):
         """Test that Route initializes correctly."""
@@ -55,42 +55,42 @@ class TestRoute(unittest.TestCase):
         self.assertTrue(route.requires_params)
         self.assertIsNotNone(route.regex)
         
-    def test_call_route_with_middlewares(self):
+    async def test_call_route_with_middlewares(self):
         """Test that the route runs middlewares and calls the handler."""
-        def sample_middleware(req, res, next_func):
-            next_func()
+        async def sample_middleware(req, res, next_func):
+            await next_func()
 
-        self.middlewares = [Mock(side_effect=sample_middleware)]
+        self.middlewares = [AsyncMock(side_effect=sample_middleware)]
         route = Route(self.mock_func, "GET", "/test", self.middlewares, False, None, None, None)
-        route(self.mock_request, self.mock_response)
+        await route(self.mock_request, self.mock_response)
         self.middlewares[0].assert_called_once()
         self.mock_func.assert_called_once_with(self.mock_request, self.mock_response)
 
-    def test_call_route_with_protection_and_auth(self):
+    async def test_call_route_with_protection_and_auth(self):
         """Test that the route checks authentication for protected routes."""
         
-        def sample_middleware(req, res, next_func):
-            next_func()
+        async def sample_middleware(req, res, next_func):
+            await next_func()
 
-        self.middlewares = [Mock(side_effect=sample_middleware)]
+        self.middlewares = [AsyncMock(side_effect=sample_middleware)]
 
         route = Route(self.mock_func, "GET", "/test", self.middlewares, True, None, None, None)
         route.register_auth_handler(self.mock_auth_handler)
         self.mock_auth_handler.return_value = {"user_id": 1}
 
-        route(self.mock_request, self.mock_response)
+        await route(self.mock_request, self.mock_response)
 
         self.mock_auth_handler.assert_called_once_with(self.mock_request, self.mock_response)
         self.assertEqual(self.mock_request.user, {"user_id": 1})
         self.mock_func.assert_called_once_with(self.mock_request, self.mock_response)
         
-    def test_call_route_with_validation(self):
+    async def test_call_route_with_validation(self):
         """Test that body, queries, and params are validated using dataclasses."""
         
-        def sample_middleware(req, res, next_func):
-            next_func()
+        async def sample_middleware(req, res, next_func):
+            await next_func()
 
-        self.middlewares = [Mock(side_effect=sample_middleware)]
+        self.middlewares = [AsyncMock(side_effect=sample_middleware)]
 
         route = Route(self.mock_func, "POST", "/test", self.middlewares, False, User, None, None)
 
@@ -109,19 +109,19 @@ class TestRoute(unittest.TestCase):
                 {"username": "testuser", "email": "test@example.com", "age": 30, "address": {"street": "123 Main St", "city": "New York"}}
             ]
 
-            route(self.mock_request, self.mock_response)
+            await route(self.mock_request, self.mock_response)
 
             mock_parse.assert_any_call(User, self.mock_request.body)
 
             self.mock_func.assert_called_once_with(self.mock_request, self.mock_response)
 
 
-    def test_call_route_without_auth_handler_raises_error(self):
+    async def test_call_route_without_auth_handler_raises_error(self):
         """Test that a MissingAuthHandlerError is raised when no auth handler is registered."""
         route = Route(self.mock_func, "GET", "/test", self.middlewares, True, None, None, None)
 
         with self.assertRaises(MissingAuthHandlerError):
-            route(self.mock_request, self.mock_response)
+            await route(self.mock_request, self.mock_response)
 
     def test_match(self):
         """Test that match correctly matches paths and extracts parameters."""

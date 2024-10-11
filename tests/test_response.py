@@ -1,7 +1,7 @@
 # type: ignore
 
 import unittest
-from birchrest import Response, HttpStatus
+from birchrest.http import Response, HttpStatus
 import json
 
 

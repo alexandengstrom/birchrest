@@ -2,9 +2,10 @@ from typing import List, Callable
 from ..http import Request
 from ..http import Response
 from ..types import NextFunction
+from .middleware import Middleware
 
 
-class Cors:
+class Cors(Middleware):
     """
     Middleware for handling Cross-Origin Resource Sharing (CORS) in HTTP requests.
 
@@ -57,14 +58,14 @@ class Cors:
         self.allow_credentials = allow_credentials
         self.max_age = max_age
 
-    def __call__(self, req: Request, res: Response, next: NextFunction) -> None:
+    async def __call__(self, req: Request, res: Response, next: NextFunction) -> None:
         origin = req.get_header("Origin") or "*"
 
         if req.method == "OPTIONS":
             self._handle_preflight(origin, res)
         else:
             self._add_cors_headers(origin, res)
-            next()
+            await next()
 
     def _handle_preflight(self, origin: str, res: Response) -> None:
         """

@@ -19,7 +19,7 @@ class MockController(Controller):
         return []
 
 
-class TestBirchRest(unittest.TestCase):
+class TestBirchRest(unittest.IsolatedAsyncioTestCase):
 
     def setUp(self):
         """Setup the BirchRest instance before each test."""
@@ -57,24 +57,24 @@ class TestBirchRest(unittest.TestCase):
 
     @patch('birchrest.http.Request')
     @patch('birchrest.http.Response')
-    def test_handle_request_valid(self, MockResponse, MockRequest):
+    async def test_handle_request_valid(self, MockResponse, MockRequest):
         """Test handling a valid request."""
         mock_request = MockRequest()
         mock_response = MockResponse()
 
         # Mock the internal _handle_request method to return the response directly
         with patch.object(self.birch_rest, '_handle_request', return_value=mock_response):
-            response = self.birch_rest.handle_request(mock_request)
+            response = await self.birch_rest.handle_request(mock_request)
             self.assertEqual(response, mock_response)
 
     @patch('birchrest.http.Request')
-    def test_handle_request_api_error(self, MockRequest):
+    async def test_handle_request_api_error(self, MockRequest):
         """Test handling an API error."""
         mock_request = MockRequest()
         mock_request.correlation_id = 'test-correlation-id'
 
         with patch.object(self.birch_rest, '_handle_request', side_effect=ApiError.NOT_FOUND()):
-            response = self.birch_rest.handle_request(mock_request)
+            response = await self.birch_rest.handle_request(mock_request)
 
 
             expected_payload = {
@@ -91,13 +91,13 @@ class TestBirchRest(unittest.TestCase):
 
 
     @patch('birchrest.http.Request')
-    def test_handle_request_internal_error(self, MockRequest):
+    async def test_handle_request_internal_error(self, MockRequest):
         """Test handling an internal server error."""
         mock_request = MockRequest()
 
 
         with patch.object(self.birch_rest, '_handle_request', side_effect=Exception("Unexpected error")):
-            response = self.birch_rest.handle_request(mock_request)
+            response = await self.birch_rest.handle_request(mock_request)
             self.assertEqual(response.body["error"]["status"], 500)
             self.assertEqual(response.body["error"]["code"], "Internal Server Error")
 

@@ -4,9 +4,10 @@ from typing import Callable, Dict, Any
 from ..http import Request
 from ..http import Response
 from ..types import NextFunction
+from .middleware import Middleware
 
 
-class RateLimiter:
+class RateLimiter(Middleware):
     """
     A rate-limiting middleware that limits the number of requests per
     client (IP or token) within a specified time window.
@@ -37,7 +38,7 @@ class RateLimiter:
         ]
         client_log["request_count"] = len(client_log["timestamps"])
 
-    def __call__(self, req: Request, res: Response, next: NextFunction) -> None:
+    async def __call__(self, req: Request, res: Response, next: NextFunction) -> None:
         """
         Middleware to handle rate limiting for each incoming request.
         :param req: The HTTP request object
@@ -55,4 +56,4 @@ class RateLimiter:
         else:
             self.request_log[client_id]["timestamps"].append(time.time())
             self.request_log[client_id]["request_count"] += 1
-            next()
+            await next()
