@@ -7,7 +7,7 @@
 ![Linting](https://github.com/alexandengstrom/birchrest/actions/workflows/linting.yml/badge.svg)
 
 
-**BirchRest** is a simple, lightweight framework for setting up RESTful APIs with minimal configuration. It is designed to be intuitive and flexible, allowing developers to quickly create APIs without heavy dependencies.
+**BirchRest** is a simple, lightweight framework for setting up RESTful APIs with minimal configuration. It is designed to be intuitive and flexible.
 
 Full documentation is available here:
 https://alexandengstrom.github.io/birchrest
