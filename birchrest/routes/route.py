@@ -74,7 +74,7 @@ class Route:
         """
 
         new_prefix = prefix.rstrip("/")
-        self.path = f"{new_prefix}/{self.path.lstrip('/')}"
+        self.path = f"{new_prefix}/{self.path.lstrip('/')}".rstrip("/")
         self.middlewares = middlewares + self.middlewares
 
         path_regex = re.sub(r":(\w+)", r"(?P<\1>[^/]+)", self.path)
@@ -137,7 +137,7 @@ class Route:
             try:
                 parsed_data = parse_data_class(self.validate_params, req.params)
 
-                req.queries = parsed_data
+                req.params = parsed_data
 
             except ValueError as e:
                 raise ApiError.BAD_REQUEST(f"Param validation failed: {str(e)}")

@@ -1,6 +1,7 @@
 from typing import Type, TypeVar, Callable
+from ..routes import Controller
 
-T = TypeVar("T", bound=type)
+T = TypeVar("T", bound="Controller")
 
 
 def controller(base_path: str = "") -> Callable[[Type[T]], Type[T]]:

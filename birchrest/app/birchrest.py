@@ -165,8 +165,6 @@ class BirchRest:
         route_exists = False
 
         for route in self.routes:
-            print(request.clean_path)
-            print(route.path)
             params = route.match(request.clean_path)
 
             if params is not None:
