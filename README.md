@@ -5,7 +5,8 @@
 ![Unit Tests](https://github.com/alexandengstrom/birchrest/actions/workflows/unit_test.yml/badge.svg)
 ![Type Checking](https://github.com/alexandengstrom/birchrest/actions/workflows/type_checking.yml/badge.svg)
 ![Linting](https://github.com/alexandengstrom/birchrest/actions/workflows/linting.yml/badge.svg)
-
+[![Downloads](https://img.shields.io/pypi/dm/your-package)](https://pypi.org/project/your-package/)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://alexandengstrom.github.io/birchrest/)
 
 **BirchRest** is a simple, lightweight framework for setting up RESTful APIs with minimal configuration. It is designed to be intuitive and flexible.
 
