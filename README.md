@@ -23,7 +23,7 @@ pip install birchrest
 ```
 
 ## Table of Contents
-1. [Quickstart](#quickstart)
+1. [Introduction](#introduction)
 2. [Defining Controllers](#defining-controllers)
    - [Key Concepts](#key-concepts)
    - [Defining Endpoints](#defining-endpoints)
@@ -41,11 +41,11 @@ pip install birchrest
    - [Custom Error Handler](#custom-error-handler)
 7. [Unit Testing](#unit-testing)
 
-## Quickstart
-This is an example of how to quickly setup an API. This will create one route with the path /api/hello.
 
+## Introduction
+BirchRest is designed around a controller-based architecture. At runtime, the framework automatically constructs the API from your predefined controllers. For this to work, BirchRest needs access to all the controllers you define. This is achieved by creating a file named __birch__.py, which must import all the controllers you intend to use in your project.
 ```python
-from birchrest import BirchRest, Controller
+from birchrest import Controller
 from birchrest.decorators import get, controller
 from birchrest.http import Request, Response
 
@@ -55,13 +55,14 @@ class MyController(Controller):
     @get("hello")
     async def hello(self, req: Request, res: Response):
         return res.send({"message": "Hello from the app!"})
+```
+To start the server, instantiate the BirchRest class and call its serve method.
+```python
+from birchrest import BirchRest
 
 app = BirchRest()
-app.register(MyController)
 app.serve()
-
 ```
-
 ## Defining Controllers
 In Birchrest, controllers are the building blocks of your API. Each controller defines multiple endpoints, and controllers can be nested to create hierarchical routes.
 ### Key Concepts
