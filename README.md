@@ -9,7 +9,7 @@
 [![Downloads](https://img.shields.io/pypi/dm/birchrest)](https://pypi.org/project/birchrest/)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://alexandengstrom.github.io/birchrest/)
 ![GitHub last commit](https://img.shields.io/github/last-commit/alexandengstrom/birchrest)
-![Lines of Code](https://img.shields.io/tokei/lines/github/alexandengstrom/birchrest)
+![Repo Size](https://img.shields.io/github/repo-size/alexandengstrom/birchrest)
 
 **BirchRest** is a simple, lightweight framework for setting up RESTful APIs with minimal configuration. It is designed to be intuitive and flexible.
 
