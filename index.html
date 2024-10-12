@@ -129,7 +129,7 @@ https://alexandengstrom.github.io/birchrest</p>
 <section id="table-of-contents">
 <h3>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h3>
 <ol class="arabic simple">
-<li><p><a class="reference internal" href="#quickstart"><span class="xref myst">Quickstart</span></a></p></li>
+<li><p><a class="reference internal" href="#introduction"><span class="xref myst">Introduction</span></a></p></li>
 <li><p><a class="reference internal" href="#defining-controllers"><span class="xref myst">Defining Controllers</span></a></p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#key-concepts"><span class="xref myst">Key Concepts</span></a></p></li>
@@ -163,10 +163,10 @@ https://alexandengstrom.github.io/birchrest</p>
 <li><p><a class="reference internal" href="#unit-testing"><span class="xref myst">Unit Testing</span></a></p></li>
 </ol>
 </section>
-<section id="quickstart">
-<h3>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h3>
-<p>This is an example of how to quickly setup an API. This will create one route with the path /api/hello.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span><span class="p">,</span> <span class="n">Controller</span>
+<section id="introduction">
+<h3>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h3>
+<p>BirchRest is designed around a controller-based architecture. At runtime, the framework automatically constructs the API from your predefined controllers. For this to work, BirchRest needs access to all the controllers you define. This is achieved by creating a file named <strong>birch</strong>.py, which must import all the controllers you intend to use in your project.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">Controller</span>
 <span class="kn">from</span> <span class="nn">birchrest.decorators</span> <span class="kn">import</span> <span class="n">get</span><span class="p">,</span> <span class="n">controller</span>
 <span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 
@@ -176,11 +176,13 @@ https://alexandengstrom.github.io/birchrest</p>
     <span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello from the app!&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>To start the server, instantiate the BirchRest class and call its serve method.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span>
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">BirchRest</span><span class="p">()</span>
-<span class="n">app</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MyController</span><span class="p">)</span>
 <span class="n">app</span><span class="o">.</span><span class="n">serve</span><span class="p">()</span>
-
 </pre></div>
 </div>
 </section>
