@@ -56,7 +56,8 @@ class BirchRest:
         self.auth_handler: Optional[AuthHandlerFunction] = None
         self.error_handler: Optional[ErrorHandler] = None
         self._discover_controllers()
-        os.environ["birchrest_log_level"] = log_level
+        if os.getenv("birchrest_log_level", "").lower() != "test":
+            os.environ["birchrest_log_level"] = log_level
 
     def register(self, *controllers: Type[Controller]) -> None:
         """
@@ -213,13 +214,11 @@ class BirchRest:
 
     def _warn_about_unhandled_exception(self, e: Exception) -> None:
         init(autoreset=True)
-        print(f"{Fore.RED}{Style.BRIGHT}UNHANDLED EXCEPTION!{Style.RESET_ALL}")
-        print(f"{Fore.RED}{Style.BRIGHT}Exception type:{Style.RESET_ALL} {Fore.RED}{type(e).__name__}{Style.RESET_ALL}")
-        print(f"{Fore.RED}{Style.BRIGHT}Exception message:{Style.RESET_ALL} {Fore.RED}{str(e)}{Style.RESET_ALL}")
-        print(f"{Fore.YELLOW}{Style.BRIGHT}Traceback information:{Style.RESET_ALL}")
-        traceback_str = ''.join(traceback.format_tb(e.__traceback__))
-        print(f"{Fore.YELLOW}{traceback_str}{Style.RESET_ALL}")
-        print(f"{Fore.GREEN}{Style.BRIGHT}A 500 Internal Server Error response has been automatically sent to the user.{Style.RESET_ALL}")
+        Logger.error("Unhandled Exception! Status code 500 was sent to the user", {
+            "Exception Type": type(e).__name__,
+            "Exception Message": str(e),
+            "Traceback": ''.join(traceback.format_tb(e.__traceback__))
+        })
         
     def _discover_controllers(self) -> None:
         """

@@ -31,20 +31,18 @@ class TestRateLimiter(unittest.IsolatedAsyncioTestCase):
 
         self.rate_limiter._clean_old_requests(client_id)
 
-        # After cleaning, only the second request should remain
         self.assertEqual(self.rate_limiter.request_log[client_id]["request_count"], 1)
 
     def test_all_requests_cleaned(self):
         """Test that all requests are cleaned if they are outside the time window."""
         client_id = '127.0.0.1'
         self.rate_limiter.request_log[client_id] = {
-            "timestamps": [time.time() - 20, time.time() - 15],  # All outside the window
+            "timestamps": [time.time() - 20, time.time() - 15],
             "request_count": 2
         }
 
         self.rate_limiter._clean_old_requests(client_id)
 
-        # After cleaning, no requests should remain
         self.assertEqual(self.rate_limiter.request_log[client_id]["request_count"], 0)
 
     @patch('time.time', return_value=1000.0)
@@ -56,10 +54,8 @@ class TestRateLimiter(unittest.IsolatedAsyncioTestCase):
         mock_response = Mock(spec=Response)
         mock_next = AsyncMock(spec=NextFunction)
 
-        # Make a first request
         await self.rate_limiter(mock_request, mock_response, mock_next)
 
-        # Ensure next function was called, meaning request was allowed
         mock_next.assert_called_once()
         self.assertEqual(self.rate_limiter.request_log['127.0.0.1']["request_count"], 1)
 

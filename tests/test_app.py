@@ -12,11 +12,12 @@ import json
 
 class MockController(Controller):
     """A mock controller for testing purposes."""
-    def resolve_paths(self, middlewares=None):
+    def resolve_paths(self, prefix="", middlewares=None):
         pass
 
     def collect_routes(self):
         return []
+
 
 
 class TestBirchRest(unittest.IsolatedAsyncioTestCase):
@@ -125,9 +126,12 @@ class TestBirchRest(unittest.IsolatedAsyncioTestCase):
         mock_route = Mock()
         mock_controller.collect_routes = Mock(return_value=[mock_route])
 
+        mock_controller.resolve_paths = Mock(side_effect=lambda prefix="", middlewares=None: None)
+
         self.birch_rest._build_api()
 
         mock_route.register_auth_handler.assert_called_with(mock_auth_handler)
+
 
 if __name__ == '__main__':
     unittest.main()

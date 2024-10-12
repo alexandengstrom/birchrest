@@ -36,11 +36,13 @@ class Logger:
         """
         Determine if the given log level should be logged based on the environment log level setting.
         """
+
         convert = {
             "debug": 4,
             "info": 3,
             "warning": 2,
-            "error": 1
+            "error": 1,
+            "test": 0
         }
         
         log_level = os.getenv("birchrest_log_level", "info").lower()
