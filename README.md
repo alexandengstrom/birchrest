@@ -6,7 +6,7 @@
 ![Type Checking](https://github.com/alexandengstrom/birchrest/actions/workflows/type_checking.yml/badge.svg)
 ![Linting](https://github.com/alexandengstrom/birchrest/actions/workflows/linting.yml/badge.svg)
 [![codecov](https://codecov.io/gh/alexandengstrom/birchrest/branch/main/graph/badge.svg)](https://codecov.io/gh/alexandengstrom/birchrest)
-[![Downloads](https://img.shields.io/pypi/dm/your-package)](https://pypi.org/project/your-package/)
+[![Downloads](https://img.shields.io/pypi/dm/birchrest)](https://pypi.org/project/birchrest/)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://alexandengstrom.github.io/birchrest/)
 
 **BirchRest** is a simple, lightweight framework for setting up RESTful APIs with minimal configuration. It is designed to be intuitive and flexible.
