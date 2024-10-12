@@ -18,6 +18,7 @@ import asyncio
 
 from birchrest.exceptions.api_error import ApiError
 from birchrest.http.server import Server
+from birchrest.utils import Logger
 from birchrest.routes import Route, Controller
 from birchrest.utils.artwork import get_artwork
 from birchrest.version import __version__
@@ -26,6 +27,9 @@ from ..exceptions import InvalidControllerRegistration
 from ..types import MiddlewareFunction, AuthHandlerFunction, ErrorHandler
 from colorama import Fore, Style, init
 import traceback
+import os
+import importlib.util
+import sys
 
 
 class BirchRest:
@@ -41,7 +45,7 @@ class BirchRest:
         error_handler (Optional[ErrorHandler]): Error handler function for handling exceptions.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, log_level: str = "debug") -> None:
         """
         Initializes the BirchRest application with empty lists of controllers,
         global middleware, and optional handlers for authentication and error handling.
@@ -51,6 +55,8 @@ class BirchRest:
         self.routes: List[Route] = []
         self.auth_handler: Optional[AuthHandlerFunction] = None
         self.error_handler: Optional[ErrorHandler] = None
+        self._discover_controllers()
+        os.environ["birchrest_log_level"] = log_level
 
     def register(self, *controllers: Type[Controller]) -> None:
         """
@@ -116,10 +122,10 @@ class BirchRest:
         try:
             asyncio.run(server.start())
         except KeyboardInterrupt:
-            print("\nServer shutdown initiated by user. Exiting...")
+            Logger.info("\nServer shutdown initiated by user. Exiting...")
         finally:
             asyncio.run(server.shutdown())
-            print("Server stopped.")
+            Logger.info("Server stopped.")
 
     async def handle_request(self, request: Request) -> Response:
         """
@@ -194,6 +200,8 @@ class BirchRest:
         Constructs the API by registering all routes from the controllers and applying
         global middleware and authentication handlers.
         """
+        
+        self.controllers.append(Controller())
 
         for controller in self.controllers:
             controller.resolve_paths(middlewares=self.global_middlewares)
@@ -212,3 +220,39 @@ class BirchRest:
         traceback_str = ''.join(traceback.format_tb(e.__traceback__))
         print(f"{Fore.YELLOW}{traceback_str}{Style.RESET_ALL}")
         print(f"{Fore.GREEN}{Style.BRIGHT}A 500 Internal Server Error response has been automatically sent to the user.{Style.RESET_ALL}")
+        
+    def _discover_controllers(self) -> None:
+        """
+        Searches for the __birch__.py file starting from the current working directory and imports it, 
+        including all controllers and other imports from that file.
+        """
+        
+        current_dir = os.getcwd()
+
+        birch_files = []
+        for root, _, files in os.walk(current_dir):
+            if "__birch__.py" in files:
+                birch_files.append(os.path.join(root, "__birch__.py"))
+
+        if not birch_files:
+            raise FileNotFoundError("No __birch__.py file found in the current directory or subdirectories.")
+
+        for birch_file in birch_files:
+            self._import_birch_file(birch_file)
+
+    def _import_birch_file(self, birch_file: str) -> None:
+        """
+        Imports a given __birch__.py file.
+        
+        Args:
+            birch_file (str): The path to the __birch__.py file.
+        """
+        module_name = os.path.splitext(os.path.basename(birch_file))[0]
+        spec = importlib.util.spec_from_file_location(module_name, birch_file)
+        if spec is None or spec.loader is None:
+            raise ImportError(f"Could not load the module from {birch_file}")
+
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[module_name] = module
+        spec.loader.exec_module(module)
+        Logger.debug(f"Imported: {module_name} from {birch_file}")

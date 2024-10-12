@@ -7,6 +7,7 @@ from birchrest.routes.validator import parse_data_class
 from ..types import RouteHandler, MiddlewareFunction, AuthHandlerFunction
 from ..http import Request, Response
 from ..exceptions import MissingAuthHandlerError
+from ..utils import Logger
 
 
 class Route:
@@ -75,6 +76,9 @@ class Route:
 
         new_prefix = prefix.rstrip("/")
         self.path = f"{new_prefix}/{self.path.lstrip('/')}".rstrip("/")
+        
+        Logger.debug(f"Generated route {self.path}")
+        
         self.middlewares = middlewares + self.middlewares
 
         path_regex = re.sub(r":(\w+)", r"(?P<\1>[^/]+)", self.path)

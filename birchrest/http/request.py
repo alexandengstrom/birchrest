@@ -57,13 +57,13 @@ class Request:
         self.path: str = path
         self.version: str = version
         self.headers: Dict[str, str] = headers
-        self.body: Optional[Any] = json.loads(body) if body else None
+        self.body: Any = json.loads(body) if body else None
         self.client_address: str = client_address
-        self.params: Optional[Any] = {}
+        self.params: Any = {}
         self.correlation_id: str = str(uuid.uuid4())
         self.user: Optional[Any] = None
         self.received = datetime.now()
-        self.queries: Optional[Any] = {}
+        self.queries: Any = {}
 
         parsed_url = urlparse(self.path)
         parsed_queries: Dict[str, List[str]] = parse_qs(parsed_url.query)
