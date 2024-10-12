@@ -31,4 +31,4 @@ jobs:
           coverage report --fail-under=80
 
       - name: Upload coverage to Codecov
-        run: codecov
+        run: codecov --token=${{ secrets.CODECOV_TOKEN }}
