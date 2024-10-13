@@ -120,20 +120,6 @@ controllers (List[Controller]): The list of subcontrollers attached to this cont
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="birchrest.routes.controller.Controller.attach">
-<span class="sig-name descname"><span class="pre">attach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">controllers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#birchrest.routes.controller.Controller" title="birchrest.routes.controller.Controller"><span class="pre">Controller</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/routes/controller.html#Controller.attach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.routes.controller.Controller.attach" title="Link to this definition"></a></dt>
-<dd><p>Attach one or more subcontrollers to this controller.</p>
-<p>Subcontrollers are added as children to this controller, allowing
-a hierarchy of controllers. Routes from subcontrollers will be collected
-and resolved relative to the base path of this controller.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>controllers</strong> – One or more subcontroller classes to attach.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="birchrest.routes.controller.Controller.collect_routes">
 <span class="sig-name descname"><span class="pre">collect_routes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#birchrest.routes.route.Route" title="birchrest.routes.route.Route"><span class="pre">Route</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/routes/controller.html#Controller.collect_routes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.routes.controller.Controller.collect_routes" title="Link to this definition"></a></dt>
 <dd><p>Collect and yield all routes defined in this controller and its subcontrollers.</p>
@@ -317,20 +303,6 @@ routes (List[Route]): The list of routes collected from the controller’s metho
 controllers (List[Controller]): The list of subcontrollers attached to this controller.</p>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.routes.Controller.attach">
-<span class="sig-name descname"><span class="pre">attach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">controllers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#birchrest.routes.controller.Controller" title="birchrest.routes.controller.Controller"><span class="pre">Controller</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/routes/controller.html#Controller.attach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.routes.Controller.attach" title="Link to this definition"></a></dt>
-<dd><p>Attach one or more subcontrollers to this controller.</p>
-<p>Subcontrollers are added as children to this controller, allowing
-a hierarchy of controllers. Routes from subcontrollers will be collected
-and resolved relative to the base path of this controller.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>controllers</strong> – One or more subcontroller classes to attach.</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="birchrest.routes.Controller.collect_routes">
 <span class="sig-name descname"><span class="pre">collect_routes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#birchrest.routes.route.Route" title="birchrest.routes.route.Route"><span class="pre">Route</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/routes/controller.html#Controller.collect_routes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.routes.Controller.collect_routes" title="Link to this definition"></a></dt>

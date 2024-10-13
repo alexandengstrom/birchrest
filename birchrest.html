@@ -440,7 +440,6 @@
 <li class="toctree-l2"><a class="reference internal" href="birchrest.routes.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="birchrest.routes.html#module-birchrest.routes.controller">birchrest.routes.controller module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.routes.html#birchrest.routes.controller.Controller"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="birchrest.routes.html#birchrest.routes.controller.Controller.attach"><code class="docutils literal notranslate"><span class="pre">Controller.attach()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="birchrest.routes.html#birchrest.routes.controller.Controller.collect_routes"><code class="docutils literal notranslate"><span class="pre">Controller.collect_routes()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="birchrest.routes.html#birchrest.routes.controller.Controller.resolve_paths"><code class="docutils literal notranslate"><span class="pre">Controller.resolve_paths()</span></code></a></li>
 </ul>
@@ -464,7 +463,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="birchrest.routes.html#module-birchrest.routes">Module contents</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.routes.html#birchrest.routes.Controller"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="birchrest.routes.html#birchrest.routes.Controller.attach"><code class="docutils literal notranslate"><span class="pre">Controller.attach()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="birchrest.routes.html#birchrest.routes.Controller.collect_routes"><code class="docutils literal notranslate"><span class="pre">Controller.collect_routes()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="birchrest.routes.html#birchrest.routes.Controller.resolve_paths"><code class="docutils literal notranslate"><span class="pre">Controller.resolve_paths()</span></code></a></li>
 </ul>
@@ -525,6 +523,13 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="birchrest.utils.html#module-birchrest.utils">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.utils.html#birchrest.utils.Logger"><code class="docutils literal notranslate"><span class="pre">Logger</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="birchrest.utils.html#birchrest.utils.Logger.debug"><code class="docutils literal notranslate"><span class="pre">Logger.debug()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="birchrest.utils.html#birchrest.utils.Logger.error"><code class="docutils literal notranslate"><span class="pre">Logger.error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="birchrest.utils.html#birchrest.utils.Logger.info"><code class="docutils literal notranslate"><span class="pre">Logger.info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="birchrest.utils.html#birchrest.utils.Logger.warning"><code class="docutils literal notranslate"><span class="pre">Logger.warning()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.utils.html#birchrest.utils.get_artwork"><code class="docutils literal notranslate"><span class="pre">get_artwork()</span></code></a></li>
 </ul>
 </li>
@@ -557,7 +562,7 @@
 - <cite>unittest</cite>: Includes the TestAdapter for unittesting.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="birchrest.BirchRest">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.</span></span><span class="sig-name descname"><span class="pre">BirchRest</span></span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.BirchRest" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.</span></span><span class="sig-name descname"><span class="pre">BirchRest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'debug'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/app/birchrest.html#BirchRest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.BirchRest" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The core application class for the BirchRest framework, responsible for
 registering controllers, middleware, authentication, error handling,
@@ -649,20 +654,6 @@ routes (List[Route]): The list of routes collected from the controller’s metho
 controllers (List[Controller]): The list of subcontrollers attached to this controller.</p>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.Controller.attach">
-<span class="sig-name descname"><span class="pre">attach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">controllers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="birchrest.routes.html#birchrest.routes.controller.Controller" title="birchrest.routes.controller.Controller"><span class="pre">Controller</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/routes/controller.html#Controller.attach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.Controller.attach" title="Link to this definition"></a></dt>
-<dd><p>Attach one or more subcontrollers to this controller.</p>
-<p>Subcontrollers are added as children to this controller, allowing
-a hierarchy of controllers. Routes from subcontrollers will be collected
-and resolved relative to the base path of this controller.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>controllers</strong> – One or more subcontroller classes to attach.</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="birchrest.Controller.collect_routes">
 <span class="sig-name descname"><span class="pre">collect_routes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="birchrest.routes.html#birchrest.routes.route.Route" title="birchrest.routes.route.Route"><span class="pre">Route</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/birchrest/routes/controller.html#Controller.collect_routes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.Controller.collect_routes" title="Link to this definition"></a></dt>

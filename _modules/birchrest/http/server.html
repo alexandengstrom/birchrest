@@ -77,6 +77,7 @@
 <span class="kn">from</span> <span class="nn">.request</span> <span class="kn">import</span> <span class="n">Request</span>
 <span class="kn">from</span> <span class="nn">.response</span> <span class="kn">import</span> <span class="n">Response</span>
 <span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">RouteHandler</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">Logger</span>
 
 
 <div class="viewcode-block" id="Server">
@@ -159,6 +160,7 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request_data</span><span class="p">,</span> <span class="n">client_address</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">JSONDecodeError</span><span class="p">:</span>
+                <span class="n">Logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed to parse request as JSON&quot;</span><span class="p">)</span>
                 <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="n">Response</span><span class="p">()</span>
                     <span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
