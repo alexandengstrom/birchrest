@@ -335,6 +335,38 @@ https://alexandengstrom.github.io/birchrest</p>
 <p>In this example, the middleware limits each client to a maximum of 5 requests per 60 seconds. If the limit is exceeded, any additional requests within that time will receive a 429 error response.</p>
 </section>
 </section>
+<section id="cors">
+<h5>Cors<a class="headerlink" href="#cors" title="Link to this heading"></a></h5>
+<p>The CORS (Cross-Origin Resource Sharing) middleware in BirchRest enables your API to respond to cross-origin requests securely by controlling which origins, methods, and headers are allowed. It also handles preflight (OPTIONS) requests for methods other than GET and POST, or when using custom headers.</p>
+<section id="id1">
+<h6>How It Works:<a class="headerlink" href="#id1" title="Link to this heading"></a></h6>
+<ul class="simple">
+<li><p>The middleware inspects each request and adds the necessary CORS headers to the response based on the configured settings. This allows browsers to enforce the CORS policy and determine if the request is permitted.</p></li>
+<li><p>For preflight requests (OPTIONS method), it sends the appropriate response headers to indicate which origins, methods, and headers are allowed.</p></li>
+<li><p>For regular requests, it ensures the appropriate headers are added to allow cross-origin resource sharing.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h6>Configuration Options:<a class="headerlink" href="#id2" title="Link to this heading"></a></h6>
+<ul class="simple">
+<li><p>allow_origins: List of allowed origins (default is [“*”], allowing all origins).</p></li>
+<li><p>allow_methods: List of allowed HTTP methods (default includes GET, POST, PUT, DELETE, PATCH, OPTIONS).</p></li>
+<li><p>allow_headers: List of allowed request headers (default is [“Content-Type”, “Authorization”]).</p></li>
+<li><p>allow_credentials: Whether credentials (cookies, HTTP authentication, etc.) are allowed (default is False).</p></li>
+<li><p>max_age: The time (in seconds) that preflight request results can be cached by the browser (default is 86400 seconds or 24 hours).</p></li>
+</ul>
+</section>
+<section id="id3">
+<h6>Example:<a class="headerlink" href="#id3" title="Link to this heading"></a></h6>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.middlewares</span> <span class="kn">import</span> <span class="n">Cors</span>
+
+<span class="c1"># Apply CORS middleware globally with default settings</span>
+<span class="n">app</span><span class="o">.</span><span class="n">middleware</span><span class="p">(</span><span class="n">Cors</span><span class="p">(</span><span class="n">allow_origins</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;https://example.com&quot;</span><span class="p">],</span> <span class="n">allow_credentials</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>In this example, only requests from https://example.com are allowed, and credentials (like cookies) are permitted to be sent with cross-origin requests. The middleware ensures that the appropriate CORS headers are added to all responses.</p>
+</section>
+</section>
 </section>
 </section>
 <section id="data-validation">
