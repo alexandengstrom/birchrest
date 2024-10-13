@@ -177,7 +177,6 @@ class PayloadTooLarge(ApiError):
     """
     def __init__(self, user_message: str = ""):
         super().__init__(user_message, 413)
-UpgradeRequired
 
 class UnsupportedMediaType(ApiError):
     """
