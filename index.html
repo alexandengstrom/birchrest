@@ -477,6 +477,44 @@ https://alexandengstrom.github.io/birchrest</p>
 </pre></div>
 </div>
 </section>
+<section id="request-and-response-lifecycle-in-birchrest">
+<h3>Request and Response Lifecycle in BirchRest<a class="headerlink" href="#request-and-response-lifecycle-in-birchrest" title="Link to this heading"></a></h3>
+<p>The BirchRest framework handles HTTP requests using a structured flow to ensure that all incoming requests are processed correctly, including middleware execution, validation, and error handling. This section explains the lifecycle of a request from when it is received by the server to when a response is sent back to the client.</p>
+<section id="receiving-and-parsing-the-request">
+<h4>1. Receiving and Parsing the Request<a class="headerlink" href="#receiving-and-parsing-the-request" title="Link to this heading"></a></h4>
+<p>When a client sends an HTTP request to the server, the server parses the raw request data into a Request object. This object encapsulates all details about the incoming request, such as headers, method (e.g., GET, POST), query parameters, URL parameters, and body data.</p>
+</section>
+<section id="passing-the-request-to-the-app">
+<h4>2. Passing the Request to the App<a class="headerlink" href="#passing-the-request-to-the-app" title="Link to this heading"></a></h4>
+<p>Once the request object is created, it is passed to the main application (BirchRest) for handling. The app creates a new Response object, which will later be populated and returned to the client. The app then looks for a matching route by searching through all defined routes based on the request’s URL and HTTP method.</p>
+</section>
+<section id="handling-the-request-in-the-app">
+<h4>3. Handling the Request in the App<a class="headerlink" href="#handling-the-request-in-the-app" title="Link to this heading"></a></h4>
+<p>The main request handling logic is performed by the handle_request method in the app. This method attempts to match the incoming request to a route and execute the following key steps:</p>
+<ul class="simple">
+<li><p><strong>Route Matching</strong>: The app searches through all registered routes to find one that matches the URL path and HTTP method of the request. If a matching route is found, the request proceeds to that route. If no route matches, a 404 Not Found error is raised, or if the route exists but the HTTP method is incorrect, a 405 Method Not Allowed error is raised.</p></li>
+<li><p><strong>Passing the Request to the Route</strong>: Once a route is matched, the app passes both the request and response objects to that route for further processing.</p></li>
+<li><p><strong>Error Handling</strong>: If an exception occurs during request handling (such as an invalid request or missing route), the app catches the exception and attempts to generate an appropriate error response using predefined or custom error handlers.</p></li>
+</ul>
+</section>
+<section id="route-execution">
+<h4>4. Route Execution<a class="headerlink" href="#route-execution" title="Link to this heading"></a></h4>
+<p>Each route in BirchRest is responsible for executing its logic and handling the request:</p>
+<ul>
+<li><p><strong>Middleware Execution</strong>: When the request reaches the matched route, the route begins by executing any middleware associated with it. Middleware can modify the request or response objects, perform tasks such as logging or authentication, and decide whether to continue processing the request. Middleware runs in a chain, meaning each middleware can pass control to the next one, or halt the chain and send a response early.</p>
+<p>The route’s <strong>call</strong> method initiates this process by calling the first middleware in the stack. If no middleware interrupts the chain, the request proceeds to the route handler.</p>
+</li>
+<li><p><strong>Authentication</strong>: If the route is protected by authentication, the request must pass through an authentication handler. This handler validates the request (e.g., checking tokens or credentials). If authentication fails, a 401 Unauthorized error is raised, and the response is sent back to the client.</p></li>
+<li><p><strong>Validation</strong>: If the route requires validation of the request body, query parameters, or URL parameters, the request data is checked against predefined data classes. If the data fails validation (e.g., missing required fields or incorrect types), a 400 Bad Request error is raised.</p></li>
+<li><p><strong>Executing the Route Handler</strong>: Once middleware, authentication, and validation checks pass, the route handler function is executed. The route handler is responsible for performing the main business logic, such as fetching data, processing the request, or interacting with external services. After processing, the route handler populates the response object with the appropriate data and status code.</p></li>
+</ul>
+</section>
+<section id="returning-the-response">
+<h4>5. Returning the Response<a class="headerlink" href="#returning-the-response" title="Link to this heading"></a></h4>
+<p>After the route handler completes, the response object (which was initially created at the beginning of the request) contains the data to be sent back to the client. This includes the HTTP status code, headers, and response body.</p>
+<p>The final response is then returned to the server, which sends it to the client. If any errors occurred during the request lifecycle, they are automatically converted into error responses by the app’s error handler.</p>
+</section>
+</section>
 <section id="contributing">
 <h3>Contributing<a class="headerlink" href="#contributing" title="Link to this heading"></a></h3>
 <p>Contributions are welcome! Please refer to the <a class="reference internal" href="#./CONTRIBUTING.md"><span class="xref myst">CONTRIBUTING.md</span></a> file for details on how to get involved, submit pull requests, and report issues.</p>
