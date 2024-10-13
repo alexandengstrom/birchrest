@@ -2,8 +2,9 @@
 
 import unittest
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Optional
 from birchrest.routes.validator import parse_data_class
+from birchrest.exceptions import InvalidValidationModel
 
 @dataclass
 class SimpleDataClass:
@@ -33,8 +34,37 @@ class RegexDataClass:
     phone: str = field(metadata={"regex": r"^\d{10}$"})
     postal_code: str = field(metadata={"regex": r"^\d{5}$"})
 
+@dataclass
+class OptionalFieldDataClass:
+    name: str
+    age: Optional[int] = field(metadata={"is_optional": True})
+    phone: Optional[str] = field(metadata={"is_optional": True, "regex": r"^\d{10}$"})
+
+@dataclass
+class Address:
+    street: str = field(metadata={"min_length": 5, "max_length": 100})
+    city: str = field(metadata={"min_length": 2, "max_length": 50})
+    postal_code: str = field(metadata={"regex": r"^\d{5}$"})
 
 
+@dataclass
+class ContactInfo:
+    email: str = field(metadata={"regex": r"[^@]+@[^@]+\.[^@]+"})
+    phone: Optional[str] = field(metadata={"is_optional": True, "regex": r"^\d{10}$"})
+
+
+@dataclass
+class UserProfile:
+    username: str = field(metadata={"min_length": 3, "max_length": 20})
+    age: int = field(metadata={"min_value": 18, "max_value": 120})
+    contact_info: ContactInfo
+    addresses: List[Address] = field(metadata={"min_items": 1, "max_items": 3})
+
+
+@dataclass
+class ComplexNestedDataClass:
+    user_profile: UserProfile
+    is_active: bool
 class TestParseDataClass(unittest.TestCase):
     
     def test_parse_simple_data_class(self):
@@ -137,6 +167,156 @@ class TestParseDataClass(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             parse_data_class(RegexDataClass, data)
         self.assertIn("Field 'postal_code' was malformed", str(context.exception))
+    
+    def test_parse_optional_field(self):
+        """Test that optional fields are handled correctly."""
+        data = {"name": "John"}
+        parsed = parse_data_class(OptionalFieldDataClass, data)
+        self.assertEqual(parsed.name, "John")
+        self.assertIsNone(parsed.age)
+
+    def test_parse_optional_field_with_value(self):
+        """Test that optional fields are parsed correctly when provided."""
+        data = {"name": "John", "age": 25}
+        parsed = parse_data_class(OptionalFieldDataClass, data)
+        self.assertEqual(parsed.age, 25)
+
+    def test_parse_optional_field_with_invalid_value(self):
+        """Test that optional fields validate correctly if provided."""
+        data = {"name": "John", "phone": "1234"}
+        with self.assertRaises(ValueError) as context:
+            parse_data_class(OptionalFieldDataClass, data)
+        self.assertIn("Field 'phone' was malformed", str(context.exception))
+
+    def test_parse_optional_field_with_regex(self):
+        """Test that optional fields with regex work when provided."""
+        data = {"name": "John", "phone": "1234567890"}
+        parsed = parse_data_class(OptionalFieldDataClass, data)
+        self.assertEqual(parsed.phone, "1234567890")
+        
+    def test_parse_complex_nested_data_class(self):
+        """Test parsing a complex nested dataclass with multiple constraints."""
+        data = {
+            "user_profile": {
+                "username": "john_doe",
+                "age": 30,
+                "contact_info": {
+                    "email": "john.doe@example.com",
+                    "phone": "1234567890"
+                },
+                "addresses": [
+                    {
+                        "street": "123 Main St",
+                        "city": "Metropolis",
+                        "postal_code": "12345"
+                    },
+                    {
+                        "street": "456 Broadway",
+                        "city": "Gotham",
+                        "postal_code": "54321"
+                    }
+                ]
+            },
+            "is_active": True
+        }
+
+        parsed = parse_data_class(ComplexNestedDataClass, data)
+
+        self.assertEqual(parsed.user_profile.username, "john_doe")
+        self.assertEqual(parsed.user_profile.age, 30)
+        self.assertEqual(parsed.user_profile.contact_info.email, "john.doe@example.com")
+        self.assertEqual(parsed.user_profile.contact_info.phone, "1234567890")
+        self.assertEqual(len(parsed.user_profile.addresses), 2)
+        self.assertEqual(parsed.user_profile.addresses[0].street, "123 Main St")
+        self.assertEqual(parsed.user_profile.addresses[1].city, "Gotham")
+        self.assertTrue(parsed.is_active)
+
+    def test_complex_data_class_invalid_age(self):
+        """Test complex dataclass with invalid age."""
+        data = {
+            "user_profile": {
+                "username": "john_doe",
+                "age": 15,
+                "contact_info": {
+                    "email": "john.doe@example.com",
+                    "phone": "1234567890"
+                },
+                "addresses": [
+                    {
+                        "street": "123 Main St",
+                        "city": "Metropolis",
+                        "postal_code": "12345"
+                    }
+                ]
+            },
+            "is_active": True
+        }
+
+        with self.assertRaises(ValueError) as context:
+            parse_data_class(ComplexNestedDataClass, data)
+        self.assertIn("Field 'age' must be at least 18", str(context.exception))
+
+    def test_complex_data_class_invalid_address(self):
+        """Test complex dataclass with invalid postal code."""
+        data = {
+            "user_profile": {
+                "username": "john_doe",
+                "age": 30,
+                "contact_info": {
+                    "email": "john.doe@example.com",
+                    "phone": "1234567890"
+                },
+                "addresses": [
+                    {
+                        "street": "123 Main St",
+                        "city": "Metropolis",
+                        "postal_code": "abcde"
+                    }
+                ]
+            },
+            "is_active": True
+        }
+
+        with self.assertRaises(ValueError) as context:
+            parse_data_class(ComplexNestedDataClass, data)
+        self.assertIn("Field 'postal_code' was malformed", str(context.exception))
+
+    def test_complex_data_class_too_many_addresses(self):
+        """Test complex dataclass with too many addresses (violating max_items)."""
+        data = {
+            "user_profile": {
+                "username": "john_doe",
+                "age": 30,
+                "contact_info": {
+                    "email": "john.doe@example.com",
+                    "phone": "1234567890"
+                },
+                "addresses": [
+                    {"street": "123 Main St", "city": "Metropolis", "postal_code": "12345"},
+                    {"street": "456 Broadway", "city": "Gotham", "postal_code": "54321"},
+                    {"street": "789 Wall St", "city": "Star City", "postal_code": "67890"},
+                    {"street": "101 Fifth Ave", "city": "Central City", "postal_code": "98765"}
+                ]
+            },
+            "is_active": True
+        }
+
+        with self.assertRaises(ValueError) as context:
+            parse_data_class(ComplexNestedDataClass, data)
+        self.assertIn("Field 'addresses' must have at most 3 items", str(context.exception))
+
+    def test_invalid_model(self):
+        """Test that you cannot pass not dataclasses"""
+        class NotDataclass:
+            def __init__(self):
+                self.name: str = "John Doe"
+
+        data = {
+            "name": "John Doe"
+        }
+        with self.assertRaises(InvalidValidationModel) as context:
+            parse_data_class(NotDataclass, data)
+
 
 
 if __name__ == '__main__':

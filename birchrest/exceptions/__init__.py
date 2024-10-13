@@ -16,6 +16,7 @@ Exported exceptions:
 
 from .invalid_controller_registration import InvalidControllerRegistration
 from .missing_auth_handler_error import MissingAuthHandlerError
+from .invalid_validation_model import InvalidValidationModel
 from .api_error import (
     ApiError,
     NotFound,
@@ -41,6 +42,7 @@ from .api_error import (
 __all__ = [
     "InvalidControllerRegistration",
     "MissingAuthHandlerError",
+    "InvalidValidationModel",
     "ApiError",
     "NotFound",
     "BadRequest",
