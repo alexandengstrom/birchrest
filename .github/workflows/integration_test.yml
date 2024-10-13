@@ -1,0 +1,40 @@
+name: Integration Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-integration-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          # Add more install commands if necessary, for example:
+          # pip install -r requirements.txt
+
+      - name: Make test_server.sh executable
+        run: chmod +x tests/integrationtests/test_server.sh
+
+      - name: Run Integration Tests
+        run: tests/integrationtests/test_server.sh
+
+      - name: Check for errors
+        if: failure()
+        run: |
+          echo "Integration tests failed!"
+          exit 1  # Forcefully fail the job if the script returned an error

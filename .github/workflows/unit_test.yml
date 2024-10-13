@@ -34,5 +34,5 @@ jobs:
 
       - name: Run tests
         run: |
-          python -m unittest discover -s tests
+          python3 tests/unittests/runner.py
 
