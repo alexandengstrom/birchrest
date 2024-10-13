@@ -316,48 +316,51 @@ https://alexandengstrom.github.io/birchrest</p>
 <h6>How it works:<a class="headerlink" href="#how-it-works" title="Link to this heading"></a></h6>
 <ul class="simple">
 <li><p>The rate limiter tracks the number of requests made by each client within a rolling time window.</p></li>
-<li><p>If a client exceeds the allowed number of requests within the window, the middleware responds with a 429 Too Many Requests error.</p></li>
+<li><p>If a client exceeds the allowed number of requests within the window, the middleware responds with a <code class="docutils literal notranslate"><span class="pre">429</span> <span class="pre">Too</span> <span class="pre">Many</span> <span class="pre">Requests</span></code> error.</p></li>
 <li><p>Requests older than the current time window are automatically cleared from the log to allow new requests.</p></li>
 </ul>
 </section>
 <section id="configuration-options">
 <h6>Configuration Options:<a class="headerlink" href="#configuration-options" title="Link to this heading"></a></h6>
 <ul class="simple">
-<li><p>max_requests: The maximum number of requests a client can make within the time window (default is 2).</p></li>
-<li><p>window_seconds: The length of the time window in seconds during which the requests are counted (default is 10 seconds).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_requests</span></code>: The maximum number of requests a client can make within the time window (default is 2).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">window_seconds</span></code>: The length of the time window in seconds during which the requests are counted (default is 10 seconds).</p></li>
 </ul>
+</section>
+<section id="id1">
+<h6>Example:<a class="headerlink" href="#id1" title="Link to this heading"></a></h6>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.middlewares</span> <span class="kn">import</span> <span class="n">RateLimiter</span>
 
 <span class="c1"># Apply rate limiting globally</span>
 <span class="n">app</span><span class="o">.</span><span class="n">middleware</span><span class="p">(</span><span class="n">RateLimiter</span><span class="p">(</span><span class="n">max_requests</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">window_seconds</span><span class="o">=</span><span class="mi">60</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>In this example, the middleware limits each client to a maximum of 5 requests per 60 seconds. If the limit is exceeded, any additional requests within that time will receive a 429 error response.</p>
+<p>In this example, the middleware limits each client to a maximum of 5 requests per 60 seconds. If the limit is exceeded, any additional requests within that time will receive a <code class="docutils literal notranslate"><span class="pre">429</span></code> error response.</p>
 </section>
 </section>
 <section id="cors">
 <h5>Cors<a class="headerlink" href="#cors" title="Link to this heading"></a></h5>
-<p>The CORS (Cross-Origin Resource Sharing) middleware in BirchRest enables your API to respond to cross-origin requests securely by controlling which origins, methods, and headers are allowed. It also handles preflight (OPTIONS) requests for methods other than GET and POST, or when using custom headers.</p>
-<section id="id1">
-<h6>How It Works:<a class="headerlink" href="#id1" title="Link to this heading"></a></h6>
+<p>The CORS (<code class="docutils literal notranslate"><span class="pre">Cross-Origin</span> <span class="pre">Resource</span> <span class="pre">Sharing</span></code>) middleware in BirchRest enables your API to respond to cross-origin requests securely by controlling which origins, methods, and headers are allowed. It also handles preflight (<code class="docutils literal notranslate"><span class="pre">OPTIONS</span></code>) requests for methods other than <code class="docutils literal notranslate"><span class="pre">GET</span></code> and <code class="docutils literal notranslate"><span class="pre">POST</span></code>, or when using custom headers.</p>
+<section id="id2">
+<h6>How It Works:<a class="headerlink" href="#id2" title="Link to this heading"></a></h6>
 <ul class="simple">
 <li><p>The middleware inspects each request and adds the necessary CORS headers to the response based on the configured settings. This allows browsers to enforce the CORS policy and determine if the request is permitted.</p></li>
-<li><p>For preflight requests (OPTIONS method), it sends the appropriate response headers to indicate which origins, methods, and headers are allowed.</p></li>
+<li><p>For preflight requests (<code class="docutils literal notranslate"><span class="pre">OPTIONS</span></code> method), it sends the appropriate response headers to indicate which origins, methods, and headers are allowed.</p></li>
 <li><p>For regular requests, it ensures the appropriate headers are added to allow cross-origin resource sharing.</p></li>
 </ul>
 </section>
-<section id="id2">
-<h6>Configuration Options:<a class="headerlink" href="#id2" title="Link to this heading"></a></h6>
+<section id="id3">
+<h6>Configuration Options:<a class="headerlink" href="#id3" title="Link to this heading"></a></h6>
 <ul class="simple">
-<li><p>allow_origins: List of allowed origins (default is [“*”], allowing all origins).</p></li>
-<li><p>allow_methods: List of allowed HTTP methods (default includes GET, POST, PUT, DELETE, PATCH, OPTIONS).</p></li>
-<li><p>allow_headers: List of allowed request headers (default is [“Content-Type”, “Authorization”]).</p></li>
-<li><p>allow_credentials: Whether credentials (cookies, HTTP authentication, etc.) are allowed (default is False).</p></li>
-<li><p>max_age: The time (in seconds) that preflight request results can be cached by the browser (default is 86400 seconds or 24 hours).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">allow_origins</span></code>: List of allowed origins (default is [“*”], allowing all origins).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">allow_methods</span></code>: List of allowed HTTP methods (default includes GET, POST, PUT, DELETE, PATCH, OPTIONS).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">allow_headers</span></code>: List of allowed request headers (default is [“Content-Type”, “Authorization”]).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">allow_credentials</span></code>: Whether credentials (cookies, HTTP authentication, etc.) are allowed (default is False).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_age</span></code>: The time (in seconds) that preflight request results can be cached by the browser (default is 86400 seconds or 24 hours).</p></li>
 </ul>
 </section>
-<section id="id3">
-<h6>Example:<a class="headerlink" href="#id3" title="Link to this heading"></a></h6>
+<section id="id4">
+<h6>Example:<a class="headerlink" href="#id4" title="Link to this heading"></a></h6>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.middlewares</span> <span class="kn">import</span> <span class="n">Cors</span>
 
 <span class="c1"># Apply CORS middleware globally with default settings</span>
@@ -551,7 +554,7 @@ https://alexandengstrom.github.io/birchrest</p>
 <h4>3. Handling the Request in the App<a class="headerlink" href="#handling-the-request-in-the-app" title="Link to this heading"></a></h4>
 <p>The main request handling logic is performed by the handle_request method in the app. This method attempts to match the incoming request to a route and execute the following key steps:</p>
 <ul class="simple">
-<li><p><strong>Route Matching</strong>: The app searches through all registered routes to find one that matches the URL path and HTTP method of the request. If a matching route is found, the request proceeds to that route. If no route matches, a 404 Not Found error is raised, or if the route exists but the HTTP method is incorrect, a 405 Method Not Allowed error is raised.</p></li>
+<li><p><strong>Route Matching</strong>: The app searches through all registered routes to find one that matches the URL path and HTTP method of the request. If a matching route is found, the request proceeds to that route. If no route matches, a <code class="docutils literal notranslate"><span class="pre">404</span> <span class="pre">Not</span> <span class="pre">Found</span></code> error is raised, or if the route exists but the HTTP method is incorrect, a <code class="docutils literal notranslate"><span class="pre">405</span> <span class="pre">Method</span> <span class="pre">Not</span> <span class="pre">Allowed</span></code> error is raised.</p></li>
 <li><p><strong>Passing the Request to the Route</strong>: Once a route is matched, the app passes both the request and response objects to that route for further processing.</p></li>
 <li><p><strong>Error Handling</strong>: If an exception occurs during request handling (such as an invalid request or missing route), the app catches the exception and attempts to generate an appropriate error response using predefined or custom error handlers.</p></li>
 </ul>
@@ -561,9 +564,9 @@ https://alexandengstrom.github.io/birchrest</p>
 <p>Each route in BirchRest is responsible for executing its logic and handling the request:</p>
 <ul>
 <li><p><strong>Middleware Execution</strong>: When the request reaches the matched route, the route begins by executing any middleware associated with it. Middleware can modify the request or response objects, perform tasks such as logging or authentication, and decide whether to continue processing the request. Middleware runs in a chain, meaning each middleware can pass control to the next one, or halt the chain and send a response early.</p>
-<p>The route’s <strong>call</strong> method initiates this process by calling the first middleware in the stack. If no middleware interrupts the chain, the request proceeds to the route handler.</p>
+<p>The route’s <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method initiates this process by calling the first middleware in the stack. If no middleware interrupts the chain, the request proceeds to the route handler.</p>
 </li>
-<li><p><strong>Authentication</strong>: If the route is protected by authentication, the request must pass through an authentication handler. This handler validates the request (e.g., checking tokens or credentials). If authentication fails, a 401 Unauthorized error is raised, and the response is sent back to the client.</p></li>
+<li><p><strong>Authentication</strong>: If the route is protected by authentication, the request must pass through an authentication handler. This handler validates the request (e.g., checking tokens or credentials). If authentication fails, a <code class="docutils literal notranslate"><span class="pre">401</span> <span class="pre">Unauthorized</span></code> error is raised, and the response is sent back to the client.</p></li>
 <li><p><strong>Validation</strong>: If the route requires validation of the request body, query parameters, or URL parameters, the request data is checked against predefined data classes. If the data fails validation (e.g., missing required fields or incorrect types), a 400 Bad Request error is raised.</p></li>
 <li><p><strong>Executing the Route Handler</strong>: Once middleware, authentication, and validation checks pass, the route handler function is executed. The route handler is responsible for performing the main business logic, such as fetching data, processing the request, or interacting with external services. After processing, the route handler populates the response object with the appropriate data and status code.</p></li>
 </ul>
