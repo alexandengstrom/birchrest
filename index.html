@@ -286,7 +286,7 @@ https://alexandengstrom.github.io/birchrest</p>
 <p>A middleware should be a class that inherits from the Middleware class and it must implement an async call method. The call method will receive a Request, Response and NextFunction. If the NextFunction is called the call will continue to the next middleware or route handler. If not called, we wont continue. The next function must be awaited.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">Middleware</span>
 <span class="kn">from</span> <span class="nn">birchrest.types</span> <span class="kn">import</span> <span class="n">NextFunction</span>
-<span class="kn">from</span> <span class="nn">birchrest.exceptions</span> <span class="kn">import</span> <span class="n">ApiError</span>
+<span class="kn">from</span> <span class="nn">birchrest.exceptions</span> <span class="kn">import</span> <span class="n">BadRequest</span>
 
 <span class="k">class</span> <span class="nc">MyMiddleware</span><span class="p">(</span><span class="n">Middleware</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
@@ -296,7 +296,7 @@ https://alexandengstrom.github.io/birchrest</p>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span>
             <span class="k">await</span> <span class="nb">next</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="n">BadRequest</span>
 </pre></div>
 </div>
 <p>It is possible to execute things after next is called aswell, this means you can use middlewares for postprocessing aswell.</p>
