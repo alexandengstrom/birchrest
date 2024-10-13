@@ -34,7 +34,18 @@ repository = "https://github.com/alexandengstrom/birchrest"
 documentation = "https://github.com/alexandengstrom/birchrest/wiki"
 
 [tool.setuptools]
-packages = ["birchrest", "birchrest.app", "birchrest.http", "birchrest.decorators", "birchrest.routes", "birchrest.exceptions", "birchrest.types", "birchrest.unittest", "birchrest.middlewares", "birchrest.utils" ]
+packages = [
+    "birchrest",
+    "birchrest.app",
+    "birchrest.http",
+    "birchrest.decorators",
+    "birchrest.routes",
+    "birchrest.exceptions",
+    "birchrest.types",
+    "birchrest.unittest",
+    "birchrest.middlewares",
+    "birchrest.utils"
+]
 
 [tool.setuptools.package-data]
 birchrest = ["*.md", "*.txt"]
