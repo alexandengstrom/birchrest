@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import Mock, patch
 from birchrest.http.request import Request
 from birchrest.http.response import Response
-from birchrest.app.birchrest import BirchRest
+from birchrest.app.birchrest_app import BirchRest
 from birchrest.unittest import TestAdapter
 from typing import Dict, Optional, Any
 

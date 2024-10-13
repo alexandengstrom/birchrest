@@ -2,7 +2,7 @@ from typing import Any, Dict, Optional
 import json
 from birchrest.http.request import Request
 from birchrest.http.response import Response
-from ..app.birchrest import BirchRest
+from ..app.birchrest_app import BirchRest
 
 
 

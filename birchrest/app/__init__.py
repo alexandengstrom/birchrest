@@ -1,4 +1,4 @@
-from .birchrest import BirchRest
+from .birchrest_app import BirchRest
 
 __all__ = ["BirchRest"
            ]
