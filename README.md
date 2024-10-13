@@ -189,30 +189,31 @@ The RateLimiter middleware in BirchRest helps protect your API from abuse by lim
 
 ##### How it works:
 - The rate limiter tracks the number of requests made by each client within a rolling time window.
-- If a client exceeds the allowed number of requests within the window, the middleware responds with a 429 Too Many Requests error.
+- If a client exceeds the allowed number of requests within the window, the middleware responds with a ```429 Too Many Requests``` error.
 - Requests older than the current time window are automatically cleared from the log to allow new requests.
 ##### Configuration Options:
-- max_requests: The maximum number of requests a client can make within the time window (default is 2).
-- window_seconds: The length of the time window in seconds during which the requests are counted (default is 10 seconds).
+- ```max_requests```: The maximum number of requests a client can make within the time window (default is 2).
+- ```window_seconds```: The length of the time window in seconds during which the requests are counted (default is 10 seconds).
+##### Example:
 ```python
 from birchrest.middlewares import RateLimiter
 
 # Apply rate limiting globally
 app.middleware(RateLimiter(max_requests=5, window_seconds=60))
 ```
-In this example, the middleware limits each client to a maximum of 5 requests per 60 seconds. If the limit is exceeded, any additional requests within that time will receive a 429 error response.
+In this example, the middleware limits each client to a maximum of 5 requests per 60 seconds. If the limit is exceeded, any additional requests within that time will receive a ```429``` error response.
 #### Cors
-The CORS (Cross-Origin Resource Sharing) middleware in BirchRest enables your API to respond to cross-origin requests securely by controlling which origins, methods, and headers are allowed. It also handles preflight (OPTIONS) requests for methods other than GET and POST, or when using custom headers.
+The CORS (```Cross-Origin Resource Sharing```) middleware in BirchRest enables your API to respond to cross-origin requests securely by controlling which origins, methods, and headers are allowed. It also handles preflight (```OPTIONS```) requests for methods other than ```GET``` and ```POST```, or when using custom headers.
 ##### How It Works:
 - The middleware inspects each request and adds the necessary CORS headers to the response based on the configured settings. This allows browsers to enforce the CORS policy and determine if the request is permitted.
-- For preflight requests (OPTIONS method), it sends the appropriate response headers to indicate which origins, methods, and headers are allowed.
+- For preflight requests (```OPTIONS``` method), it sends the appropriate response headers to indicate which origins, methods, and headers are allowed.
 - For regular requests, it ensures the appropriate headers are added to allow cross-origin resource sharing.
 ##### Configuration Options:
-- allow_origins: List of allowed origins (default is ["*"], allowing all origins).
-- allow_methods: List of allowed HTTP methods (default includes GET, POST, PUT, DELETE, PATCH, OPTIONS).
-- allow_headers: List of allowed request headers (default is ["Content-Type", "Authorization"]).
-- allow_credentials: Whether credentials (cookies, HTTP authentication, etc.) are allowed (default is False).
-- max_age: The time (in seconds) that preflight request results can be cached by the browser (default is 86400 seconds or 24 hours).
+- ```allow_origins```: List of allowed origins (default is ["*"], allowing all origins).
+- ```allow_methods```: List of allowed HTTP methods (default includes GET, POST, PUT, DELETE, PATCH, OPTIONS).
+- ```allow_headers```: List of allowed request headers (default is ["Content-Type", "Authorization"]).
+- ```allow_credentials```: Whether credentials (cookies, HTTP authentication, etc.) are allowed (default is False).
+- ```max_age```: The time (in seconds) that preflight request results can be cached by the browser (default is 86400 seconds or 24 hours).
 ##### Example:
 ```python
 from birchrest.middlewares import Cors
@@ -396,15 +397,15 @@ When a client sends an HTTP request to the server, the server parses the raw req
 Once the request object is created, it is passed to the main application (BirchRest) for handling. The app creates a new Response object, which will later be populated and returned to the client. The app then looks for a matching route by searching through all defined routes based on the request’s URL and HTTP method.
 #### 3. Handling the Request in the App
 The main request handling logic is performed by the handle_request method in the app. This method attempts to match the incoming request to a route and execute the following key steps:
-- **Route Matching**: The app searches through all registered routes to find one that matches the URL path and HTTP method of the request. If a matching route is found, the request proceeds to that route. If no route matches, a 404 Not Found error is raised, or if the route exists but the HTTP method is incorrect, a 405 Method Not Allowed error is raised.
+- **Route Matching**: The app searches through all registered routes to find one that matches the URL path and HTTP method of the request. If a matching route is found, the request proceeds to that route. If no route matches, a ```404 Not Found``` error is raised, or if the route exists but the HTTP method is incorrect, a ```405 Method Not Allowed``` error is raised.
 - **Passing the Request to the Route**: Once a route is matched, the app passes both the request and response objects to that route for further processing.
 - **Error Handling**: If an exception occurs during request handling (such as an invalid request or missing route), the app catches the exception and attempts to generate an appropriate error response using predefined or custom error handlers.
 #### 4. Route Execution
 Each route in BirchRest is responsible for executing its logic and handling the request:
 - **Middleware Execution**: When the request reaches the matched route, the route begins by executing any middleware associated with it. Middleware can modify the request or response objects, perform tasks such as logging or authentication, and decide whether to continue processing the request. Middleware runs in a chain, meaning each middleware can pass control to the next one, or halt the chain and send a response early.
 
-   The route's __call__ method initiates this process by calling the first middleware in the stack. If no middleware interrupts the chain, the request proceeds to the route handler.
-- **Authentication**: If the route is protected by authentication, the request must pass through an authentication handler. This handler validates the request (e.g., checking tokens or credentials). If authentication fails, a 401 Unauthorized error is raised, and the response is sent back to the client.
+   The route's ```__call__``` method initiates this process by calling the first middleware in the stack. If no middleware interrupts the chain, the request proceeds to the route handler.
+- **Authentication**: If the route is protected by authentication, the request must pass through an authentication handler. This handler validates the request (e.g., checking tokens or credentials). If authentication fails, a ```401 Unauthorized``` error is raised, and the response is sent back to the client.
 - **Validation**: If the route requires validation of the request body, query parameters, or URL parameters, the request data is checked against predefined data classes. If the data fails validation (e.g., missing required fields or incorrect types), a 400 Bad Request error is raised.
 - **Executing the Route Handler**: Once middleware, authentication, and validation checks pass, the route handler function is executed. The route handler is responsible for performing the main business logic, such as fetching data, processing the request, or interacting with external services. After processing, the route handler populates the response object with the appropriate data and status code.
 #### 5. Returning the Response
