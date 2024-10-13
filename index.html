@@ -309,6 +309,32 @@ https://alexandengstrom.github.io/birchrest</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.middlewares</span> <span class="kn">import</span> <span class="n">Cors</span><span class="p">,</span> <span class="n">Logger</span><span class="p">,</span> <span class="n">RateLimiter</span>
 </pre></div>
 </div>
+<section id="rate-limiter">
+<h5>Rate Limiter<a class="headerlink" href="#rate-limiter" title="Link to this heading"></a></h5>
+<p>The RateLimiter middleware in BirchRest helps protect your API from abuse by limiting the number of requests a client (identified by their IP address or token) can make within a specified time window. It is particularly useful for preventing denial-of-service (DoS) attacks or enforcing fair usage limits.</p>
+<section id="how-it-works">
+<h6>How it works:<a class="headerlink" href="#how-it-works" title="Link to this heading"></a></h6>
+<ul class="simple">
+<li><p>The rate limiter tracks the number of requests made by each client within a rolling time window.</p></li>
+<li><p>If a client exceeds the allowed number of requests within the window, the middleware responds with a 429 Too Many Requests error.</p></li>
+<li><p>Requests older than the current time window are automatically cleared from the log to allow new requests.</p></li>
+</ul>
+</section>
+<section id="configuration-options">
+<h6>Configuration Options:<a class="headerlink" href="#configuration-options" title="Link to this heading"></a></h6>
+<ul class="simple">
+<li><p>max_requests: The maximum number of requests a client can make within the time window (default is 2).</p></li>
+<li><p>window_seconds: The length of the time window in seconds during which the requests are counted (default is 10 seconds).</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.middlewares</span> <span class="kn">import</span> <span class="n">RateLimiter</span>
+
+<span class="c1"># Apply rate limiting globally</span>
+<span class="n">app</span><span class="o">.</span><span class="n">middleware</span><span class="p">(</span><span class="n">RateLimiter</span><span class="p">(</span><span class="n">max_requests</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">window_seconds</span><span class="o">=</span><span class="mi">60</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>In this example, the middleware limits each client to a maximum of 5 requests per 60 seconds. If the limit is exceeded, any additional requests within that time will receive a 429 error response.</p>
+</section>
+</section>
 </section>
 </section>
 <section id="data-validation">
