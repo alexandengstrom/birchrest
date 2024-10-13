@@ -36,6 +36,13 @@ jobs:
         run: |
           tests/loadtests/load_test.sh
 
+      - name: Upload Load Test Results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: load-test-results
+          path: load_test_result.txt
+
       - name: Check for errors
         if: failure()
         run: |
