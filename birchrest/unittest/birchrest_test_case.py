@@ -7,7 +7,7 @@ class BirchRestTestCase(unittest.IsolatedAsyncioTestCase):
     """
     A custom TestCase class that adds helper methods for asserting BirchRest HTTP responses.
     
-    This class extends unittest.TestCase and provides additional assertion methods to 
+    This class extends unittest.IsolatedAsyncioTestCase and provides additional assertion methods to 
     validate HTTP status codes, headers, and response bodies in a simplified manner.
     """
 
@@ -22,6 +22,35 @@ class BirchRestTestCase(unittest.IsolatedAsyncioTestCase):
         Assert that the response status code is not in the range of 2xx (indicating failure).
         """
         self.assertTrue(response._status_code >= 300, f"Expected status code to indicate failure, got {response._status_code}")
+        
+    def assertBadRequest(self, response: Response) -> None:
+        """
+        Assert that the response status is 400.
+        """
+        self.assertTrue(response._status_code == 400, f"Expected status code to be 400, got {response._status_code}")
+        
+    def assertNotFound(self, response: Response) -> None:
+        """
+        Assert that the response status is 404.
+        """
+        self.assertTrue(response._status_code == 404, f"Expected status code to be 404, got {response._status_code}")
+    def assertUnauthorized(self, response: Response) -> None:
+        """
+        Assert that the response status is 401.
+        """
+        self.assertTrue(response._status_code == 401, f"Expected status code to be 401, got {response._status_code}")
+        
+    def assertForbidden(self, response: Response) -> None:
+        """
+        Assert that the response status is 403.
+        """
+        self.assertTrue(response._status_code == 403, f"Expected status code to be 403, got {response._status_code}")
+        
+    def assertInternalServerError(self, response: Response) -> None:
+        """
+        Assert that the response status is 500.
+        """
+        self.assertTrue(response._status_code == 500, f"Expected status code to be 500, got {response._status_code}")
 
     def assertStatus(self, response: Response, expected_status: int) -> None:
         """
@@ -34,8 +63,14 @@ class BirchRestTestCase(unittest.IsolatedAsyncioTestCase):
             response._status_code, expected_status,
             f"Expected status {expected_status}, got {response._status_code}"
         )
+        
+    def assertHasHeader(self, response: Response, expected_key: str) -> None:
+        """
+        Assert that the response has a specific header.
+        """
+        self.assertTrue(expected_key in response._headers)
 
-    def assertResponseHeader(self, response: Response, header_name: str, expected_value: str) -> None:
+    def assertHeader(self, response: Response, header_name: str, expected_value: str) -> None:
         """
         Assert that a specific header in the response matches the expected value.
 
@@ -51,4 +86,17 @@ class BirchRestTestCase(unittest.IsolatedAsyncioTestCase):
             actual_value, expected_value,
             f"Expected header '{header_name}' to have value '{expected_value}', but got '{actual_value}'"
         )
+        
+    def assertRedirect(self, response: Response, expected_url: str) -> None:
+        """
+        Assert that the response status is a redirect (3xx) and the Location header matches the expected URL.
+        """
+        self.assertTrue(300 <= response._status_code < 400, f"Expected redirect status code, got {response._status_code}")
+        self.assertHeader(response, "Location", expected_url)
+        
+    def assertBodyContains(self, response: Response, expected_key: str) -> None:
+        """
+        Assert that the response body contains a certain property
+        """
+        self.assertTrue(expected_key in response.body)
 
