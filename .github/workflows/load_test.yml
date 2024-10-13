@@ -25,8 +25,7 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           # Install any required Python dependencies here
-          # For example: pip install -r requirements.txt
-          pip install requests  # Install requests if needed for the script
+          For example: pip install -r requirements.txt
 
       - name: Install ApacheBench
         run: sudo apt-get install apache2-utils
