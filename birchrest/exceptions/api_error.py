@@ -59,86 +59,74 @@ class ApiError(Exception):
 
         return res.status(self.status_code).send(payload)
 
-    @staticmethod
-    def BAD_REQUEST(user_message: str = "") -> "ApiError":
-        """
-        Create a 400 Bad Request error.
 
-        Args:
-            user_message (str, optional): Custom message for the error. Defaults to an empty string.
+class BadRequest(ApiError):
+    """
+    Represents a 400 Bad Request error.
+    """
+    def __init__(self, user_message: str = "Bad Request"):
+        super().__init__(user_message, 400)
 
-        Returns:
-            ApiError: The generated Bad Request error.
-        """
 
-        return ApiError(user_message, 400)
+class Unauthorized(ApiError):
+    """
+    Represents a 401 Unauthorized error.
+    """
+    def __init__(self, user_message: str = "Unauthorized"):
+        super().__init__(user_message, 401)
 
-    @staticmethod
-    def UNAUTHORIZED(user_message: str = "") -> "ApiError":
-        """
-        Create a 401 Unauthorized error.
 
-        Args:
-            user_message (str, optional): Custom message for the error. Defaults to an empty string.
+class Forbidden(ApiError):
+    """
+    Represents a 403 Forbidden error.
+    """
+    def __init__(self, user_message: str = "Forbidden"):
+        super().__init__(user_message, 403)
 
-        Returns:
-            ApiError: The generated Unauthorized error.
-        """
 
-        return ApiError(user_message, 401)
+class NotFound(ApiError):
+    """
+    Represents a 404 Not Found error.
+    """
+    def __init__(self, user_message: str = "Not Found"):
+        super().__init__(user_message, 404)
 
-    @staticmethod
-    def FORBIDDEN(user_message: str = "") -> "ApiError":
-        """
-        Create a 403 Forbidden error.
 
-        Args:
-            user_message (str, optional): Custom message for the error. Defaults to an empty string.
+class Conflict(ApiError):
+    """
+    Represents a 409 Conflict error.
+    """
+    def __init__(self, user_message: str = "Conflict"):
+        super().__init__(user_message, 409)
 
-        Returns:
-            ApiError: The generated Forbidden error.
-        """
 
-        return ApiError(user_message, 403)
+class InternalServerError(ApiError):
+    """
+    Represents a 500 Internal Server Error.
+    """
+    def __init__(self, user_message: str = "Internal Server Error"):
+        super().__init__(user_message, 500)
 
-    @staticmethod
-    def NOT_FOUND(user_message: str = "") -> "ApiError":
-        """
-        Create a 404 Not Found error.
 
-        Args:
-            user_message (str, optional): Custom message for the error. Defaults to an empty string.
+class ServiceUnavailable(ApiError):
+    """
+    Represents a 503 Service Unavailable error.
+    """
+    def __init__(self, user_message: str = "Service Unavailable"):
+        super().__init__(user_message, 503)
 
-        Returns:
-            ApiError: The generated Not Found error.
-        """
 
-        return ApiError(user_message, 404)
+class MethodNotAllowed(ApiError):
+    """
+    Represents a 405 Method Not Allowed error.
+    """
+    def __init__(self, user_message: str = "Method Not Allowed"):
+        super().__init__(user_message, 405)
 
-    @staticmethod
-    def METHOD_NOT_ALLOWED(user_message: str = "") -> "ApiError":
-        """
-        Create a 405 Method Not Allowed error.
 
-        Args:
-            user_message (str, optional): Custom message for the error. Defaults to an empty string.
-
-        Returns:
-            ApiError: The generated Method Not Allowed error.
-        """
-
-        return ApiError(user_message, 405)
-
-    @staticmethod
-    def INTERNAL_SERVER_ERROR(user_message: str = "") -> "ApiError":
-        """
-        Create a 500 Internal Server Error.
-
-        Args:
-            user_message (str, optional): Custom message for the error. Defaults to an empty string.
-
-        Returns:
-            ApiError: The generated Internal Server Error.
-        """
-
-        return ApiError(user_message, 500)
+class UnprocessableEntity(ApiError):
+    """
+    Represents a 422 Unprocessable Entity error.
+    """
+    def __init__(self, user_message: str = "Unprocessable Entity"):
+        super().__init__(user_message, 422)

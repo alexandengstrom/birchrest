@@ -1,7 +1,7 @@
 from birchrest import Controller
 from birchrest.decorators import get, post, controller, params, middleware, body
 from birchrest.http import Request, Response
-from birchrest.exceptions import ApiError
+from birchrest.exceptions import NotFound
 from example.database import get_user, get_users, create_user
 from example.models import UserId, UserModel
 from example.middlewares.query_blocker import QueryBlocker
@@ -19,7 +19,7 @@ class UserController(Controller):
         if user:
             return res.status(200).send(user)
         else:
-            raise ApiError.NOT_FOUND(f"No user with id {req.params.id} exists")
+            raise NotFound(f"No user with id {req.params.id} exists")
 
     @get()
     @middleware(QueryBlocker())

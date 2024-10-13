@@ -16,7 +16,7 @@ Modules imported include:
 from typing import Awaitable, Dict, List, Optional, Type
 import asyncio
 
-from birchrest.exceptions.api_error import ApiError
+from birchrest.exceptions.api_error import ApiError, MethodNotAllowed, BadRequest, NotFound
 from birchrest.http.server import Server
 from birchrest.utils import Logger
 from birchrest.routes import Route, Controller
@@ -58,6 +58,7 @@ class BirchRest:
         self._discover_controllers()
         if os.getenv("birchrest_log_level", "").lower() != "test":
             os.environ["birchrest_log_level"] = log_level
+
 
     def register(self, *controllers: Type[Controller]) -> None:
         """
@@ -184,15 +185,15 @@ class BirchRest:
 
         if matched_route:
             if matched_route.requires_params and not path_params:
-                raise ApiError.BAD_REQUEST("400 Bad Request - Missing Parameters")
+                raise BadRequest("400 Bad Request - Missing Parameters")
             else:
                 request.params = path_params if path_params is not None else {}
                 await matched_route(request, response)
         else:
             if route_exists:
-                raise ApiError.METHOD_NOT_ALLOWED()
+                raise MethodNotAllowed
             else:
-                raise ApiError.NOT_FOUND()
+                raise NotFound
 
         return response
 
@@ -246,6 +247,7 @@ class BirchRest:
         Args:
             birch_file (str): The path to the __birch__.py file.
         """
+
         module_name = os.path.splitext(os.path.basename(birch_file))[0]
         spec = importlib.util.spec_from_file_location(module_name, birch_file)
         if spec is None or spec.loader is None:

@@ -9,5 +9,6 @@ Exported components:
 
 
 from .test_adapter import TestAdapter
+from .birchrest_test_case import BirchRestTestCase
 
-__all__ = ["TestAdapter"]
+__all__ = ["TestAdapter", "BirchRestTestCase"]

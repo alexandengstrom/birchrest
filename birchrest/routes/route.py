@@ -2,11 +2,10 @@ import re
 from typing import Any, Dict, List, Optional, Tuple
 import asyncio
 import inspect
-from birchrest.exceptions.api_error import ApiError
 from birchrest.routes.validator import parse_data_class
 from ..types import RouteHandler, MiddlewareFunction, AuthHandlerFunction
 from ..http import Request, Response
-from ..exceptions import MissingAuthHandlerError
+from ..exceptions import MissingAuthHandlerError, Unauthorized, BadRequest, ApiError
 from ..utils import Logger
 
 
@@ -111,19 +110,19 @@ class Route:
 
                 if not auth_result:
                     Logger.debug(f"Request to {self.path} from {req.client_address} was rejected")
-                    raise ApiError.UNAUTHORIZED()
+                    raise Unauthorized
 
                 req.user = auth_result
             except Exception as e:
                 Logger.debug(f"Request to {self.path} from {req.client_address} was rejected")
-                raise ApiError.UNAUTHORIZED() from e
+                raise Unauthorized from e
 
         if self.validate_body:
             try:
                 body_data = req.body
                 if not body_data:
                     Logger.debug(f"Request to {self.path} from {req.client_address} failed body validation")
-                    raise ApiError.BAD_REQUEST("Request body is required")
+                    raise BadRequest("Request body is required")
 
                 parsed_data = parse_data_class(self.validate_body, body_data)
 
@@ -131,7 +130,7 @@ class Route:
 
             except ValueError as e:
                 Logger.debug(f"Request to {self.path} from {req.client_address} failed body validation")
-                raise ApiError.BAD_REQUEST(f"Body validation failed: {str(e)}")
+                raise BadRequest(f"Body validation failed: {str(e)}") from e
 
         if self.validate_queries:
             try:
@@ -141,7 +140,7 @@ class Route:
 
             except ValueError as e:
                 Logger.debug(f"Request to {self.path} from {req.client_address} failed query validation")
-                raise ApiError.BAD_REQUEST(f"Query validation failed: {str(e)}")
+                raise BadRequest(f"Query validation failed: {str(e)}")
 
         if self.validate_params:
             try:
@@ -151,7 +150,7 @@ class Route:
 
             except ValueError as e:
                 Logger.debug(f"Request to {self.path} from {req.client_address} failed param validation")
-                raise ApiError.BAD_REQUEST(f"Param validation failed: {str(e)}")
+                raise BadRequest(f"Param validation failed: {str(e)}")
 
         async def run_middlewares(index: int) -> None:
             if index < len(self.middlewares):

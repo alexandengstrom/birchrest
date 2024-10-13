@@ -3,7 +3,7 @@
 import unittest
 from unittest.mock import Mock, patch
 from birchrest import BirchRest
-from birchrest.exceptions import InvalidControllerRegistration, ApiError
+from birchrest.exceptions import InvalidControllerRegistration, ApiError, NotFound
 from birchrest.routes import Controller
 from birchrest.http import Request, Response, HttpStatus
 from birchrest.types import MiddlewareFunction, AuthHandlerFunction, ErrorHandler
@@ -63,7 +63,6 @@ class TestBirchRest(unittest.IsolatedAsyncioTestCase):
         mock_request = MockRequest()
         mock_response = MockResponse()
 
-        # Mock the internal _handle_request method to return the response directly
         with patch.object(self.birch_rest, '_handle_request', return_value=mock_response):
             response = await self.birch_rest.handle_request(mock_request)
             self.assertEqual(response, mock_response)
@@ -74,7 +73,7 @@ class TestBirchRest(unittest.IsolatedAsyncioTestCase):
         mock_request = MockRequest()
         mock_request.correlation_id = 'test-correlation-id'
 
-        with patch.object(self.birch_rest, '_handle_request', side_effect=ApiError.NOT_FOUND()):
+        with patch.object(self.birch_rest, '_handle_request', side_effect=NotFound):
             response = await self.birch_rest.handle_request(mock_request)
 
 

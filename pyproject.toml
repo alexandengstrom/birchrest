@@ -21,6 +21,8 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 
 dependencies = [
@@ -42,3 +44,6 @@ birchrest = ["*.md", "*.txt"]
 files = ["birchrest/"]
 ignore_missing_imports = true
 strict = true
+
+[project.scripts]
+birch = "birchrest.cli:main"

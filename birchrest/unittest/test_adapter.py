@@ -35,6 +35,7 @@ class TestAdapter:
 
     def __init__(self, app: BirchRest) -> None:
         self.app = app
+        self.app._build_api()
 
     async def get(
         self, path: str, headers: Dict[str, str] = {}, body: Optional[Any] = None

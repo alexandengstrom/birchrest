@@ -64,6 +64,11 @@ from birchrest import BirchRest
 app = BirchRest()
 app.serve()
 ```
+
+Or start the server via command line:
+```bash
+birch serve --port [PORT] --host [HOST] --log-level [LOG_LEVEL]
+```
 ## Defining Controllers
 In Birchrest, controllers are the building blocks of your API. Each controller defines multiple endpoints, and controllers can be nested to create hierarchical routes.
 ### Key Concepts
@@ -240,11 +245,11 @@ app.serve()
 By default, Birchrest will respond will standardized error messages with as good information as possible. For example, 404 when route doesnt exist or 400 if body validation fails. If any unhandled exceptions occurs in the controllers 500 will be returned.
 
 ### ApiError
-The error handling is done via the class ApiError which have static methods to raise exceptions corresponding to HTTP status codes. For example, with this code:
+The error handling is done via the class ApiError. This class is the base class of other exceptions such as NotFound, BadRequest etc. If some of these exceptions is raised, birchrest will know how to respond to the user. By providing a message when raising the exception you can provide more details to the user.
 ```python
-from birchrest.exceptions import ApiError
+from birchrest.exceptions import NotFound
 
-raise ApiError.NOT_FOUND()
+raise NotFound
 ```
 This will automatically be converted into a 404 response to the user.
 
@@ -255,6 +260,45 @@ If you want more control over the error handling, you can catch the exceptions b
 ## Unit Testing
 To simplify testing, the framework includes a test adapter class that simulates sending HTTP requests to your API. This allows you to test everything except the server itself, with all middlewares, authentication handlers, and other components functioning exactly as they would in a real request. The adapter returns the final response object, which you can inspect and assert in your tests.
 
+The TestAdapter class takes an instance of your app and then provides methods like get, post etc that accepts a path, headers and body.
+
+```python
+from birchrest import BirchRest
+from birchrest.unittest import TestAdapter
+
+app = BirchRest()
+runner = TestAdapter(app)
+
+response = runner.get("/your-route")
+```
+
+BirchRest also provides a custom TestCase class to make it easier to assert responses, example:
+
+```python
+import unittest
+
+from birchrest import BirchRest
+from birchrest.unittest import TestAdapter, BirchRestTestCase
+
+class ApiTest(BirchRestTestCase):
+    
+    def setUp(self) -> None:
+        app = BirchRest(log_level="test")
+        self.runner = TestAdapter(app)
+        
+    async def test_user_route(self) -> None:
+        response = await self.runner.get("/user")
+        self.assertOk(response)
+        
+    async def test_invalid_id(self) -> None:
+        response = await self.runner.get("/user/0")
+        self.assertNotOk(response)
+        self.assertStatus(response, 400)
+        
+        
+if __name__ == "__main__":
+    unittest.main()
+```
 ## Contributing
 Contributions are welcome! Please refer to the [CONTRIBUTING.md](./CONTRIBUTING.md) file for details on how to get involved, submit pull requests, and report issues.
 
