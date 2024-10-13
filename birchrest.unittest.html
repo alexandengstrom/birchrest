@@ -184,8 +184,59 @@ _generate_request(method, path, headers, body): Helper method to create a <cite>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.unittest.</span></span><span class="sig-name descname"><span class="pre">BirchRestTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IsolatedAsyncioTestCase</span></code></p>
 <p>A custom TestCase class that adds helper methods for asserting BirchRest HTTP responses.</p>
-<p>This class extends unittest.TestCase and provides additional assertion methods to 
+<p>This class extends unittest.IsolatedAsyncioTestCase and provides additional assertion methods to 
 validate HTTP status codes, headers, and response bodies in a simplified manner.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertBadRequest">
+<span class="sig-name descname"><span class="pre">assertBadRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertBadRequest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertBadRequest" title="Link to this definition"></a></dt>
+<dd><p>Assert that the response status is 400.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertBodyContains">
+<span class="sig-name descname"><span class="pre">assertBodyContains</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertBodyContains"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertBodyContains" title="Link to this definition"></a></dt>
+<dd><p>Assert that the response body contains a certain property</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertForbidden">
+<span class="sig-name descname"><span class="pre">assertForbidden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertForbidden"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertForbidden" title="Link to this definition"></a></dt>
+<dd><p>Assert that the response status is 403.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertHasHeader">
+<span class="sig-name descname"><span class="pre">assertHasHeader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertHasHeader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertHasHeader" title="Link to this definition"></a></dt>
+<dd><p>Assert that the response has a specific header.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertHeader">
+<span class="sig-name descname"><span class="pre">assertHeader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">header_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertHeader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertHeader" title="Link to this definition"></a></dt>
+<dd><p>Assert that a specific header in the response matches the expected value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>response</strong> – The Response object to check</p></li>
+<li><p><strong>header_name</strong> – The name of the header to validate</p></li>
+<li><p><strong>expected_value</strong> – The expected value of the header</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertInternalServerError">
+<span class="sig-name descname"><span class="pre">assertInternalServerError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertInternalServerError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertInternalServerError" title="Link to this definition"></a></dt>
+<dd><p>Assert that the response status is 500.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertNotFound">
+<span class="sig-name descname"><span class="pre">assertNotFound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertNotFound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertNotFound" title="Link to this definition"></a></dt>
+<dd><p>Assert that the response status is 404.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertNotOk">
 <span class="sig-name descname"><span class="pre">assertNotOk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertNotOk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertNotOk" title="Link to this definition"></a></dt>
@@ -199,18 +250,9 @@ validate HTTP status codes, headers, and response bodies in a simplified manner.
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertResponseHeader">
-<span class="sig-name descname"><span class="pre">assertResponseHeader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">header_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertResponseHeader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertResponseHeader" title="Link to this definition"></a></dt>
-<dd><p>Assert that a specific header in the response matches the expected value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>response</strong> – The Response object to check</p></li>
-<li><p><strong>header_name</strong> – The name of the header to validate</p></li>
-<li><p><strong>expected_value</strong> – The expected value of the header</p></li>
-</ul>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertRedirect">
+<span class="sig-name descname"><span class="pre">assertRedirect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertRedirect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertRedirect" title="Link to this definition"></a></dt>
+<dd><p>Assert that the response status is a redirect (3xx) and the Location header matches the expected URL.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -225,6 +267,12 @@ validate HTTP status codes, headers, and response bodies in a simplified manner.
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertUnauthorized">
+<span class="sig-name descname"><span class="pre">assertUnauthorized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertUnauthorized"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertUnauthorized" title="Link to this definition"></a></dt>
+<dd><p>Assert that the response status is 401.</p>
 </dd></dl>
 
 </dd></dl>

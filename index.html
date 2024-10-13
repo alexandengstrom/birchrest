@@ -121,14 +121,23 @@
 https://alexandengstrom.github.io/birchrest</p>
 <section id="quickstart">
 <h3>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h3>
-<p>You can install the latest version of birchrest using pip:</p>
+<ol class="arabic">
+<li><p><strong>Install</strong>: You can install the latest version of birchrest     using pip:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>birchrest
 </pre></div>
 </div>
-<p>Init a boilerplate project with birch init command:</p>
+</li>
+<li><p><strong>Init</strong>: Create a boilerplate project with <code class="docutils literal notranslate"><span class="pre">birch</span> <span class="pre">init</span></code> command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>birch<span class="w"> </span>init
 </pre></div>
 </div>
+</li>
+<li><p><strong>Start</strong>: Start the server via command line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>birch<span class="w"> </span>serve
+</pre></div>
+</div>
+</li>
+</ol>
 </section>
 <section id="table-of-contents">
 <h3>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h3>
@@ -144,7 +153,12 @@ https://alexandengstrom.github.io/birchrest</p>
 <li><p><a class="reference internal" href="birchrest.html#birchrest.BirchRest.middleware" title="birchrest.BirchRest.middleware"><span class="xref myst py py-meth">Middleware</span></a></p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#custom-middlewares"><span class="xref myst">Custom Middlewares</span></a></p></li>
-<li><p><a class="reference internal" href="#built-in-middlewares"><span class="xref myst">Built-in Middlewares</span></a></p></li>
+<li><p><a class="reference internal" href="#built-in-middlewares"><span class="xref myst">Built-in Middlewares</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#rate-limiter"><span class="xref myst">Rate Limiter</span></a></p></li>
+<li><p><a class="reference internal" href="birchrest.middlewares.html#module-birchrest.middlewares.cors" title="birchrest.middlewares.cors"><span class="xref myst py py-mod">Cors</span></a></p></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><p><a class="reference internal" href="#data-validation"><span class="xref myst">Data Validation</span></a></p>
@@ -164,7 +178,21 @@ https://alexandengstrom.github.io/birchrest</p>
 <li><p><a class="reference internal" href="#custom-error-handler"><span class="xref myst">Custom Error Handler</span></a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#unit-testing"><span class="xref myst">Unit Testing</span></a></p></li>
+<li><p><a class="reference internal" href="#unit-testing"><span class="xref myst">Unit Testing</span></a></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#test-adapter"><span class="xref myst">Test Adapter</span></a></p></li>
+<li><p><a class="reference internal" href="#birchresttestcase"><span class="xref myst">BirchRestTestCase</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#request-and-response-lifecycle-in-birchrest"><span class="xref myst">Request and Response Lifecycle in BirchRest</span></a></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1-receiving-and-parsing-the-request"><span class="xref myst">Receiving and Parsing the Request</span></a></p></li>
+<li><p><a class="reference internal" href="#2-passing-the-request-to-the-app"><span class="xref myst">Passing the Request to the App</span></a></p></li>
+<li><p><a class="reference internal" href="#3-handling-the-request-in-the-app"><span class="xref myst">Handling the Request in the App</span></a></p></li>
+<li><p><a class="reference internal" href="#4-route-execution"><span class="xref myst">Route Execution</span></a></p></li>
+<li><p><a class="reference internal" href="#5-returning-the-response"><span class="xref myst">Returning the Response</span></a></p></li>
+</ul>
+</li>
 </ol>
 </section>
 <section id="introduction">
@@ -497,12 +525,31 @@ https://alexandengstrom.github.io/birchrest</p>
 <section id="custom-error-handler">
 <h4>Custom Error Handler<a class="headerlink" href="#custom-error-handler" title="Link to this heading"></a></h4>
 <p>If you need more control over how errors are handled, you can define your own custom error handler. This handler will receive the request, response, and exception as arguments. The handler must manage the exception explicitly; otherwise, a <code class="docutils literal notranslate"><span class="pre">500</span> <span class="pre">Internal</span> <span class="pre">Server</span> <span class="pre">Error</span></code> will be returned by default.</p>
+<section id="id5">
+<h5>Example:<a class="headerlink" href="#id5" title="Link to this heading"></a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">birchrest.exceptions</span> <span class="kn">import</span> <span class="n">ApiError</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">error_handler</span><span class="p">(</span><span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">ApiError</span><span class="p">):</span>
+        <span class="c1"># If it an ApiError, use the build in converter if you want</span>
+        <span class="k">return</span> <span class="n">e</span><span class="o">.</span><span class="n">convert_to_response</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="c1"># Do your own error handling here...</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;This was not supposed to happen....&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 <section id="unit-testing">
 <h3>Unit Testing<a class="headerlink" href="#unit-testing" title="Link to this heading"></a></h3>
+<section id="test-adapter">
+<h4>Test Adapter<a class="headerlink" href="#test-adapter" title="Link to this heading"></a></h4>
 <p>To simplify testing, the framework includes a test adapter class that simulates sending HTTP requests to your API. This allows you to test everything except the server itself, with all middlewares, authentication handlers, and other components functioning exactly as they would in a real request. The adapter returns the final response object, which you can inspect and assert in your tests.</p>
 <p>The TestAdapter class takes an instance of your app and then provides methods like get, post etc that accepts a path, headers and body.</p>
+<section id="id6">
+<h5>Example<a class="headerlink" href="#id6" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span>
 <span class="kn">from</span> <span class="nn">birchrest.unittest</span> <span class="kn">import</span> <span class="n">TestAdapter</span>
 
@@ -512,7 +559,27 @@ https://alexandengstrom.github.io/birchrest</p>
 <span class="n">response</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/your-route&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>BirchRest also provides a custom TestCase class to make it easier to assert responses, example:</p>
+</section>
+</section>
+<section id="birchresttestcase">
+<h4>BirchRestTestCase<a class="headerlink" href="#birchresttestcase" title="Link to this heading"></a></h4>
+<p>BirchRest also provides a custom TestCase class (BirchRestTestCase) that includes helper methods to make it easier to assert HTTP responses. These methods help ensure that your API responds as expected. Below is a list of the available assertion methods and their descriptions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">assertOk(response)</span></code>: Asserts that the response status code is in the range of 2xx, indicating a successful request.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assertNotOk(response)</span></code>: Asserts that the response status code is not in the range of 2xx, indicating a failure.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assertBadRequest(response)</span></code>: Asserts that the response status code is 400, indicating a Bad Request.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assertNotFound(response)</span></code>: Asserts that the response status code is 404, indicating a resource was not found.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assertUnauthorized(response)</span></code>: Asserts that the response status code is 401, indicating an Unauthorized request.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assertForbidden(response)</span></code>: Asserts that the response status code is 403, indicating a Forbidden request.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assertInternalServerError(response)</span></code>: Asserts that the response status code is 500, indicating an Internal Server Error.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assertStatus(response,</span> <span class="pre">expected_status)</span></code>: Asserts that the response status code matches the expected_status.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assertHasHeader(response,</span> <span class="pre">expected_key)</span></code>: Asserts that the response contains a specific header.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assertHeader(response,</span> <span class="pre">header_name,</span> <span class="pre">expected_value)</span></code>: Asserts that a specific header in the response matches the expected value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assertRedirect(response,</span> <span class="pre">expected_url)</span></code>: Asserts that the response status is a redirect (3xx) and that the Location header matches the expected URL.</p></li>
+<li><p>```assertBodyContains(response, expected_key)``: Asserts that the response body contains a specific property or key.</p></li>
+</ul>
+<section id="id7">
+<h5>Example:<a class="headerlink" href="#id7" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
 
 <span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span>
@@ -538,6 +605,8 @@ https://alexandengstrom.github.io/birchrest</p>
     <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
+</section>
+</section>
 </section>
 <section id="request-and-response-lifecycle-in-birchrest">
 <h3>Request and Response Lifecycle in BirchRest<a class="headerlink" href="#request-and-response-lifecycle-in-birchrest" title="Link to this heading"></a></h3>
