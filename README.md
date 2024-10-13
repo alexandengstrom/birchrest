@@ -17,35 +17,49 @@ Full documentation is available here:
 https://alexandengstrom.github.io/birchrest
 
 ## Quickstart
-You can install the latest version of birchrest using pip:
-```bash
-pip install birchrest
-```
+1. **Install**: You can install the latest version of birchrest     using pip:
+    ```bash
+    pip install birchrest
+    ```
 
-Init a boilerplate project with birch init command:
-```bash
-birch init
-```
+2. **Init**: Create a boilerplate project with ```birch init``` command:
+    ```bash
+    birch init
+    ```
+
+3. **Start**: Start the server via command line:
+    ```bash
+    birch serve
+    ```
 
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Defining Controllers](#defining-controllers)
-   - [Key Concepts](#key-concepts)
-   - [Defining Endpoints](#defining-endpoints)
-   - [Nesting Controllers](#nesting-controllers)
+    - [Key Concepts](#key-concepts)
+    - [Defining Endpoints](#defining-endpoints)
+    - [Nesting Controllers](#nesting-controllers)
 3. [Middleware](#middleware)
-   - [Custom Middlewares](#custom-middlewares)
-   - [Built-in Middlewares](#built-in-middlewares)
+    - [Custom Middlewares](#custom-middlewares)
+    - [Built-in Middlewares](#built-in-middlewares)
+        - [Rate Limiter](#rate-limiter)
+        - [Cors](#cors)
 4. [Data Validation](#data-validation)
-   - [Query and URL Param Validation](#query-and-url-param-validation)
+    - [Query and URL Param Validation](#query-and-url-param-validation)
 5. [Authentication](#authentication)
-   - [Custom Auth Handlers](#custom-auth-handlers)
-   - [Protecting Routes](#protecting-routes)
+    - [Custom Auth Handlers](#custom-auth-handlers)
+    - [Protecting Routes](#protecting-routes)
 6. [Error Handling](#error-handling)
-   - [ApiError](#apierror)
-   - [Custom Error Handler](#custom-error-handler)
+    - [ApiError](#apierror)
+    - [Custom Error Handler](#custom-error-handler)
 7. [Unit Testing](#unit-testing)
-
+    - [Test Adapter](#test-adapter)
+    - [BirchRestTestCase](#birchresttestcase)
+8. [Request and Response Lifecycle in BirchRest](#request-and-response-lifecycle-in-birchrest)
+   - [Receiving and Parsing the Request](#1-receiving-and-parsing-the-request)
+   - [Passing the Request to the App](#2-passing-the-request-to-the-app)
+   - [Handling the Request in the App](#3-handling-the-request-in-the-app)
+   - [Route Execution](#4-route-execution)
+   - [Returning the Response](#5-returning-the-response)
 
 ## Introduction
 BirchRest follows a controller-based architecture, where each controller represents a logical grouping of API routes. The framework automatically constructs your API at runtime from the controllers you define. To make this work, simply create a file named ```__birch__.py``` and import all your controllers into this file. BirchRest will use this file to discover and configure your API routes.
@@ -345,11 +359,26 @@ The framework handles everything behind the scenes if any of these exceptions ar
 ### Custom Error Handler
 If you need more control over how errors are handled, you can define your own custom error handler. This handler will receive the request, response, and exception as arguments. The handler must manage the exception explicitly; otherwise, a ```500 Internal Server Error``` will be returned by default.
 
+#### Example:
+```python
+from birchrest.http import Request, Response
+from birchrest.exceptions import ApiError
+
+async def error_handler(req: Request, res: Response, e: Exception) -> Response:
+    if isinstance(e, ApiError):
+        # If it an ApiError, use the build in converter if you want
+        return e.convert_to_response(res)
+
+    # Do your own error handling here...
+    return res.status(500).send({"error": "This was not supposed to happen...."})
+```
 ## Unit Testing
+### Test Adapter
 To simplify testing, the framework includes a test adapter class that simulates sending HTTP requests to your API. This allows you to test everything except the server itself, with all middlewares, authentication handlers, and other components functioning exactly as they would in a real request. The adapter returns the final response object, which you can inspect and assert in your tests.
 
 The TestAdapter class takes an instance of your app and then provides methods like get, post etc that accepts a path, headers and body.
 
+#### Example
 ```python
 from birchrest import BirchRest
 from birchrest.unittest import TestAdapter
@@ -360,8 +389,34 @@ runner = TestAdapter(app)
 response = runner.get("/your-route")
 ```
 
-BirchRest also provides a custom TestCase class to make it easier to assert responses, example:
+### BirchRestTestCase
+BirchRest also provides a custom TestCase class (BirchRestTestCase) that includes helper methods to make it easier to assert HTTP responses. These methods help ensure that your API responds as expected. Below is a list of the available assertion methods and their descriptions:
 
+- ```assertOk(response)```: Asserts that the response status code is in the range of 2xx, indicating a successful request.
+
+- ```assertNotOk(response)```: Asserts that the response status code is not in the range of 2xx, indicating a failure.
+
+- ```assertBadRequest(response)```: Asserts that the response status code is 400, indicating a Bad Request.
+
+- ```assertNotFound(response)```: Asserts that the response status code is 404, indicating a resource was not found.
+
+- ```assertUnauthorized(response)```: Asserts that the response status code is 401, indicating an Unauthorized request.
+
+- ```assertForbidden(response)```: Asserts that the response status code is 403, indicating a Forbidden request.
+
+- ```assertInternalServerError(response)```: Asserts that the response status code is 500, indicating an Internal Server Error.
+
+- ```assertStatus(response, expected_status)```: Asserts that the response status code matches the expected_status.
+
+- ```assertHasHeader(response, expected_key)```: Asserts that the response contains a specific header.
+
+- ```assertHeader(response, header_name, expected_value)```: Asserts that a specific header in the response matches the expected value.
+
+- ```assertRedirect(response, expected_url)```: Asserts that the response status is a redirect (3xx) and that the Location header matches the expected URL.
+
+- ```assertBodyContains(response, expected_key)``: Asserts that the response body contains a specific property or key.
+
+#### Example:
 ```python
 import unittest
 
@@ -391,16 +446,16 @@ if __name__ == "__main__":
 ## Request and Response Lifecycle in BirchRest
 The BirchRest framework handles HTTP requests using a structured flow to ensure that all incoming requests are processed correctly, including middleware execution, validation, and error handling. This section explains the lifecycle of a request from when it is received by the server to when a response is sent back to the client.
 
-#### 1. Receiving and Parsing the Request
+### 1. Receiving and Parsing the Request
 When a client sends an HTTP request to the server, the server parses the raw request data into a Request object. This object encapsulates all details about the incoming request, such as headers, method (e.g., GET, POST), query parameters, URL parameters, and body data.
-#### 2. Passing the Request to the App
+### 2. Passing the Request to the App
 Once the request object is created, it is passed to the main application (BirchRest) for handling. The app creates a new Response object, which will later be populated and returned to the client. The app then looks for a matching route by searching through all defined routes based on the request’s URL and HTTP method.
-#### 3. Handling the Request in the App
+### 3. Handling the Request in the App
 The main request handling logic is performed by the handle_request method in the app. This method attempts to match the incoming request to a route and execute the following key steps:
 - **Route Matching**: The app searches through all registered routes to find one that matches the URL path and HTTP method of the request. If a matching route is found, the request proceeds to that route. If no route matches, a ```404 Not Found``` error is raised, or if the route exists but the HTTP method is incorrect, a ```405 Method Not Allowed``` error is raised.
 - **Passing the Request to the Route**: Once a route is matched, the app passes both the request and response objects to that route for further processing.
 - **Error Handling**: If an exception occurs during request handling (such as an invalid request or missing route), the app catches the exception and attempts to generate an appropriate error response using predefined or custom error handlers.
-#### 4. Route Execution
+### 4. Route Execution
 Each route in BirchRest is responsible for executing its logic and handling the request:
 - **Middleware Execution**: When the request reaches the matched route, the route begins by executing any middleware associated with it. Middleware can modify the request or response objects, perform tasks such as logging or authentication, and decide whether to continue processing the request. Middleware runs in a chain, meaning each middleware can pass control to the next one, or halt the chain and send a response early.
 
@@ -408,7 +463,7 @@ Each route in BirchRest is responsible for executing its logic and handling the 
 - **Authentication**: If the route is protected by authentication, the request must pass through an authentication handler. This handler validates the request (e.g., checking tokens or credentials). If authentication fails, a ```401 Unauthorized``` error is raised, and the response is sent back to the client.
 - **Validation**: If the route requires validation of the request body, query parameters, or URL parameters, the request data is checked against predefined data classes. If the data fails validation (e.g., missing required fields or incorrect types), a 400 Bad Request error is raised.
 - **Executing the Route Handler**: Once middleware, authentication, and validation checks pass, the route handler function is executed. The route handler is responsible for performing the main business logic, such as fetching data, processing the request, or interacting with external services. After processing, the route handler populates the response object with the appropriate data and status code.
-#### 5. Returning the Response
+### 5. Returning the Response
 After the route handler completes, the response object (which was initially created at the beginning of the request) contains the data to be sent back to the client. This includes the HTTP status code, headers, and response body.
 
 The final response is then returned to the server, which sends it to the client. If any errors occurred during the request lifecycle, they are automatically converted into error responses by the app’s error handler.
