@@ -7,6 +7,7 @@ from birchrest.routes.validator import parse_data_class
 from ..types import RouteHandler, MiddlewareFunction, AuthHandlerFunction
 from ..http import Request, Response
 from ..exceptions import MissingAuthHandlerError
+from ..utils import Logger
 
 
 class Route:
@@ -75,6 +76,9 @@ class Route:
 
         new_prefix = prefix.rstrip("/")
         self.path = f"{new_prefix}/{self.path.lstrip('/')}".rstrip("/")
+        
+        Logger.debug(f"Generated route {self.path}")
+        
         self.middlewares = middlewares + self.middlewares
 
         path_regex = re.sub(r":(\w+)", r"(?P<\1>[^/]+)", self.path)
@@ -106,15 +110,19 @@ class Route:
                 auth_result = await self.auth_handler(req, res)
 
                 if not auth_result:
+                    Logger.debug(f"Request to {self.path} from {req.client_address} was rejected")
                     raise ApiError.UNAUTHORIZED()
+
                 req.user = auth_result
             except Exception as e:
+                Logger.debug(f"Request to {self.path} from {req.client_address} was rejected")
                 raise ApiError.UNAUTHORIZED() from e
 
         if self.validate_body:
             try:
                 body_data = req.body
                 if not body_data:
+                    Logger.debug(f"Request to {self.path} from {req.client_address} failed body validation")
                     raise ApiError.BAD_REQUEST("Request body is required")
 
                 parsed_data = parse_data_class(self.validate_body, body_data)
@@ -122,6 +130,7 @@ class Route:
                 req.body = parsed_data
 
             except ValueError as e:
+                Logger.debug(f"Request to {self.path} from {req.client_address} failed body validation")
                 raise ApiError.BAD_REQUEST(f"Body validation failed: {str(e)}")
 
         if self.validate_queries:
@@ -131,6 +140,7 @@ class Route:
                 req.queries = parsed_data
 
             except ValueError as e:
+                Logger.debug(f"Request to {self.path} from {req.client_address} failed query validation")
                 raise ApiError.BAD_REQUEST(f"Query validation failed: {str(e)}")
 
         if self.validate_params:
@@ -140,6 +150,7 @@ class Route:
                 req.params = parsed_data
 
             except ValueError as e:
+                Logger.debug(f"Request to {self.path} from {req.client_address} failed param validation")
                 raise ApiError.BAD_REQUEST(f"Param validation failed: {str(e)}")
 
         async def run_middlewares(index: int) -> None:
@@ -182,12 +193,11 @@ class Route:
 
         :param auth_handler: A function that handles authentication for protected routes.
         """
-
         self.auth_handler = auth_handler
 
     def make_protected(self) -> None:
         """
         Marks the route as protected, requiring authentication to access.
         """
-
+        Logger.debug(f"Route {self.path} was marked as protected")
         self.is_protected = True

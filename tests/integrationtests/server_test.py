@@ -60,6 +60,12 @@ class TestServer(unittest.TestCase):
         })
         self.assertEqual(response.status_code, 201)
         
+    def test_get_user_messages(self):
+        response = requests.get("http://127.0.0.1:13337/user/1/messages")
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.json(), list)
+        self.assertEqual(len(response.json()), 2)
+        
 
 if __name__ == "__main__":
     unittest.main()

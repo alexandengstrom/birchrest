@@ -3,6 +3,7 @@ from typing import Generator, List, Type
 from abc import ABC
 from .route import Route
 from ..types import MiddlewareFunction
+from ..utils import Logger
 
 
 class Controller:
@@ -40,11 +41,13 @@ class Controller:
         self._is_protected: str = getattr(self.__class__, "_is_protected", "")
         self.routes: List[Route] = []
         self.controllers: List[Controller] = []
+        
+        self._discover_subcontrollers()
 
         for attr_name in dir(self):
             method = getattr(self, attr_name)
 
-            if hasattr(method, "_http_method"):
+            if attr_name in self.__class__.__dict__ and hasattr(method, "_http_method"):
                 middlewares = []
 
                 if hasattr(method, "_middlewares"):
@@ -78,20 +81,17 @@ class Controller:
                         validate_params,
                     )
                 )
-
-    def attach(self, *controllers: Type[Controller]) -> None:
+                
+    def _discover_subcontrollers(self) -> None:
         """
-        Attach one or more subcontrollers to this controller.
-
-        Subcontrollers are added as children to this controller, allowing
-        a hierarchy of controllers. Routes from subcontrollers will be collected
-        and resolved relative to the base path of this controller.
-
-        :param controllers: One or more subcontroller classes to attach.
+        Discovers all subclasses of the current `Controller` class and automatically
+        initializes them as subcontrollers.
         """
+        subclasses = self.__class__.__subclasses__()
 
-        for controller in controllers:
-            self.controllers.append(controller())
+        for subclass in subclasses:
+            Logger.debug(f"Discovered Controller {subclass.__name__}")
+            self.controllers.append(subclass())
 
     def resolve_paths(
         self, prefix: str = "", middlewares: List[MiddlewareFunction] = []

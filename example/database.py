@@ -13,6 +13,23 @@ db = {
             "id": 2,
             "name": "Jane Doe"
         }
+    ],
+    "messages": [
+        {
+            "id": 1,
+            "user_id": 1,
+            "message": "Hello world!"
+        },
+        {
+            "id": 2,
+            "user_id": 1,
+            "message": "How are you?"
+        },
+        {
+            "id": 3,
+            "user_id": 2,
+            "message": "I am gooooood!"
+        }
     ]
 }
 
@@ -30,3 +47,6 @@ async def get_users() -> List[Any]:
 
 async def create_user(user: Any) -> None:
     db["users"].append(user)
+    
+async def get_messages(user_id: int) -> List[Any]:
+    return list(filter(lambda entry: entry["user_id"] == user_id ,db["messages"]))

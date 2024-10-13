@@ -6,6 +6,7 @@ import asyncio
 from .request import Request
 from .response import Response
 from ..types import RouteHandler
+from ..utils import Logger
 
 
 class Server:
@@ -83,6 +84,7 @@ class Server:
             try:
                 request = Request.parse(request_data, client_address)
             except JSONDecodeError:
+                Logger.warning("Failed to parse request as JSON")
                 response = (
                     Response()
                     .status(400)

@@ -19,16 +19,27 @@ class TestController(unittest.TestCase):
         self.assertEqual(controller._middlewares, [])
         self.assertEqual(controller._is_protected, "")
         self.assertEqual(controller.routes, [])
+
+    @patch('birchrest.Controller.__subclasses__', return_value=[])
+    def test_no_subcontrollers_discovered(self, mock_subclasses):
+        """Test that no subcontrollers are discovered if there are no subclasses."""
+        controller = birchrest.Controller()
+
+        # Assert no controllers are attached
         self.assertEqual(controller.controllers, [])
+        mock_subclasses.assert_called_once()
 
-    def test_attach_controllers(self):
-        """Test that attach adds sub-controllers to the controllers list."""
-        mock_controller = Mock(spec=birchrest.Controller)
+    def test_dynamic_subcontroller_discovery(self):
+        """Test that subcontrollers are dynamically discovered and initialized."""
+        class SubController(birchrest.Controller):
+            pass
+        
+        class SubSubController(SubController):
+            pass
 
-        self.controller.attach(mock_controller)
+        controller = SubController()
 
-        self.assertEqual(len(self.controller.controllers), 1)
-        self.assertIs(self.controller.controllers[0], mock_controller())
+        self.assertEqual(len(controller.controllers), 1)
 
 
     @patch('birchrest.routes.Route')
@@ -36,10 +47,15 @@ class TestController(unittest.TestCase):
         """Test that resolve_paths correctly updates route paths and middlewares."""
         mock_route = Mock()
         self.controller.routes = [mock_route]
+        
+        mock_subcontroller = Mock(spec=birchrest.Controller)
+        self.controller.controllers = [mock_subcontroller]
 
         self.controller.resolve_paths(prefix="/api", middlewares=["middleware1"])
 
         mock_route.resolve.assert_called_with("/api", ["middleware1"])
+
+        mock_subcontroller.resolve_paths.assert_called_with("/api", ["middleware1"])
         
     @patch('birchrest.routes.Route')
     def test_resolve_path_without_slash(self, MockRoute):
@@ -47,9 +63,16 @@ class TestController(unittest.TestCase):
         mock_route = Mock()
         self.controller.routes = [mock_route]
 
+        mock_subcontroller = Mock(spec=birchrest.Controller)
+        mock_subcontroller.resolve_paths = Mock()
+
+        self.controller.controllers = [mock_subcontroller]
+
         self.controller.resolve_paths(prefix="api", middlewares=["middleware1"])
 
         mock_route.resolve.assert_called_with("/api", ["middleware1"])
+
+        mock_subcontroller.resolve_paths.assert_called_once_with("/api", ["middleware1"])
 
 
     @patch('birchrest.routes.Route')
@@ -60,9 +83,16 @@ class TestController(unittest.TestCase):
         mock_route = Mock()
         self.controller.routes = [mock_route]
 
+        mock_subcontroller = Mock(spec=birchrest.Controller)
+        mock_subcontroller.resolve_paths = Mock()
+
+        self.controller.controllers = [mock_subcontroller]
+
         self.controller.resolve_paths(prefix="/api", middlewares=["middleware1"])
 
         mock_route.make_protected.assert_called_once()
+        mock_subcontroller.resolve_paths.assert_called_once_with("/api", ["middleware1"])
+
 
 
     def test_collect_routes(self):
