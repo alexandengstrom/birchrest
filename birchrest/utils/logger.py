@@ -4,7 +4,6 @@ from typing import Any, Optional
 from colorama import Fore, Style, init
 import os
 
-# Initialize colorama for colored output on all platforms
 init(autoreset=True)
 
 class Logger:
