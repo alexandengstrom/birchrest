@@ -1,4 +1,4 @@
-from example.user_controller.user_controller import UserController
+from example.controllers.user_controller import UserController
 from birchrest.decorators import controller, get, params
 from birchrest.http import Request, Response
 from example.database import get_messages
