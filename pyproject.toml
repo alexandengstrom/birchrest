@@ -28,7 +28,9 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Operating System :: OS Independent",
     "Environment :: Web Environment",
-    "Typing :: Typed"
+    "Typing :: Typed",
+    "Framework :: AsyncIO",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers"
 ]
 
 
