@@ -162,7 +162,7 @@ A middleware should be a class that inherits from the Middleware class and it mu
 ```python
 from birchrest.http import Request, Response, Middleware
 from birchrest.types import NextFunction
-from birchrest.exceptions import ApiError
+from birchrest.exceptions import BadRequest
 
 class MyMiddleware(Middleware):
     def __init__(self, state: int):
@@ -172,7 +172,7 @@ class MyMiddleware(Middleware):
         if self.state:
             await next()
         else:
-            raise ApiError.BAD_REQUEST()
+            raise BadRequest
 ```
 
 It is possible to execute things after next is called aswell, this means you can use middlewares for postprocessing aswell.
