@@ -50,10 +50,5 @@ class TestBirchRestCLI(unittest.TestCase):
 
         mock_init_project.assert_called_once()
 
-    def test_init_project(self):
-        """Test that init_project raises NotImplementedError."""
-        with self.assertRaises(NotImplementedError):
-            init_project()
-
 if __name__ == "__main__":
     unittest.main()

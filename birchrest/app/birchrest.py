@@ -230,7 +230,10 @@ class BirchRest:
         current_dir = os.getcwd()
 
         birch_files = []
-        for root, _, files in os.walk(current_dir):
+        for root, dirs, files in os.walk(current_dir):
+            
+            dirs[:] = [d for d in dirs if not d.startswith('__')]
+            
             if "__birch__.py" in files:
                 birch_files.append(os.path.join(root, "__birch__.py"))
 

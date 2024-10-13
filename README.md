@@ -17,10 +17,15 @@
 Full documentation is available here:
 https://alexandengstrom.github.io/birchrest
 
-## Installation
+## Quickstart
 You can install the latest version of birchrest using pip:
-```python
+```bash
 pip install birchrest
+```
+
+Init a boilerplate project with birch init command:
+```bash
+birch init
 ```
 
 ## Table of Contents
