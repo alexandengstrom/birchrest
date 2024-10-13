@@ -5,7 +5,7 @@ from example.database import get_messages
 from example.models import UserId
 
 @controller("health")
-class MessageController(Controller):
+class HealthController(Controller):
     
     @get()
     async def health(self, req: Request, res: Response) -> Response:

@@ -1,0 +1,45 @@
+name: Load Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-load-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          # Install any required Python dependencies here
+          # For example: pip install -r requirements.txt
+          pip install requests  # Install requests if needed for the script
+
+      - name: Install ApacheBench
+        run: sudo apt-get install apache2-utils
+
+      - name: Make load_test.sh executable
+        run: chmod +x tests/loadtests/load_test.sh
+
+      - name: Run Load Test
+        run: |
+          tests/loadtests/load_test.sh
+
+      - name: Check for errors
+        if: failure()
+        run: |
+          echo "Load test failed!"
+          exit 1  # Forcefully fail the job if the script returned an error

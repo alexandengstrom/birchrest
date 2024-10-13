@@ -162,3 +162,4 @@ cython_debug/
 #.idea/
 
 play.py
+load_test_result.txt
