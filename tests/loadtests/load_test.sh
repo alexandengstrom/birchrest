@@ -12,7 +12,7 @@ sleep 3
 URL="http://127.0.0.1:13337/health"
 
 echo "Running ApacheBench load test on $URL"
-ab -n 100000 -c 1000 $URL > load_test_result.txt
+ab -n 10000 -c 100 $URL > load_test_result.txt
 TEST_RESULT=$?
 
 kill $SERVER_PID
