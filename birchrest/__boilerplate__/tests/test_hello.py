@@ -11,11 +11,11 @@ class TestHello(BirchRestTestCase):
         self.runner = TestAdapter(app)
         
     async def test_hello(self) -> None:
-        response = await self.runner.get("hello")
+        response = await self.runner.get("/hello")
         self.assertOk(response)
         
     async def test_incorrect_route(self) -> None:
-        response = await self.runner.get("notexist")
+        response = await self.runner.get("/notexist")
         self.assertStatus(response, 404)
         
 if __name__ == "__main__":

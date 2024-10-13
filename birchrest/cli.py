@@ -113,7 +113,7 @@ def run_tests(args: Any) -> None:
     print("Running unit tests...")
     try:
         subprocess.run(
-            ["python", "-m", "unittest", "discover"],
+            ["python", "-m", "unittest", "discover", "-s", "tests"],
             check=True,
             stdout=sys.stdout,
             stderr=sys.stderr
