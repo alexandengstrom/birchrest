@@ -180,6 +180,56 @@ _generate_request(method, path, headers, body): Helper method to create a <cite>
 <p>Exported components:
 - <cite>TestAdapter</cite></p>
 <dl class="py class">
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.unittest.</span></span><span class="sig-name descname"><span class="pre">BirchRestTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IsolatedAsyncioTestCase</span></code></p>
+<p>A custom TestCase class that adds helper methods for asserting BirchRest HTTP responses.</p>
+<p>This class extends unittest.TestCase and provides additional assertion methods to 
+validate HTTP status codes, headers, and response bodies in a simplified manner.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertNotOk">
+<span class="sig-name descname"><span class="pre">assertNotOk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertNotOk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertNotOk" title="Link to this definition"></a></dt>
+<dd><p>Assert that the response status code is not in the range of 2xx (indicating failure).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertOk">
+<span class="sig-name descname"><span class="pre">assertOk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertOk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertOk" title="Link to this definition"></a></dt>
+<dd><p>Assert that the response status code is in the range of 2xx (successful responses).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertResponseHeader">
+<span class="sig-name descname"><span class="pre">assertResponseHeader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">header_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertResponseHeader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertResponseHeader" title="Link to this definition"></a></dt>
+<dd><p>Assert that a specific header in the response matches the expected value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>response</strong> – The Response object to check</p></li>
+<li><p><strong>header_name</strong> – The name of the header to validate</p></li>
+<li><p><strong>expected_value</strong> – The expected value of the header</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertStatus">
+<span class="sig-name descname"><span class="pre">assertStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase.assertStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase.assertStatus" title="Link to this definition"></a></dt>
+<dd><p>Assert that the response status code matches the expected status.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>response</strong> – The Response object to check</p></li>
+<li><p><strong>expected_status</strong> – The expected HTTP status code</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="birchrest.unittest.TestAdapter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.unittest.</span></span><span class="sig-name descname"><span class="pre">TestAdapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.app.html#birchrest.app.birchrest.BirchRest" title="birchrest.app.birchrest.BirchRest"><span class="pre">BirchRest</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/unittest/test_adapter.html#TestAdapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.TestAdapter" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>

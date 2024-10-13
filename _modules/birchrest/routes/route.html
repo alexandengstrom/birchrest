@@ -73,11 +73,10 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
-<span class="kn">from</span> <span class="nn">birchrest.exceptions.api_error</span> <span class="kn">import</span> <span class="n">ApiError</span>
 <span class="kn">from</span> <span class="nn">birchrest.routes.validator</span> <span class="kn">import</span> <span class="n">parse_data_class</span>
 <span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">RouteHandler</span><span class="p">,</span> <span class="n">MiddlewareFunction</span><span class="p">,</span> <span class="n">AuthHandlerFunction</span>
 <span class="kn">from</span> <span class="nn">..http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
-<span class="kn">from</span> <span class="nn">..exceptions</span> <span class="kn">import</span> <span class="n">MissingAuthHandlerError</span>
+<span class="kn">from</span> <span class="nn">..exceptions</span> <span class="kn">import</span> <span class="n">MissingAuthHandlerError</span><span class="p">,</span> <span class="n">Unauthorized</span><span class="p">,</span> <span class="n">BadRequest</span><span class="p">,</span> <span class="n">ApiError</span>
 <span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">Logger</span>
 
 
@@ -187,19 +186,19 @@
 
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">auth_result</span><span class="p">:</span>
                     <span class="n">Logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">req</span><span class="o">.</span><span class="n">client_address</span><span class="si">}</span><span class="s2"> was rejected&quot;</span><span class="p">)</span>
-                    <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">UNAUTHORIZED</span><span class="p">()</span>
+                    <span class="k">raise</span> <span class="n">Unauthorized</span>
 
                 <span class="n">req</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">auth_result</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="n">Logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">req</span><span class="o">.</span><span class="n">client_address</span><span class="si">}</span><span class="s2"> was rejected&quot;</span><span class="p">)</span>
-                <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">UNAUTHORIZED</span><span class="p">()</span> <span class="kn">from</span> <span class="nn">e</span>
+                <span class="k">raise</span> <span class="n">Unauthorized</span> <span class="kn">from</span> <span class="nn">e</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_body</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">body_data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">body</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">body_data</span><span class="p">:</span>
                     <span class="n">Logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">req</span><span class="o">.</span><span class="n">client_address</span><span class="si">}</span><span class="s2"> failed body validation&quot;</span><span class="p">)</span>
-                    <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">(</span><span class="s2">&quot;Request body is required&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="s2">&quot;Request body is required&quot;</span><span class="p">)</span>
 
                 <span class="n">parsed_data</span> <span class="o">=</span> <span class="n">parse_data_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validate_body</span><span class="p">,</span> <span class="n">body_data</span><span class="p">)</span>
 
@@ -207,7 +206,7 @@
 
             <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="n">Logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">req</span><span class="o">.</span><span class="n">client_address</span><span class="si">}</span><span class="s2"> failed body validation&quot;</span><span class="p">)</span>
-                <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Body validation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Body validation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_queries</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -217,7 +216,7 @@
 
             <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="n">Logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">req</span><span class="o">.</span><span class="n">client_address</span><span class="si">}</span><span class="s2"> failed query validation&quot;</span><span class="p">)</span>
-                <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Query validation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Query validation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_params</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -227,7 +226,7 @@
 
             <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="n">Logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">req</span><span class="o">.</span><span class="n">client_address</span><span class="si">}</span><span class="s2"> failed param validation&quot;</span><span class="p">)</span>
-                <span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Param validation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Param validation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">async</span> <span class="k">def</span> <span class="nf">run_middlewares</span><span class="p">(</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">middlewares</span><span class="p">):</span>

@@ -109,78 +109,6 @@
 a user-friendly message, and a base message (from the HTTP status code description).
 It can also convert itself into an HTTP response.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="birchrest.exceptions.api_error.ApiError.BAD_REQUEST">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BAD_REQUEST</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><span class="pre">ApiError</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.BAD_REQUEST"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.ApiError.BAD_REQUEST" title="Link to this definition"></a></dt>
-<dd><p>Create a 400 Bad Request error.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>user_message (str, optional): Custom message for the error. Defaults to an empty string.</p>
-</dd>
-<dt>Returns:</dt><dd><p>ApiError: The generated Bad Request error.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.exceptions.api_error.ApiError.FORBIDDEN">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FORBIDDEN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><span class="pre">ApiError</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.FORBIDDEN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.ApiError.FORBIDDEN" title="Link to this definition"></a></dt>
-<dd><p>Create a 403 Forbidden error.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>user_message (str, optional): Custom message for the error. Defaults to an empty string.</p>
-</dd>
-<dt>Returns:</dt><dd><p>ApiError: The generated Forbidden error.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.exceptions.api_error.ApiError.INTERNAL_SERVER_ERROR">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">INTERNAL_SERVER_ERROR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><span class="pre">ApiError</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.INTERNAL_SERVER_ERROR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.ApiError.INTERNAL_SERVER_ERROR" title="Link to this definition"></a></dt>
-<dd><p>Create a 500 Internal Server Error.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>user_message (str, optional): Custom message for the error. Defaults to an empty string.</p>
-</dd>
-<dt>Returns:</dt><dd><p>ApiError: The generated Internal Server Error.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.exceptions.api_error.ApiError.METHOD_NOT_ALLOWED">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">METHOD_NOT_ALLOWED</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><span class="pre">ApiError</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.METHOD_NOT_ALLOWED"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.ApiError.METHOD_NOT_ALLOWED" title="Link to this definition"></a></dt>
-<dd><p>Create a 405 Method Not Allowed error.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>user_message (str, optional): Custom message for the error. Defaults to an empty string.</p>
-</dd>
-<dt>Returns:</dt><dd><p>ApiError: The generated Method Not Allowed error.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.exceptions.api_error.ApiError.NOT_FOUND">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NOT_FOUND</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><span class="pre">ApiError</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.NOT_FOUND"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.ApiError.NOT_FOUND" title="Link to this definition"></a></dt>
-<dd><p>Create a 404 Not Found error.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>user_message (str, optional): Custom message for the error. Defaults to an empty string.</p>
-</dd>
-<dt>Returns:</dt><dd><p>ApiError: The generated Not Found error.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.exceptions.api_error.ApiError.UNAUTHORIZED">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UNAUTHORIZED</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><span class="pre">ApiError</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.UNAUTHORIZED"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.ApiError.UNAUTHORIZED" title="Link to this definition"></a></dt>
-<dd><p>Create a 401 Unauthorized error.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>user_message (str, optional): Custom message for the error. Defaults to an empty string.</p>
-</dd>
-<dt>Returns:</dt><dd><p>ApiError: The generated Unauthorized error.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="birchrest.exceptions.api_error.ApiError.convert_to_response">
 <span class="sig-name descname"><span class="pre">convert_to_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.convert_to_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.ApiError.convert_to_response" title="Link to this definition"></a></dt>
 <dd><p>Convert the ApiError into an HTTP response object.</p>
@@ -192,6 +120,69 @@ It can also convert itself into an HTTP response.</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.api_error.BadRequest">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.api_error.</span></span><span class="sig-name descname"><span class="pre">BadRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Bad</span> <span class="pre">Request'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#BadRequest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.BadRequest" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 400 Bad Request error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.api_error.Conflict">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.api_error.</span></span><span class="sig-name descname"><span class="pre">Conflict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Conflict'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#Conflict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.Conflict" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 409 Conflict error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.api_error.Forbidden">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.api_error.</span></span><span class="sig-name descname"><span class="pre">Forbidden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Forbidden'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#Forbidden"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.Forbidden" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 403 Forbidden error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.api_error.InternalServerError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.api_error.</span></span><span class="sig-name descname"><span class="pre">InternalServerError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Internal</span> <span class="pre">Server</span> <span class="pre">Error'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#InternalServerError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.InternalServerError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 500 Internal Server Error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.api_error.MethodNotAllowed">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.api_error.</span></span><span class="sig-name descname"><span class="pre">MethodNotAllowed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Method</span> <span class="pre">Not</span> <span class="pre">Allowed'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#MethodNotAllowed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.MethodNotAllowed" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 405 Method Not Allowed error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.api_error.NotFound">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.api_error.</span></span><span class="sig-name descname"><span class="pre">NotFound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Not</span> <span class="pre">Found'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#NotFound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.NotFound" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 404 Not Found error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.api_error.ServiceUnavailable">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.api_error.</span></span><span class="sig-name descname"><span class="pre">ServiceUnavailable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Service</span> <span class="pre">Unavailable'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ServiceUnavailable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.ServiceUnavailable" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 503 Service Unavailable error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.api_error.Unauthorized">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.api_error.</span></span><span class="sig-name descname"><span class="pre">Unauthorized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Unauthorized'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#Unauthorized"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.Unauthorized" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 401 Unauthorized error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.api_error.UnprocessableEntity">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.api_error.</span></span><span class="sig-name descname"><span class="pre">UnprocessableEntity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Unprocessable</span> <span class="pre">Entity'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#UnprocessableEntity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.api_error.UnprocessableEntity" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 422 Unprocessable Entity error.</p>
 </dd></dl>
 
 </section>
@@ -235,78 +226,6 @@ It can also convert itself into an HTTP response.</p>
 a user-friendly message, and a base message (from the HTTP status code description).
 It can also convert itself into an HTTP response.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="birchrest.exceptions.ApiError.BAD_REQUEST">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BAD_REQUEST</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><span class="pre">ApiError</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.BAD_REQUEST"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.ApiError.BAD_REQUEST" title="Link to this definition"></a></dt>
-<dd><p>Create a 400 Bad Request error.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>user_message (str, optional): Custom message for the error. Defaults to an empty string.</p>
-</dd>
-<dt>Returns:</dt><dd><p>ApiError: The generated Bad Request error.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.exceptions.ApiError.FORBIDDEN">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FORBIDDEN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><span class="pre">ApiError</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.FORBIDDEN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.ApiError.FORBIDDEN" title="Link to this definition"></a></dt>
-<dd><p>Create a 403 Forbidden error.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>user_message (str, optional): Custom message for the error. Defaults to an empty string.</p>
-</dd>
-<dt>Returns:</dt><dd><p>ApiError: The generated Forbidden error.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.exceptions.ApiError.INTERNAL_SERVER_ERROR">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">INTERNAL_SERVER_ERROR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><span class="pre">ApiError</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.INTERNAL_SERVER_ERROR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.ApiError.INTERNAL_SERVER_ERROR" title="Link to this definition"></a></dt>
-<dd><p>Create a 500 Internal Server Error.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>user_message (str, optional): Custom message for the error. Defaults to an empty string.</p>
-</dd>
-<dt>Returns:</dt><dd><p>ApiError: The generated Internal Server Error.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.exceptions.ApiError.METHOD_NOT_ALLOWED">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">METHOD_NOT_ALLOWED</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><span class="pre">ApiError</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.METHOD_NOT_ALLOWED"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.ApiError.METHOD_NOT_ALLOWED" title="Link to this definition"></a></dt>
-<dd><p>Create a 405 Method Not Allowed error.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>user_message (str, optional): Custom message for the error. Defaults to an empty string.</p>
-</dd>
-<dt>Returns:</dt><dd><p>ApiError: The generated Method Not Allowed error.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.exceptions.ApiError.NOT_FOUND">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NOT_FOUND</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><span class="pre">ApiError</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.NOT_FOUND"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.ApiError.NOT_FOUND" title="Link to this definition"></a></dt>
-<dd><p>Create a 404 Not Found error.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>user_message (str, optional): Custom message for the error. Defaults to an empty string.</p>
-</dd>
-<dt>Returns:</dt><dd><p>ApiError: The generated Not Found error.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="birchrest.exceptions.ApiError.UNAUTHORIZED">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UNAUTHORIZED</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><span class="pre">ApiError</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.UNAUTHORIZED"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.ApiError.UNAUTHORIZED" title="Link to this definition"></a></dt>
-<dd><p>Create a 401 Unauthorized error.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>user_message (str, optional): Custom message for the error. Defaults to an empty string.</p>
-</dd>
-<dt>Returns:</dt><dd><p>ApiError: The generated Unauthorized error.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="birchrest.exceptions.ApiError.convert_to_response">
 <span class="sig-name descname"><span class="pre">convert_to_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="birchrest.http.html#birchrest.http.response.Response" title="birchrest.http.response.Response"><span class="pre">Response</span></a></span></span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ApiError.convert_to_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.ApiError.convert_to_response" title="Link to this definition"></a></dt>
 <dd><p>Convert the ApiError into an HTTP response object.</p>
@@ -321,6 +240,34 @@ It can also convert itself into an HTTP response.</p>
 </dd></dl>
 
 <dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.BadRequest">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.</span></span><span class="sig-name descname"><span class="pre">BadRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Bad</span> <span class="pre">Request'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#BadRequest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.BadRequest" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 400 Bad Request error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.Conflict">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.</span></span><span class="sig-name descname"><span class="pre">Conflict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Conflict'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#Conflict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.Conflict" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 409 Conflict error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.Forbidden">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.</span></span><span class="sig-name descname"><span class="pre">Forbidden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Forbidden'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#Forbidden"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.Forbidden" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 403 Forbidden error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.InternalServerError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.</span></span><span class="sig-name descname"><span class="pre">InternalServerError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Internal</span> <span class="pre">Server</span> <span class="pre">Error'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#InternalServerError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.InternalServerError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 500 Internal Server Error.</p>
+</dd></dl>
+
+<dl class="py exception">
 <dt class="sig sig-object py" id="birchrest.exceptions.InvalidControllerRegistration">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidControllerRegistration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">received_object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/invalid_controller_registration.html#InvalidControllerRegistration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.InvalidControllerRegistration" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
@@ -328,10 +275,45 @@ It can also convert itself into an HTTP response.</p>
 </dd></dl>
 
 <dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.MethodNotAllowed">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.</span></span><span class="sig-name descname"><span class="pre">MethodNotAllowed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Method</span> <span class="pre">Not</span> <span class="pre">Allowed'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#MethodNotAllowed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.MethodNotAllowed" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 405 Method Not Allowed error.</p>
+</dd></dl>
+
+<dl class="py exception">
 <dt class="sig sig-object py" id="birchrest.exceptions.MissingAuthHandlerError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.</span></span><span class="sig-name descname"><span class="pre">MissingAuthHandlerError</span></span><a class="reference internal" href="_modules/birchrest/exceptions/missing_auth_handler_error.html#MissingAuthHandlerError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.MissingAuthHandlerError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>Exception raised when a protected route is used without an authentication handler.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.NotFound">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.</span></span><span class="sig-name descname"><span class="pre">NotFound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Not</span> <span class="pre">Found'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#NotFound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.NotFound" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 404 Not Found error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.ServiceUnavailable">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.</span></span><span class="sig-name descname"><span class="pre">ServiceUnavailable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Service</span> <span class="pre">Unavailable'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#ServiceUnavailable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.ServiceUnavailable" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 503 Service Unavailable error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.Unauthorized">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.</span></span><span class="sig-name descname"><span class="pre">Unauthorized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Unauthorized'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#Unauthorized"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.Unauthorized" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 401 Unauthorized error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="birchrest.exceptions.UnprocessableEntity">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.exceptions.</span></span><span class="sig-name descname"><span class="pre">UnprocessableEntity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Unprocessable</span> <span class="pre">Entity'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/exceptions/api_error.html#UnprocessableEntity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.exceptions.UnprocessableEntity" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#birchrest.exceptions.api_error.ApiError" title="birchrest.exceptions.api_error.ApiError"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiError</span></code></a></p>
+<p>Represents a 422 Unprocessable Entity error.</p>
 </dd></dl>
 
 </section>

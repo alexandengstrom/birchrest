@@ -186,6 +186,10 @@ https://alexandengstrom.github.io/birchrest</p>
 <span class="n">app</span><span class="o">.</span><span class="n">serve</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>Or start the server via command line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>birch<span class="w"> </span>serve<span class="w"> </span>--port<span class="w"> </span><span class="o">[</span>PORT<span class="o">]</span><span class="w"> </span>--host<span class="w"> </span><span class="o">[</span>HOST<span class="o">]</span><span class="w"> </span>--log-level<span class="w"> </span><span class="o">[</span>LOG_LEVEL<span class="o">]</span>
+</pre></div>
+</div>
 </section>
 <section id="defining-controllers">
 <h3>Defining Controllers<a class="headerlink" href="#defining-controllers" title="Link to this heading"></a></h3>
@@ -373,10 +377,10 @@ https://alexandengstrom.github.io/birchrest</p>
 <p>By default, Birchrest will respond will standardized error messages with as good information as possible. For example, 404 when route doesnt exist or 400 if body validation fails. If any unhandled exceptions occurs in the controllers 500 will be returned.</p>
 <section id="apierror">
 <h4>ApiError<a class="headerlink" href="#apierror" title="Link to this heading"></a></h4>
-<p>The error handling is done via the class ApiError which have static methods to raise exceptions corresponding to HTTP status codes. For example, with this code:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.exceptions</span> <span class="kn">import</span> <span class="n">ApiError</span>
+<p>The error handling is done via the class ApiError. This class is the base class of other exceptions such as NotFound, BadRequest etc. If some of these exceptions is raised, birchrest will know how to respond to the user. By providing a message when raising the exception you can provide more details to the user.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.exceptions</span> <span class="kn">import</span> <span class="n">NotFound</span>
 
-<span class="k">raise</span> <span class="n">ApiError</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">()</span>
+<span class="k">raise</span> <span class="n">NotFound</span>
 </pre></div>
 </div>
 <p>This will automatically be converted into a 404 response to the user.</p>
@@ -390,6 +394,42 @@ https://alexandengstrom.github.io/birchrest</p>
 <section id="unit-testing">
 <h3>Unit Testing<a class="headerlink" href="#unit-testing" title="Link to this heading"></a></h3>
 <p>To simplify testing, the framework includes a test adapter class that simulates sending HTTP requests to your API. This allows you to test everything except the server itself, with all middlewares, authentication handlers, and other components functioning exactly as they would in a real request. The adapter returns the final response object, which you can inspect and assert in your tests.</p>
+<p>The TestAdapter class takes an instance of your app and then provides methods like get, post etc that accepts a path, headers and body.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span>
+<span class="kn">from</span> <span class="nn">birchrest.unittest</span> <span class="kn">import</span> <span class="n">TestAdapter</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">BirchRest</span><span class="p">()</span>
+<span class="n">runner</span> <span class="o">=</span> <span class="n">TestAdapter</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/your-route&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>BirchRest also provides a custom TestCase class to make it easier to assert responses, example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span>
+<span class="kn">from</span> <span class="nn">birchrest.unittest</span> <span class="kn">import</span> <span class="n">TestAdapter</span><span class="p">,</span> <span class="n">BirchRestTestCase</span>
+
+<span class="k">class</span> <span class="nc">ApiTest</span><span class="p">(</span><span class="n">BirchRestTestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="n">BirchRest</span><span class="p">(</span><span class="n">log_level</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runner</span> <span class="o">=</span> <span class="n">TestAdapter</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">test_user_route</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/user&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertOk</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">test_invalid_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/user/0&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotOk</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertStatus</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
 </section>
 <section id="contributing">
 <h3>Contributing<a class="headerlink" href="#contributing" title="Link to this heading"></a></h3>
