@@ -34,7 +34,7 @@ repository = "https://github.com/alexandengstrom/birchrest"
 documentation = "https://github.com/alexandengstrom/birchrest/wiki"
 
 [tool.setuptools]
-packages = ["find:"]
+packages = { find = { where = ["birchrest"] } }
 
 [tool.setuptools.package-data]
 birchrest = ["*.md", "*.txt"]
