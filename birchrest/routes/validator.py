@@ -1,6 +1,8 @@
-from dataclasses import MISSING, fields, is_dataclass
-from typing import Any, Type, get_args, get_origin
+from dataclasses import MISSING, fields, is_dataclass, asdict
+from typing import Any, Dict, Type, get_args, get_origin, Union
 import re
+
+from birchrest.exceptions import InvalidValidationModel
 
 
 def parse_data_class(data_class: Type[Any], data: Any) -> Any:
@@ -18,6 +20,7 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
         - String constraints: min_length, max_length, regex pattern.
         - Numeric constraints: min_value, max_value.
         - List constraints: min_items, max_items, uniqueness of items.
+        - Optional fields with 'is_optional' metadata.
 
     :param data_class: The dataclass type to validate against.
     :param data: The input data to be validated, typically a dictionary.
@@ -26,15 +29,20 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
     """
 
     if not is_dataclass(data_class):
-        raise ValueError(f"{data_class} must be a dataclass")
+        raise InvalidValidationModel(data_class)
 
-    kwargs = {}
+    kwargs: Dict[Any, Any] = {}
     for field in fields(data_class):
         field_name = field.name
         field_type = field.type
         field_metadata = field.metadata
 
+        is_optional = field_metadata.get("is_optional", False)
+
         if field_name not in data:
+            if is_optional:
+                kwargs[field_name] = None
+                continue
             if field.default is not MISSING:
                 kwargs[field_name] = field.default
             elif field.default_factory is not MISSING:
@@ -43,6 +51,21 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
                 raise ValueError(f"Missing required field: {field_name}")
         else:
             field_value = data[field_name]
+
+            origin_type = get_origin(field_type)
+            if origin_type is Union:
+                valid_types = get_args(field_type)
+                valid_types = tuple(t for t in valid_types if t is not type(None))
+
+                if field_value is None and is_optional:
+                    kwargs[field_name] = None
+                    continue
+
+                if not isinstance(field_value, valid_types):
+                    valid_type_names = [t.__name__ for t in valid_types]
+                    raise ValueError(
+                        f"Incorrect type for field '{field_name}', expected one of {valid_type_names}"
+                    )
 
             if field_type is int:
                 try:
@@ -94,20 +117,22 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
                     raise ValueError(
                         f"Field '{field_name}' must have at most {max_items} items."
                     )
-                if unique and len(field_value) != len(set(field_value)):
-                    raise ValueError(f"Field '{field_name}' must contain unique items.")
 
-                for item in field_value:
-                    if not isinstance(item, item_type):
+                for index, item in enumerate(field_value):
+                    if isinstance(item, dict) and is_dataclass(item_type):
+                        field_value[index] = parse_data_class(item_type, item)
+                    elif not isinstance(item, item_type):
                         raise ValueError(
                             f"All items in field '{field_name}' must be of type {item_type}."
                         )
 
+                kwargs[field_name] = field_value
+                continue
+
             if is_dataclass(field_type) and isinstance(field_value, dict):
                 kwargs[field_name] = parse_data_class(field_type, field_value)
             else:
-                origin_type = get_origin(field_type)
-                if origin_type is not None:
+                if origin_type is not Union and origin_type is not None:
                     if not isinstance(field_value, origin_type):
                         raise ValueError(
                             f"Incorrect type for field '{field_name}', expected {origin_type.__name__}"

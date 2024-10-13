@@ -239,7 +239,9 @@ In this example, only requests from https://example.com are allowed, and credent
 ## Data Validation
 Data validation in Birchrest is supported via Python data classes. This allows for strict validation of request data (body, queries, and params) to ensure that all incoming data adheres to the expected structure.
 
-To be able to use validation, you must also define the models. Example:
+To be able to use validation, you must also define the models. 
+### Body Validation
+#### Example:
 ```python
 @dataclass
 class Address:
@@ -282,6 +284,78 @@ Read more about how automatic error responses are handled in the error section.
 ### Query and URL Param Validation
 Validating queries and params is done in the same way, just use the @queries and @params decorators instead.
 
+### Supported Validation Constraints
+Below is a list of all the validation constraints you can define using ```field(metadata={...})```:
+1. **Type Validation**: Data is automatically validated against the field's type. Supported types include int, float, str, list, and nested dataclasses.
+    Example:
+
+    ```python
+    @dataclass
+    class User:
+        age: int
+    ```
+2. **String Constraints**
+
+    - ```min_length```: Ensures that the string has at least a certain number of characters.
+    - ```max_length```: Ensures that the string does not exceed a certain number of characters.
+    - ```regex```: Ensures that the string matches a given regular expression.
+    - Example:
+    ```python
+    @dataclass
+    class User:
+        username: str = field(metadata={"min_length": 3, "max_length": 20})
+        email: str = field(metadata={"regex": r"[^@]+@[^@]+\.[^@]+"})
+
+    ```
+3. **Numeric Constraints**:
+    - ```min_value```: Ensures that the number is at least a certain value.
+    - ```max_value```: Ensures that the number does not exceed a certain value.
+    - ```Example```:
+    ```python
+    @dataclass
+    class User:
+        age: int = field(metadata={"min_value": 18, "max_value": 120})
+
+    ```
+4. **Optional Fields**:
+    - Fields can be marked as optional by specifying ```is_optional: True``` in the metadata. This allows a field to be omitted from the input data without causing a validation error.
+    - Example:
+    ```python
+    @dataclass
+    class User:
+        age: Optional[int] = field(metadata={"is_optional": True})
+        phone: Optional[str] = field(metadata={"is_optional": True, "regex": r"^\d{10}$"})
+
+    ```
+5. **List Constraints**:
+    - ```min_items```: Ensures that a list has at least a certain number of items.
+    - ```max_items```: Ensures that a list does not exceed a certain number of items.
+    - ```unique```: Ensures that all items in the list are unique.
+    - You can also nest dataclasses inside lists and apply validation to each item.
+    - Example:
+    ```python
+    @dataclass
+    class Address:
+        street: str = field(metadata={"min_length": 5, "max_length": 100})
+
+    @dataclass
+    class User:
+        addresses: List[Address] = field(metadata={"min_items": 1, "max_items": 3})
+
+    ```
+6. **Nested Dataclasses**:
+    - You can nest dataclasses inside each other, and BirchRest will automatically validate nested structures.
+    - Example:
+    ```python
+    @dataclass
+    class ContactInfo:
+        email: str = field(metadata={"regex": r"[^@]+@[^@]+\.[^@]+"})
+
+    @dataclass
+    class User:
+        username: str = field(metadata={"min_length": 3, "max_length": 20})
+        contact_info: ContactInfo
+    ```
 ## Authentication
 Birchrest makes it easy to protect your API routes with authentication mechanisms. It allows you to define custom authentication handlers and easily mark routes as protected, ensuring that only authenticated requests are allowed access.
 ### Custom Auth Handlers
