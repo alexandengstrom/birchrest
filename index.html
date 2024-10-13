@@ -234,6 +234,7 @@ https://alexandengstrom.github.io/birchrest</p>
 </pre></div>
 </div>
 <p>It is possible to set automatic contraints for the body, queries and params via validation decorators. See section about validation.</p>
+<p>BirchRest is fully asynchronous, meaning all route handlers and middleware must be defined as async functions. This allows the framework to handle multiple requests concurrently without blocking. Ensure that all I/O-bound operations, such as database queries, file handling, or external API requests, are awaited properly. Failing to use async or forgetting to await asynchronous operations can lead to blocking behavior, defeating the purpose of using an asynchronous framework.</p>
 </section>
 <section id="nesting-controllers">
 <h4>Nesting Controllers<a class="headerlink" href="#nesting-controllers" title="Link to this heading"></a></h4>
@@ -299,7 +300,7 @@ https://alexandengstrom.github.io/birchrest</p>
             <span class="k">raise</span> <span class="n">BadRequest</span>
 </pre></div>
 </div>
-<p>It is possible to execute things after next is called aswell, this means you can use middlewares for postprocessing aswell.</p>
+<p>It is possible to execute things after next is called aswell, this means you can use middlewares for postprocessing aswell. Just like route handlers, all middleware in BirchRest must be asynchronous.</p>
 </section>
 </section>
 <section id="built-in-middlewares">
