@@ -61,7 +61,7 @@ def init_project(args: Any) -> None:
         venv_path = os.path.join(init_dir, 'venv')
 
         print(f"{Fore.YELLOW}Creating virtual environment...{Style.RESET_ALL}")
-        subprocess.run([python_exec, '-m', 'venv', 'venv'], check=True)
+        subprocess.run([python_exec, '-m', 'venv', 'venv'], shell=True, check=True)
 
         activate_script = ''
         if platform.system() == 'Windows':
@@ -73,9 +73,9 @@ def init_project(args: Any) -> None:
         
         try:
             if platform.system() == 'Windows':
-                subprocess.run([activate_script, '&&', 'pip', 'install', 'pylint', 'mypy'], check=True)
+                subprocess.run([activate_script, '&&', 'pip', 'install', 'pylint', 'mypy'], shell=True, check=True)
             else:
-                subprocess.run(f'source {activate_script} && pip install pylint mypy', executable='/bin/bash', check=True)
+                subprocess.run(f'source {activate_script} && pip install pylint mypy', executable='/bin/bash', shell=True, check=True)
             print(f"{Fore.GREEN}pylint and mypy installed successfully inside the virtual environment.")
         except subprocess.CalledProcessError as e:
             print(f"{Fore.RED}Error occurred during installation: {e}")
@@ -114,10 +114,11 @@ def run_tests(args: Any) -> None:
             ["python", "-m", "unittest", "discover"],
             check=True,
             stdout=sys.stdout,
-            stderr=sys.stderr
+            stderr=sys.stderr,
+            shell=True,
         )
-    except:
-        pass
+    except subprocess.CalledProcessError as e:
+        print("Typecheck failed!")
 
 
 def run_typecheck(args: Any) -> None:
@@ -128,10 +129,11 @@ def run_typecheck(args: Any) -> None:
             ["mypy", "."],
             check=True,
             stdout=sys.stdout,
-            stderr=sys.stderr
+            stderr=sys.stderr,
+            shell=True,
         )
-    except:
-        pass
+    except subprocess.CalledProcessError as e:
+        print("Typecheck failed!")
 
 
 def run_lint(args: Any) -> None:
@@ -149,10 +151,11 @@ def run_lint(args: Any) -> None:
             ["pylint", ".", f"--ignore={ignore_argument}"],
             check=True,
             stdout=sys.stdout,
-            stderr=sys.stderr
+            stderr=sys.stderr,
+            shell=True,
         )
-    except:
-        pass
+    except subprocess.CalledProcessError as e:
+        print("Typecheck failed!")
 
 def main() -> None:
     """
