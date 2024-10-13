@@ -403,7 +403,11 @@ https://alexandengstrom.github.io/birchrest</p>
 <section id="data-validation">
 <h3>Data Validation<a class="headerlink" href="#data-validation" title="Link to this heading"></a></h3>
 <p>Data validation in Birchrest is supported via Python data classes. This allows for strict validation of request data (body, queries, and params) to ensure that all incoming data adheres to the expected structure.</p>
-<p>To be able to use validation, you must also define the models. Example:</p>
+<p>To be able to use validation, you must also define the models.</p>
+<section id="body-validation">
+<h4>Body Validation<a class="headerlink" href="#body-validation" title="Link to this heading"></a></h4>
+<section id="id5">
+<h5>Example:<a class="headerlink" href="#id5" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Address</span><span class="p">:</span>
     <span class="n">street</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;max_length&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
@@ -439,9 +443,101 @@ https://alexandengstrom.github.io/birchrest</p>
 </pre></div>
 </div>
 <p>Read more about how automatic error responses are handled in the error section.</p>
+</section>
+</section>
 <section id="query-and-url-param-validation">
 <h4>Query and URL Param Validation<a class="headerlink" href="#query-and-url-param-validation" title="Link to this heading"></a></h4>
 <p>Validating queries and params is done in the same way, just use the &#64;queries and &#64;params decorators instead.</p>
+</section>
+<section id="supported-validation-constraints">
+<h4>Supported Validation Constraints<a class="headerlink" href="#supported-validation-constraints" title="Link to this heading"></a></h4>
+<p>Below is a list of all the validation constraints you can define using <code class="docutils literal notranslate"><span class="pre">field(metadata={...})</span></code>:</p>
+<ol class="arabic">
+<li><p><strong>Type Validation</strong>: Data is automatically validated against the field’s type. Supported types include int, float, str, list, and nested dataclasses.
+Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>String Constraints</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">min_length</span></code>: Ensures that the string has at least a certain number of characters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_length</span></code>: Ensures that the string does not exceed a certain number of characters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">regex</span></code>: Ensures that the string matches a given regular expression.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;max_length&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
+    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;regex&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;[^@]+@[^@]+\.[^@]+&quot;</span><span class="p">})</span>
+
+</pre></div>
+</div>
+</li>
+<li><p><strong>Numeric Constraints</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">min_value</span></code>: Ensures that the number is at least a certain value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_value</span></code>: Ensures that the number does not exceed a certain value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Example</span></code>:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">120</span><span class="p">})</span>
+
+</pre></div>
+</div>
+</li>
+<li><p><strong>Optional Fields</strong>:</p>
+<ul class="simple">
+<li><p>Fields can be marked as optional by specifying <code class="docutils literal notranslate"><span class="pre">is_optional:</span> <span class="pre">True</span></code> in the metadata. This allows a field to be omitted from the input data without causing a validation error.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+    <span class="n">age</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;is_optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+    <span class="n">phone</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;is_optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;regex&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;^\d</span><span class="si">{10}</span><span class="s2">$&quot;</span><span class="p">})</span>
+
+</pre></div>
+</div>
+</li>
+<li><p><strong>List Constraints</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">min_items</span></code>: Ensures that a list has at least a certain number of items.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_items</span></code>: Ensures that a list does not exceed a certain number of items.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unique</span></code>: Ensures that all items in the list are unique.</p></li>
+<li><p>You can also nest dataclasses inside lists and apply validation to each item.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Address</span><span class="p">:</span>
+    <span class="n">street</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_length&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;max_length&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+    <span class="n">addresses</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_items&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;max_items&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">})</span>
+
+</pre></div>
+</div>
+</li>
+<li><p><strong>Nested Dataclasses</strong>:</p>
+<ul class="simple">
+<li><p>You can nest dataclasses inside each other, and BirchRest will automatically validate nested structures.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">ContactInfo</span><span class="p">:</span>
+    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;regex&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;[^@]+@[^@]+\.[^@]+&quot;</span><span class="p">})</span>
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;max_length&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
+    <span class="n">contact_info</span><span class="p">:</span> <span class="n">ContactInfo</span>
+</pre></div>
+</div>
+</li>
+</ol>
 </section>
 </section>
 <section id="authentication">
@@ -525,8 +621,8 @@ https://alexandengstrom.github.io/birchrest</p>
 <section id="custom-error-handler">
 <h4>Custom Error Handler<a class="headerlink" href="#custom-error-handler" title="Link to this heading"></a></h4>
 <p>If you need more control over how errors are handled, you can define your own custom error handler. This handler will receive the request, response, and exception as arguments. The handler must manage the exception explicitly; otherwise, a <code class="docutils literal notranslate"><span class="pre">500</span> <span class="pre">Internal</span> <span class="pre">Server</span> <span class="pre">Error</span></code> will be returned by default.</p>
-<section id="id5">
-<h5>Example:<a class="headerlink" href="#id5" title="Link to this heading"></a></h5>
+<section id="id6">
+<h5>Example:<a class="headerlink" href="#id6" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 <span class="kn">from</span> <span class="nn">birchrest.exceptions</span> <span class="kn">import</span> <span class="n">ApiError</span>
 
@@ -548,8 +644,8 @@ https://alexandengstrom.github.io/birchrest</p>
 <h4>Test Adapter<a class="headerlink" href="#test-adapter" title="Link to this heading"></a></h4>
 <p>To simplify testing, the framework includes a test adapter class that simulates sending HTTP requests to your API. This allows you to test everything except the server itself, with all middlewares, authentication handlers, and other components functioning exactly as they would in a real request. The adapter returns the final response object, which you can inspect and assert in your tests.</p>
 <p>The TestAdapter class takes an instance of your app and then provides methods like get, post etc that accepts a path, headers and body.</p>
-<section id="id6">
-<h5>Example<a class="headerlink" href="#id6" title="Link to this heading"></a></h5>
+<section id="id7">
+<h5>Example<a class="headerlink" href="#id7" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span>
 <span class="kn">from</span> <span class="nn">birchrest.unittest</span> <span class="kn">import</span> <span class="n">TestAdapter</span>
 
@@ -578,8 +674,8 @@ https://alexandengstrom.github.io/birchrest</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">assertRedirect(response,</span> <span class="pre">expected_url)</span></code>: Asserts that the response status is a redirect (3xx) and that the Location header matches the expected URL.</p></li>
 <li><p>```assertBodyContains(response, expected_key)``: Asserts that the response body contains a specific property or key.</p></li>
 </ul>
-<section id="id7">
-<h5>Example:<a class="headerlink" href="#id7" title="Link to this heading"></a></h5>
+<section id="id8">
+<h5>Example:<a class="headerlink" href="#id8" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
 
 <span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span>
