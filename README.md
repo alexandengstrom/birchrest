@@ -184,6 +184,24 @@ Birchrest comes with several built-in middleware options that help manage common
 ```python
 from birchrest.middlewares import Cors, Logger, RateLimiter
 ```
+#### Rate Limiter
+The RateLimiter middleware in BirchRest helps protect your API from abuse by limiting the number of requests a client (identified by their IP address or token) can make within a specified time window. It is particularly useful for preventing denial-of-service (DoS) attacks or enforcing fair usage limits.
+
+##### How it works:
+- The rate limiter tracks the number of requests made by each client within a rolling time window.
+- If a client exceeds the allowed number of requests within the window, the middleware responds with a 429 Too Many Requests error.
+- Requests older than the current time window are automatically cleared from the log to allow new requests.
+##### Configuration Options:
+- max_requests: The maximum number of requests a client can make within the time window (default is 2).
+- window_seconds: The length of the time window in seconds during which the requests are counted (default is 10 seconds).
+```python
+from birchrest.middlewares import RateLimiter
+
+# Apply rate limiting globally
+app.middleware(RateLimiter(max_requests=5, window_seconds=60))
+```
+In this example, the middleware limits each client to a maximum of 5 requests per 60 seconds. If the limit is exceeded, any additional requests within that time will receive a 429 error response.
+
 ## Data Validation
 Data validation in Birchrest is supported via Python data classes. This allows for strict validation of request data (body, queries, and params) to ensure that all incoming data adheres to the expected structure.
 
