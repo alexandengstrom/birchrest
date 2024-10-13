@@ -49,7 +49,7 @@ birch init
 
 
 ## Introduction
-BirchRest is designed around a controller-based architecture. At runtime, the framework automatically constructs the API from your predefined controllers. For this to work, BirchRest needs access to all the controllers you define. This is achieved by creating a file named __birch__.py, which must import all the controllers you intend to use in your project.
+BirchRest follows a controller-based architecture, where each controller represents a logical grouping of API routes. The framework automatically constructs your API at runtime from the controllers you define. To make this work, simply create a file named ```__birch__.py``` and import all your controllers into this file. BirchRest will use this file to discover and configure your API routes.
 ```python
 from birchrest import Controller
 from birchrest.decorators import get, controller
@@ -93,7 +93,7 @@ async def patch(self, req: Request, res: Response):
     return res.send({"message": "success"})
 ```
 
-You can use path variables by using colon in the path and then access them via the request object.
+To define path variables, use a colon (```:```) in the path. You can then access these variables through the ```req.params``` object.
 ```python
 @get("user/:id")
 async def patch(self, req: Request, res: Response):
@@ -112,26 +112,42 @@ async def patch(self, req: Request, res: Response):
 It is possible to set automatic contraints for the body, queries and params via validation decorators. See section about validation.
 
 ### Nesting Controllers
-To nest controllers, define a constructor in your parent controller. Inside the constructor, use self.attach() to attach the subcontroller, and don’t forget to call the parent class constructor with super().
+BirchRest supports hierarchical route structures by allowing controllers to inherit from other controllers. This creates nested routes where the child controller's base path is combined with the parent controller's base path. In BirchRest, subcontrollers are created by having one controller class inherit from another controller class.
 
+This approach makes it easy to group related endpoints under a common path and manage them as a logical structure.
+
+#### Example
+Let’s say we have a base API controller and we want to nest a resource controller under it:
 ```python
-from birchrest import BirchRest, Controller
+from birchrest import Controller
 from birchrest.decorators import get, controller
 from birchrest.http import Request, Response
 
-@controller("resource")
-class ResourceController(Controller):
-    @get("hello")
-    async def hello(self, req: Request, res: Response):
-        return res.send({"message": "Hello from the app!"})
-
+# Define the parent controller
 @controller("api")
 class BaseController(Controller):
-    def __init__(self):
-        super().__init__()
-        self.attach(ResourceController)
+    @get("status")
+    async def status(self, req: Request, res: Response):
+        return res.send({"message": "API is running"})
+
+# Define the child controller that inherits from the parent
+@controller("resource")
+class ResourceController(BaseController):
+    @get("hello")
+    async def hello(self, req: Request, res: Response):
+        return res.send({"message": "Hello from resource!"})
+
 ```
-This will create the endpoint /api/resouce/hello
+This will create the endpoint /api/resouce/hello.
+
+In this example:
+
+- The ```BaseController``` is the parent controller that handles routes under ```/api```.
+- The ```ResourceController``` inherits from ```BaseController```, making it a child controller nested under ```/api/resource```.
+- The route for the "hello" endpoint in ```ResourceController``` becomes ```/api/resource/hello```.
+- The route for the "status" endpoint from ```BaseController``` is ```/api/status```.
+
+By inheriting from BaseController, the ResourceController becomes a child, automatically inheriting and extending the parent’s routing structure.
 
 ## Middleware
 Middleware allows you to perform tasks before or after a request is processed by a controller, such as logging, modifying the request, or checking permissions. Birchrest provides built-in middleware for common tasks and the ability to define your own custom middleware.
@@ -247,20 +263,48 @@ app.serve()
 ```
 
 ## Error Handling
-By default, Birchrest will respond will standardized error messages with as good information as possible. For example, 404 when route doesnt exist or 400 if body validation fails. If any unhandled exceptions occurs in the controllers 500 will be returned.
+By default, BirchRest responds with standardized error messages and provides as much detail as possible when an error occurs. Common error responses like 404 (Not Found) when a route doesn't exist, or 400 (Bad Request) when body validation fails, are handled automatically. If an unhandled exception occurs within your controllers, a 500 Internal Server Error will be returned.
 
 ### ApiError
-The error handling is done via the class ApiError. This class is the base class of other exceptions such as NotFound, BadRequest etc. If some of these exceptions is raised, birchrest will know how to respond to the user. By providing a message when raising the exception you can provide more details to the user.
+The **ApiError** class is the base class for a variety of HTTP exceptions such as NotFound, BadRequest, Unauthorized, and more. If any of these exceptions are raised during request handling, BirchRest will automatically convert them into the appropriate HTTP response with the correct status code and error message.
 ```python
 from birchrest.exceptions import NotFound
 
 raise NotFound
 ```
-This will automatically be converted into a 404 response to the user.
+This will automatically generate a 404 Not Found HTTP response to the client, with the provided user-friendly message.
 
-An ApiError exception will have the attributes status_code and base_message which can be 404 and "Not Found" for example. It can also contain the attribute "user_message" if more specific info was given when the exception was raised. For example, if validation fails we will give the user information about why it failed.
+Each ApiError has the following attributes:
+
+- ```status_code```: The HTTP status code (e.g., 404, 400, 500).
+- ```base_message```: A default message associated with the status code (e.g., "Not Found" for 404).
+- ```user_message```: An optional custom message that can provide more specific details about the error.
+
+BirchRest supports the following common HTTP exceptions out-of-the-box:
+- ```BadRequest``` (400)
+- ```Unauthorized``` (401)
+- ```Forbidden``` (403)
+- ```NotFound``` (404)
+- ```MethodNotAllowed``` (405)
+- ```Conflict``` (409)
+- ```UnprocessableEntity``` (422)
+- ```InternalServerError``` (500)
+- ```ServiceUnavailable``` (503)
+
+- ```PaymentRequired``` (402)
+- ```RequestTimeout``` (408)
+- ```Gone``` (410)
+- ```LengthRequired``` (411)
+- ```PreconditionFailed``` (412)
+- ```PayloadTooLarge``` (413)
+- ```UnsupportedMediaType``` (415)
+- ```TooManyRequests``` (429)
+- ```UpgradeRequired``` (426)
+
+The framework handles everything behind the scenes if any of these exceptions are raised. You don't need to manually craft the response or worry about setting the correct status code—BirchRest takes care of it.
+
 ### Custom Error Handler
-If you want more control over the error handling, you can catch the exceptions by defining your own error handler. The handler must be callable and will receive a request, response and exception. If a custom error handler is defined it must handle the exception, otherwise 500 internal server error will always be returned to the user.
+If you need more control over how errors are handled, you can define your own custom error handler. This handler will receive the request, response, and exception as arguments. The handler must manage the exception explicitly; otherwise, a ```500 Internal Server Error``` will be returned by default.
 
 ## Unit Testing
 To simplify testing, the framework includes a test adapter class that simulates sending HTTP requests to your API. This allows you to test everything except the server itself, with all middlewares, authentication handlers, and other components functioning exactly as they would in a real request. The adapter returns the final response object, which you can inspect and assert in your tests.
