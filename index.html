@@ -91,13 +91,8 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-core-module">birchrest.core module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest.version">birchrest.version module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-birchrest">Module contents</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="birchrest.html#birchrest.BirchRest"><code class="docutils literal notranslate"><span class="pre">BirchRest</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="birchrest.html#birchrest.Controller"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="birchrest.html#birchrest.Middleware"><code class="docutils literal notranslate"><span class="pre">Middleware</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#birchrest-version-module">birchrest.version module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="birchrest.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -142,7 +137,7 @@ https://alexandengstrom.github.io/birchrest</p>
 <li><p><a class="reference internal" href="#nesting-controllers"><span class="xref myst">Nesting Controllers</span></a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="birchrest.html#birchrest.BirchRest.middleware" title="birchrest.BirchRest.middleware"><span class="xref myst py py-meth">Middleware</span></a></p>
+<li><p><a class="reference internal" href="#middleware"><span class="xref myst">Middleware</span></a></p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#custom-middlewares"><span class="xref myst">Custom Middlewares</span></a></p></li>
 <li><p><a class="reference internal" href="#built-in-middlewares"><span class="xref myst">Built-in Middlewares</span></a></p></li>
@@ -170,7 +165,7 @@ https://alexandengstrom.github.io/birchrest</p>
 </section>
 <section id="introduction">
 <h3>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h3>
-<p>BirchRest is designed around a controller-based architecture. At runtime, the framework automatically constructs the API from your predefined controllers. For this to work, BirchRest needs access to all the controllers you define. This is achieved by creating a file named <strong>birch</strong>.py, which must import all the controllers you intend to use in your project.</p>
+<p>BirchRest follows a controller-based architecture, where each controller represents a logical grouping of API routes. The framework automatically constructs your API at runtime from the controllers you define. To make this work, simply create a file named <code class="docutils literal notranslate"><span class="pre">__birch__.py</span></code> and import all your controllers into this file. BirchRest will use this file to discover and configure your API routes.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">Controller</span>
 <span class="kn">from</span> <span class="nn">birchrest.decorators</span> <span class="kn">import</span> <span class="n">get</span><span class="p">,</span> <span class="n">controller</span>
 <span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
@@ -220,7 +215,7 @@ https://alexandengstrom.github.io/birchrest</p>
     <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">})</span>
 </pre></div>
 </div>
-<p>You can use path variables by using colon in the path and then access them via the request object.</p>
+<p>To define path variables, use a colon (<code class="docutils literal notranslate"><span class="pre">:</span></code>) in the path. You can then access these variables through the <code class="docutils literal notranslate"><span class="pre">req.params</span></code> object.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;user/:id&quot;</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
     <span class="n">userId</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
@@ -238,25 +233,41 @@ https://alexandengstrom.github.io/birchrest</p>
 </section>
 <section id="nesting-controllers">
 <h4>Nesting Controllers<a class="headerlink" href="#nesting-controllers" title="Link to this heading"></a></h4>
-<p>To nest controllers, define a constructor in your parent controller. Inside the constructor, use self.attach() to attach the subcontroller, and don’t forget to call the parent class constructor with super().</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span><span class="p">,</span> <span class="n">Controller</span>
+<p>BirchRest supports hierarchical route structures by allowing controllers to inherit from other controllers. This creates nested routes where the child controller’s base path is combined with the parent controller’s base path. In BirchRest, subcontrollers are created by having one controller class inherit from another controller class.</p>
+<p>This approach makes it easy to group related endpoints under a common path and manage them as a logical structure.</p>
+<section id="example">
+<h5>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h5>
+<p>Let’s say we have a base API controller and we want to nest a resource controller under it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">Controller</span>
 <span class="kn">from</span> <span class="nn">birchrest.decorators</span> <span class="kn">import</span> <span class="n">get</span><span class="p">,</span> <span class="n">controller</span>
 <span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 
-<span class="nd">@controller</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">ResourceController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
-    <span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello from the app!&quot;</span><span class="p">})</span>
-
+<span class="c1"># Define the parent controller</span>
 <span class="nd">@controller</span><span class="p">(</span><span class="s2">&quot;api&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">BaseController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">ResourceController</span><span class="p">)</span>
+    <span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;API is running&quot;</span><span class="p">})</span>
+
+<span class="c1"># Define the child controller that inherits from the parent</span>
+<span class="nd">@controller</span><span class="p">(</span><span class="s2">&quot;resource&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">ResourceController</span><span class="p">(</span><span class="n">BaseController</span><span class="p">):</span>
+    <span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Response</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello from resource!&quot;</span><span class="p">})</span>
+
 </pre></div>
 </div>
-<p>This will create the endpoint /api/resouce/hello</p>
+<p>This will create the endpoint /api/resouce/hello.</p>
+<p>In this example:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">BaseController</span></code> is the parent controller that handles routes under <code class="docutils literal notranslate"><span class="pre">/api</span></code>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">ResourceController</span></code> inherits from <code class="docutils literal notranslate"><span class="pre">BaseController</span></code>, making it a child controller nested under <code class="docutils literal notranslate"><span class="pre">/api/resource</span></code>.</p></li>
+<li><p>The route for the “hello” endpoint in <code class="docutils literal notranslate"><span class="pre">ResourceController</span></code> becomes <code class="docutils literal notranslate"><span class="pre">/api/resource/hello</span></code>.</p></li>
+<li><p>The route for the “status” endpoint from <code class="docutils literal notranslate"><span class="pre">BaseController</span></code> is <code class="docutils literal notranslate"><span class="pre">/api/status</span></code>.</p></li>
+</ul>
+<p>By inheriting from BaseController, the ResourceController becomes a child, automatically inheriting and extending the parent’s routing structure.</p>
+</section>
 </section>
 </section>
 <section id="middleware">
@@ -378,21 +389,48 @@ https://alexandengstrom.github.io/birchrest</p>
 </section>
 <section id="error-handling">
 <h3>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading"></a></h3>
-<p>By default, Birchrest will respond will standardized error messages with as good information as possible. For example, 404 when route doesnt exist or 400 if body validation fails. If any unhandled exceptions occurs in the controllers 500 will be returned.</p>
+<p>By default, BirchRest responds with standardized error messages and provides as much detail as possible when an error occurs. Common error responses like 404 (Not Found) when a route doesn’t exist, or 400 (Bad Request) when body validation fails, are handled automatically. If an unhandled exception occurs within your controllers, a 500 Internal Server Error will be returned.</p>
 <section id="apierror">
 <h4>ApiError<a class="headerlink" href="#apierror" title="Link to this heading"></a></h4>
-<p>The error handling is done via the class ApiError. This class is the base class of other exceptions such as NotFound, BadRequest etc. If some of these exceptions is raised, birchrest will know how to respond to the user. By providing a message when raising the exception you can provide more details to the user.</p>
+<p>The <strong>ApiError</strong> class is the base class for a variety of HTTP exceptions such as NotFound, BadRequest, Unauthorized, and more. If any of these exceptions are raised during request handling, BirchRest will automatically convert them into the appropriate HTTP response with the correct status code and error message.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.exceptions</span> <span class="kn">import</span> <span class="n">NotFound</span>
 
 <span class="k">raise</span> <span class="n">NotFound</span>
 </pre></div>
 </div>
-<p>This will automatically be converted into a 404 response to the user.</p>
-<p>An ApiError exception will have the attributes status_code and base_message which can be 404 and “Not Found” for example. It can also contain the attribute “user_message” if more specific info was given when the exception was raised. For example, if validation fails we will give the user information about why it failed.</p>
+<p>This will automatically generate a 404 Not Found HTTP response to the client, with the provided user-friendly message.</p>
+<p>Each ApiError has the following attributes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">status_code</span></code>: The HTTP status code (e.g., 404, 400, 500).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">base_message</span></code>: A default message associated with the status code (e.g., “Not Found” for 404).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">user_message</span></code>: An optional custom message that can provide more specific details about the error.</p></li>
+</ul>
+<p>BirchRest supports the following common HTTP exceptions out-of-the-box:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">BadRequest</span></code> (400)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Unauthorized</span></code> (401)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Forbidden</span></code> (403)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NotFound</span></code> (404)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MethodNotAllowed</span></code> (405)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Conflict</span></code> (409)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UnprocessableEntity</span></code> (422)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">InternalServerError</span></code> (500)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ServiceUnavailable</span></code> (503)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PaymentRequired</span></code> (402)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RequestTimeout</span></code> (408)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Gone</span></code> (410)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LengthRequired</span></code> (411)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PreconditionFailed</span></code> (412)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PayloadTooLarge</span></code> (413)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UnsupportedMediaType</span></code> (415)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TooManyRequests</span></code> (429)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UpgradeRequired</span></code> (426)</p></li>
+</ul>
+<p>The framework handles everything behind the scenes if any of these exceptions are raised. You don’t need to manually craft the response or worry about setting the correct status code—BirchRest takes care of it.</p>
 </section>
 <section id="custom-error-handler">
 <h4>Custom Error Handler<a class="headerlink" href="#custom-error-handler" title="Link to this heading"></a></h4>
-<p>If you want more control over the error handling, you can catch the exceptions by defining your own error handler. The handler must be callable and will receive a request, response and exception. If a custom error handler is defined it must handle the exception, otherwise 500 internal server error will always be returned to the user.</p>
+<p>If you need more control over how errors are handled, you can define your own custom error handler. This handler will receive the request, response, and exception as arguments. The handler must manage the exception explicitly; otherwise, a <code class="docutils literal notranslate"><span class="pre">500</span> <span class="pre">Internal</span> <span class="pre">Server</span> <span class="pre">Error</span></code> will be returned by default.</p>
 </section>
 </section>
 <section id="unit-testing">
