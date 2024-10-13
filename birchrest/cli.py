@@ -42,7 +42,15 @@ def init_project(args: Any) -> None:
         return
 
     try:
-        shutil.copytree(boilerplate_dir, init_dir, dirs_exist_ok=True)
+        for item in os.listdir(boilerplate_dir):
+            src_path = os.path.join(boilerplate_dir, item)
+            dest_path = os.path.join(init_dir, item)
+
+            if os.path.isdir(src_path):
+                shutil.copytree(src_path, dest_path, dirs_exist_ok=True)
+            else:
+                shutil.copy2(src_path, dest_path)
+
         print(f"{Fore.GREEN}Boilerplate contents copied to {init_dir} successfully.")
     except Exception as e:
         print(f"{Fore.RED}Error copying boilerplate contents: {e}")
