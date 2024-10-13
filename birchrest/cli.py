@@ -19,7 +19,6 @@ def init_project(args: Any) -> None:
     cur_dir = os.getcwd()
     init_dir = cur_dir
 
-    # Prompt user for directory name
     print(f"{Fore.GREEN}{Style.BRIGHT}BirchRest Project Initialization{Style.RESET_ALL}")
     dir_name = input(f"{Fore.YELLOW}Choose a name for the directory (leave blank to init in current directory):{Style.RESET_ALL}\n")
 
@@ -43,13 +42,8 @@ def init_project(args: Any) -> None:
         return
 
     try:
-        for item in os.listdir(boilerplate_dir):
-            src_path = os.path.join(boilerplate_dir, item)
-            dest_path = os.path.join(init_dir, item)
-            if os.path.isdir(src_path):
-                shutil.copytree(src_path, dest_path, dirs_exist_ok=True)
-            else:
-                shutil.copy2(src_path, dest_path)
+        shutil.copytree(boilerplate_dir, init_dir, dirs_exist_ok=True)
+        print(f"{Fore.GREEN}Boilerplate contents copied to {init_dir} successfully.")
     except Exception as e:
         print(f"{Fore.RED}Error copying boilerplate contents: {e}")
         return
