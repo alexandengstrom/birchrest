@@ -13,7 +13,7 @@ python3 -m unittest tests/integrationtests/server_test.py
 TEST_RESULT=$?
 
 kill $SERVER_PID
-wait $SERVER_PID 2>/dev/null
+wait $SERVER_PID 2>/dev/null || true
 
 if [ $TEST_RESULT -ne 0 ]; then
     echo "Tests failed with exit code $TEST_RESULT"
