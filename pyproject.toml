@@ -48,7 +48,7 @@ packages = [
 ]
 
 [tool.setuptools.package-data]
-birchrest = ["__boilerplate__/*", "*.md", "*.txt"]
+birchrest = ["__boilerplate__/**", "*.md", "*.txt"]
 
 [tool.mypy]
 files = ["birchrest/"]
