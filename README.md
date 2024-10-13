@@ -110,6 +110,8 @@ async def patch(self, req: Request, res: Response):
 
 It is possible to set automatic contraints for the body, queries and params via validation decorators. See section about validation.
 
+BirchRest is fully asynchronous, meaning all route handlers and middleware must be defined as async functions. This allows the framework to handle multiple requests concurrently without blocking. Ensure that all I/O-bound operations, such as database queries, file handling, or external API requests, are awaited properly. Failing to use async or forgetting to await asynchronous operations can lead to blocking behavior, defeating the purpose of using an asynchronous framework.
+
 ### Nesting Controllers
 BirchRest supports hierarchical route structures by allowing controllers to inherit from other controllers. This creates nested routes where the child controller's base path is combined with the parent controller's base path. In BirchRest, subcontrollers are created by having one controller class inherit from another controller class.
 
@@ -175,7 +177,7 @@ class MyMiddleware(Middleware):
             raise BadRequest
 ```
 
-It is possible to execute things after next is called aswell, this means you can use middlewares for postprocessing aswell.
+It is possible to execute things after next is called aswell, this means you can use middlewares for postprocessing aswell. Just like route handlers, all middleware in BirchRest must be asynchronous.
 ### Built-in Middlewares
 Birchrest comes with several built-in middleware options that help manage common use cases, such as request logging, rate limiting or CORS support. These can be easily added to your API with minimal configuration. These can be imported from the middlewares module.
 
