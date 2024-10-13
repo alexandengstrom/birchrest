@@ -201,7 +201,26 @@ from birchrest.middlewares import RateLimiter
 app.middleware(RateLimiter(max_requests=5, window_seconds=60))
 ```
 In this example, the middleware limits each client to a maximum of 5 requests per 60 seconds. If the limit is exceeded, any additional requests within that time will receive a 429 error response.
+#### Cors
+The CORS (Cross-Origin Resource Sharing) middleware in BirchRest enables your API to respond to cross-origin requests securely by controlling which origins, methods, and headers are allowed. It also handles preflight (OPTIONS) requests for methods other than GET and POST, or when using custom headers.
+##### How It Works:
+- The middleware inspects each request and adds the necessary CORS headers to the response based on the configured settings. This allows browsers to enforce the CORS policy and determine if the request is permitted.
+- For preflight requests (OPTIONS method), it sends the appropriate response headers to indicate which origins, methods, and headers are allowed.
+- For regular requests, it ensures the appropriate headers are added to allow cross-origin resource sharing.
+##### Configuration Options:
+- allow_origins: List of allowed origins (default is ["*"], allowing all origins).
+- allow_methods: List of allowed HTTP methods (default includes GET, POST, PUT, DELETE, PATCH, OPTIONS).
+- allow_headers: List of allowed request headers (default is ["Content-Type", "Authorization"]).
+- allow_credentials: Whether credentials (cookies, HTTP authentication, etc.) are allowed (default is False).
+- max_age: The time (in seconds) that preflight request results can be cached by the browser (default is 86400 seconds or 24 hours).
+##### Example:
+```python
+from birchrest.middlewares import Cors
 
+# Apply CORS middleware globally with default settings
+app.middleware(Cors(allow_origins=["https://example.com"], allow_credentials=True))
+```
+In this example, only requests from https://example.com are allowed, and credentials (like cookies) are permitted to be sent with cross-origin requests. The middleware ensures that the appropriate CORS headers are added to all responses.
 ## Data Validation
 Data validation in Birchrest is supported via Python data classes. This allows for strict validation of request data (body, queries, and params) to ensure that all incoming data adheres to the expected structure.
 
