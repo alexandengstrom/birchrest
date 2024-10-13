@@ -7,7 +7,7 @@ from colorama import Fore, Style, init
 import subprocess
 import platform
 
-from .app import BirchRest
+from birchrest import BirchRest
 
 init(autoreset=True)
 
