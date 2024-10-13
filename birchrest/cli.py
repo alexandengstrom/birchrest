@@ -73,9 +73,9 @@ def init_project(args: Any) -> None:
         
         try:
             if platform.system() == 'Windows':
-                subprocess.run([activate_script, '&&', 'pip', 'install', 'pylint', 'mypy'], shell=True, check=True)
+                subprocess.run([activate_script, '&&', 'pip', 'install', 'pylint', 'mypy'], check=True)
             else:
-                subprocess.run(f'source {activate_script} && pip install pylint mypy', shell=True, executable='/bin/bash', check=True)
+                subprocess.run(f'source {activate_script} && pip install pylint mypy', executable='/bin/bash', check=True)
             print(f"{Fore.GREEN}pylint and mypy installed successfully inside the virtual environment.")
         except subprocess.CalledProcessError as e:
             print(f"{Fore.RED}Error occurred during installation: {e}")
