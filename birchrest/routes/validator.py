@@ -129,8 +129,9 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
                 kwargs[field_name] = field_value
                 continue
 
-            if is_dataclass(field_type) and isinstance(field_value, dict):
+            if isinstance(field_type, type) and is_dataclass(field_type) and isinstance(field_value, dict):
                 kwargs[field_name] = parse_data_class(field_type, field_value)
+
             else:
                 if origin_type is not Union and origin_type is not None:
                     if not isinstance(field_value, origin_type):
