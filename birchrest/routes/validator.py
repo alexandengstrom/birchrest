@@ -12,7 +12,7 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
     such as default values. This function supports nested dataclasses and collections.
 
     The function checks if the provided data conforms to the field types and optional
-    constraints specified in the dataclass. If the data is invalid, a `ValueError`
+    constraints specified in the dataclass. If the data is invalid, a ValueError
     is raised with a descriptive message.
 
     Supported validations include:
