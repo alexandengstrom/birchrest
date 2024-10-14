@@ -79,10 +79,10 @@ class Server:
                 if len(data) < 1024:
                     break
 
-            client_address = writer.get_extra_info("peername")[0]
+            client_address, client_port = writer.get_extra_info("peername")
 
             try:
-                request = Request.parse(request_data, client_address)
+                request = Request.parse(request_data, client_address, client_port)
             except JSONDecodeError:
                 Logger.warning("Failed to parse request as JSON")
                 response = (

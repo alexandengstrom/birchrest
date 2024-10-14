@@ -35,6 +35,7 @@ https://alexandengstrom.github.io/birchrest
     ```
 
 ## Table of Contents
+## Table of Contents
 1. [Introduction](#introduction)
 2. [Defining Controllers](#defining-controllers)
     - [Key Concepts](#key-concepts)
@@ -42,11 +43,20 @@ https://alexandengstrom.github.io/birchrest
     - [Nesting Controllers](#nesting-controllers)
 3. [Middleware](#middleware)
     - [Custom Middlewares](#custom-middlewares)
+        - [Requirements](#requirements)
     - [Built-in Middlewares](#built-in-middlewares)
         - [Rate Limiter](#rate-limiter)
         - [Cors](#cors)
 4. [Data Validation](#data-validation)
+    - [Body Validation](#body-validation)
     - [Query and URL Param Validation](#query-and-url-param-validation)
+    - [Supported Validation Constraints](#supported-validation-constraints)
+        - [Type Validation](#type-validation)
+        - [String Constraints](#string-constraints)
+        - [Numeric Constraints](#numeric-constraints)
+        - [Optional Fields](#optional-fields)
+        - [List Constraints](#list-constraints)
+        - [Nested Dataclasses](#nested-dataclasses)
 5. [Authentication](#authentication)
     - [Custom Auth Handlers](#custom-auth-handlers)
     - [Protecting Routes](#protecting-routes)
@@ -56,12 +66,18 @@ https://alexandengstrom.github.io/birchrest
 7. [Unit Testing](#unit-testing)
     - [Test Adapter](#test-adapter)
     - [BirchRestTestCase](#birchresttestcase)
-8. [Request and Response Lifecycle in BirchRest](#request-and-response-lifecycle-in-birchrest)
-   - [Receiving and Parsing the Request](#1-receiving-and-parsing-the-request)
-   - [Passing the Request to the App](#2-passing-the-request-to-the-app)
-   - [Handling the Request in the App](#3-handling-the-request-in-the-app)
-   - [Route Execution](#4-route-execution)
-   - [Returning the Response](#5-returning-the-response)
+8. [Requests And Responses](#requests-and-responses)
+    - [Request](#request)
+    - [Response](#response)
+    - [Request and Response Lifecycle](#request-and-response-lifecycle)
+        - [1. Receiving and Parsing the Request](#1-receiving-and-parsing-the-request)
+        - [2. Passing the Request to the App](#2-passing-the-request-to-the-app)
+        - [3. Handling the Request in the App](#3-handling-the-request-in-the-app)
+        - [4. Route Execution](#4-route-execution)
+        - [5. Returning the Response](#5-returning-the-response)
+9. [Contributing](#contributing)
+10. [License](#license)
+
 
 ## Introduction
 BirchRest follows a controller-based architecture, where each controller represents a logical grouping of API routes. The framework automatically constructs your API at runtime from the controllers you define. To make this work, simply create a file named ```__birch__.py``` and import all your controllers into this file. BirchRest will use this file to discover and configure your API routes.
@@ -288,7 +304,8 @@ Validating queries and params is done in the same way, just use the @queries and
 
 ### Supported Validation Constraints
 Below is a list of all the validation constraints you can define using ```field(metadata={...})```:
-1. **Type Validation**: Data is automatically validated against the field's type. Supported types include int, float, str, list, and nested dataclasses.
+1. #### Type Validation: 
+    Data is automatically validated against the field's type. Supported types include int, float, str, list, and nested dataclasses.
     Example:
 
     ```python
@@ -296,7 +313,7 @@ Below is a list of all the validation constraints you can define using ```field(
     class User:
         age: int
     ```
-2. **String Constraints**
+2. #### String Constraints:
 
     - ```min_length```: Ensures that the string has at least a certain number of characters.
     - ```max_length```: Ensures that the string does not exceed a certain number of characters.
@@ -309,7 +326,7 @@ Below is a list of all the validation constraints you can define using ```field(
         email: str = field(metadata={"regex": r"[^@]+@[^@]+\.[^@]+"})
 
     ```
-3. **Numeric Constraints**:
+3. #### Numeric Constraints:
     - ```min_value```: Ensures that the number is at least a certain value.
     - ```max_value```: Ensures that the number does not exceed a certain value.
     - ```Example```:
@@ -319,7 +336,7 @@ Below is a list of all the validation constraints you can define using ```field(
         age: int = field(metadata={"min_value": 18, "max_value": 120})
 
     ```
-4. **Optional Fields**:
+4. #### Optional Fields:
     - Fields can be marked as optional by specifying ```is_optional: True``` in the metadata. This allows a field to be omitted from the input data without causing a validation error.
     - Example:
     ```python
@@ -329,7 +346,7 @@ Below is a list of all the validation constraints you can define using ```field(
         phone: Optional[str] = field(metadata={"is_optional": True, "regex": r"^\d{10}$"})
 
     ```
-5. **List Constraints**:
+5. #### List Constraints:
     - ```min_items```: Ensures that a list has at least a certain number of items.
     - ```max_items```: Ensures that a list does not exceed a certain number of items.
     - ```unique```: Ensures that all items in the list are unique.
@@ -345,7 +362,7 @@ Below is a list of all the validation constraints you can define using ```field(
         addresses: List[Address] = field(metadata={"min_items": 1, "max_items": 3})
 
     ```
-6. **Nested Dataclasses**:
+6. #### Nested Dataclasses:
     - You can nest dataclasses inside each other, and BirchRest will automatically validate nested structures.
     - Example:
     ```python
@@ -519,19 +536,140 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-## Request and Response Lifecycle in BirchRest
+## Requests And Responses
+
+### Request
+The Request object represents the incoming HTTP request. It encapsulates all relevant information about the request, including the HTTP method, URL path, headers, body, query parameters, and more. The Request object provides access to these components, allowing you to handle and process the request effectively.
+Properties:
+
+- ```method: str```
+    The HTTP method used for the request (e.g., GET, POST, PUT, DELETE).
+
+- ```path: str```
+    The full requested URL path, including any query string (e.g., /api/users?id=123).
+
+- ```clean_path: str```
+    The URL path without query parameters (e.g., /api/users).
+
+- ```version: str```
+    The HTTP version used for the request (e.g., HTTP/1.1).
+
+- ```headers: Dict[str, str]```
+    A dictionary of all HTTP request headers. Headers are case-insensitive.
+
+    Example:
+
+    ```python
+    content_type = req.headers.get("content-type")
+    ```
+
+- ```queries: dataclass```
+A dataclass of query parameters extracted from the URL. If a query parameter has multiple values, it will be a list. Otherwise, it will be a single string. If you have used the ```@queries``` decorator it will be your custom dataclass, otherwhise the request would have failed.
+
+    Example:
+
+    ```python
+    search_query = req.queries.name
+    ```
+
+- ```params: dataclass```
+A dataclass of URL path parameters (if any) extracted from the route. This is populated during route matching. You can also define this via the ```@params``` decorator.
+
+    Example:
+
+    ```python
+    user_id = req.params.id
+    ```
+
+- ```body: dataclass```
+The parsed body of the request. You can ensure this follows your exact dataclass model by using the ```@body``` decorator.
+
+    Example:
+
+    ```python
+    user_data = req.body.user.name.firstName
+    ```
+
+- ```client_address: str```
+The IP address of the client making the request.
+
+- ```client_port: Optional[int]```
+The port number used by the client to send the request. This is helpful for identifying the source of the request.
+
+    Example:
+
+    ```python
+    print(f"Request received from {req.client_address}:{req.client_port}")
+    ```
+
+- ```correlation_id: str```
+A unique ID automatically generated for each request. This can be used to track and correlate requests across different systems.
+
+- ```received: datetime```
+The timestamp indicating when the request was received by the server. This can be useful for logging and performance tracking.
+
+    Example:
+
+    ```python
+    print(f"Request received at {req.received}")
+    ```
+
+- ```user: Optional[Any]```
+Placeholder for any authenticated user information. This will be populated if the request goes through an authentication handler.
+
+- ```host: Optional[str]```
+The Host header from the request, which indicates the server's host (domain or IP) to which the request was made.
+
+    Example:
+
+    ```python
+    print(f"Host: {req.host}")
+    ```
+- ```referrer: Optional[str]```
+The Referer header (if present) from the request, which indicates the page from which the request originated.
+
+- ```user_agent: Optional[str]```
+The User-Agent header from the request, which identifies the client software (browser, bot, etc.).
+
+### Response
+The Response object in BirchRest is responsible for crafting the outgoing HTTP response that is sent back to the client. It provides methods to set the status code, headers, and body, with support for automatically sending JSON-encoded responses.
+
+#### Important Methods
+
+- ```status(code: int) -> Response```
+    This method sets the HTTP status code for the response. You can either pass an integer representing the status code (e.g., 200 for OK or 404 for Not Found) or use the HttpStatus enum for predefined status codes. However, it is recommended to raise ```ApiError``` instead if you want to return errors. A good use would be when responding with 201. The status code is set to 200 by default, so if you intend to return that, you dont have to call status method.
+
+    Example:
+    ```python
+    res.status(404)
+    ```
+
+- ```send(data: Any = {}) -> Response```
+This method sets the response body by encoding the provided data as JSON and automatically sets the Content-Type header to application/json. The response can only be sent once; attempting to call send a second time will raise an exception.
+
+    *Note: All responses in BirchRest are automatically sent as JSON.*
+
+    Example:
+    ```python
+    res.status(200).send({"message": "Success"})  # Sends a JSON response with a 200 status code
+    ```
+
+    **Important:**
+    - Once send is called, the response is finalized, and calling send again will result in an error ("Request was sent twice").
+    - The Content-Length header is automatically set based on the length of the JSON-encoded response.
+### Request and Response Lifecycle
 The BirchRest framework handles HTTP requests using a structured flow to ensure that all incoming requests are processed correctly, including middleware execution, validation, and error handling. This section explains the lifecycle of a request from when it is received by the server to when a response is sent back to the client.
 
-### 1. Receiving and Parsing the Request
+#### 1. Receiving and Parsing the Request
 When a client sends an HTTP request to the server, the server parses the raw request data into a Request object. This object encapsulates all details about the incoming request, such as headers, method (e.g., GET, POST), query parameters, URL parameters, and body data.
-### 2. Passing the Request to the App
+#### 2. Passing the Request to the App
 Once the request object is created, it is passed to the main application (BirchRest) for handling. The app creates a new Response object, which will later be populated and returned to the client. The app then looks for a matching route by searching through all defined routes based on the request’s URL and HTTP method.
-### 3. Handling the Request in the App
+#### 3. Handling the Request in the App
 The main request handling logic is performed by the handle_request method in the app. This method attempts to match the incoming request to a route and execute the following key steps:
 - **Route Matching**: The app searches through all registered routes to find one that matches the URL path and HTTP method of the request. If a matching route is found, the request proceeds to that route. If no route matches, a ```404 Not Found``` error is raised, or if the route exists but the HTTP method is incorrect, a ```405 Method Not Allowed``` error is raised.
 - **Passing the Request to the Route**: Once a route is matched, the app passes both the request and response objects to that route for further processing.
 - **Error Handling**: If an exception occurs during request handling (such as an invalid request or missing route), the app catches the exception and attempts to generate an appropriate error response using predefined or custom error handlers.
-### 4. Route Execution
+#### 4. Route Execution
 Each route in BirchRest is responsible for executing its logic and handling the request:
 - **Middleware Execution**: When the request reaches the matched route, the route begins by executing any middleware associated with it. Middleware can modify the request or response objects, perform tasks such as logging or authentication, and decide whether to continue processing the request. Middleware runs in a chain, meaning each middleware can pass control to the next one, or halt the chain and send a response early.
 
@@ -539,7 +677,7 @@ Each route in BirchRest is responsible for executing its logic and handling the 
 - **Authentication**: If the route is protected by authentication, the request must pass through an authentication handler. This handler validates the request (e.g., checking tokens or credentials). If authentication fails, a ```401 Unauthorized``` error is raised, and the response is sent back to the client.
 - **Validation**: If the route requires validation of the request body, query parameters, or URL parameters, the request data is checked against predefined data classes. If the data fails validation (e.g., missing required fields or incorrect types), a 400 Bad Request error is raised.
 - **Executing the Route Handler**: Once middleware, authentication, and validation checks pass, the route handler function is executed. The route handler is responsible for performing the main business logic, such as fetching data, processing the request, or interacting with external services. After processing, the route handler populates the response object with the appropriate data and status code.
-### 5. Returning the Response
+#### 5. Returning the Response
 After the route handler completes, the response object (which was initially created at the beginning of the request) contains the data to be sent back to the client. This includes the HTTP status code, headers, and response body.
 
 The final response is then returned to the server, which sends it to the client. If any errors occurred during the request lifecycle, they are automatically converted into error responses by the app’s error handler.

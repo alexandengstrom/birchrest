@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import asyncio
 import inspect
 from birchrest.routes.validator import parse_data_class
+from birchrest.utils import dict_to_dataclass
 from ..types import RouteHandler, MiddlewareFunction, AuthHandlerFunction
 from ..http import Request, Response
 from ..exceptions import MissingAuthHandlerError, Unauthorized, BadRequest, ApiError
@@ -131,6 +132,8 @@ class Route:
             except ValueError as e:
                 Logger.debug(f"Request to {self.path} from {req.client_address} failed body validation")
                 raise BadRequest(f"Body validation failed: {str(e)}") from e
+        else:
+            req.body = dict_to_dataclass("body", req.body)
 
         if self.validate_queries:
             try:
@@ -141,6 +144,8 @@ class Route:
             except ValueError as e:
                 Logger.debug(f"Request to {self.path} from {req.client_address} failed query validation")
                 raise BadRequest(f"Query validation failed: {str(e)}")
+        else:
+            req.queries = dict_to_dataclass("queries", req.queries)
 
         if self.validate_params:
             try:
@@ -151,6 +156,8 @@ class Route:
             except ValueError as e:
                 Logger.debug(f"Request to {self.path} from {req.client_address} failed param validation")
                 raise BadRequest(f"Param validation failed: {str(e)}")
+        else:
+            req.params = dict_to_dataclass("params", req.params)
 
         async def run_middlewares(index: int) -> None:
             if index < len(self.middlewares):
