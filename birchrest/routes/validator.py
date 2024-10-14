@@ -4,7 +4,30 @@ import re
 
 from birchrest.exceptions import InvalidValidationModel
 
+
 def parse_data_class(data_class: Type[Any], data: Any) -> Any:
+    """
+    Parses and validates data against a dataclass, ensuring the data matches the
+    field types, validation constraints (like min/max lengths, regex), and metadata
+    such as default values. This function supports nested dataclasses and collections.
+
+    The function checks if the provided data conforms to the field types and optional
+    constraints specified in the dataclass. If the data is invalid, a ValueError
+    is raised with a descriptive message.
+
+    Supported validations include:
+        - Type validation (e.g., int, str, float, etc.)
+        - String constraints: min_length, max_length, regex pattern.
+        - Numeric constraints: min_value, max_value.
+        - List constraints: min_items, max_items, uniqueness of items.
+        - Optional fields with 'is_optional' metadata.
+
+    :param data_class: The dataclass type to validate against.
+    :param data: The input data to be validated, typically a dictionary.
+    :return: An instance of the dataclass with the validated data.
+    :raises ValueError: If the data is missing required fields or if any validation fails.
+    """
+
     if not is_dataclass(data_class):
         raise InvalidValidationModel(data_class)
 
@@ -39,7 +62,7 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
                     continue
 
                 if not isinstance(field_value, valid_types):
-                    valid_type_names = [getattr(t, '__name__', str(t)) for t in valid_types]
+                    valid_type_names = [t.__name__ for t in valid_types]
                     raise ValueError(
                         f"Incorrect type for field '{field_name}', expected one of {valid_type_names}"
                     )
@@ -96,7 +119,7 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
                     )
 
                 for index, item in enumerate(field_value):
-                    if isinstance(item, dict) and isinstance(item_type, type) and is_dataclass(item_type):
+                    if isinstance(item, dict) and is_dataclass(item_type):
                         field_value[index] = parse_data_class(item_type, item)
                     elif not isinstance(item, item_type):
                         raise ValueError(
@@ -106,7 +129,7 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
                 kwargs[field_name] = field_value
                 continue
 
-            if isinstance(field_type, type) and is_dataclass(field_type) and isinstance(field_value, dict):
+            if is_dataclass(field_type) and isinstance(field_value, dict):
                 kwargs[field_name] = parse_data_class(field_type, field_value)
             else:
                 if origin_type is not Union and origin_type is not None:
@@ -115,9 +138,9 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
                             f"Incorrect type for field '{field_name}', expected {origin_type.__name__}"
                         )
                 else:
-                    if not isinstance(field_value, (field_type if isinstance(field_type, type) else type(None))):
+                    if not isinstance(field_value, field_type):
                         raise ValueError(
-                            f"Incorrect type for field '{field_name}', expected {getattr(field_type, '__name__', str(field_type))}"
+                            f"Incorrect type for field '{field_name}', expected {field_type.__name__}"
                         )
 
                 kwargs[field_name] = field_value
