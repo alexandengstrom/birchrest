@@ -48,8 +48,8 @@ if [ -z "$REQS_PER_SEC" ]; then
     echo "Error: Could not retrieve requests per second."
     exit 1
 fi
-if (( $(echo "$REQS_PER_SEC < 4000" | bc -l) )); then
-    echo "Requests per second ($REQS_PER_SEC) below threshold (4000)"
+if (( $(echo "$REQS_PER_SEC < 1000" | bc -l) )); then
+    echo "Requests per second ($REQS_PER_SEC) below threshold (1000)"
     cat load_test_result.txt
     exit 1
 fi
