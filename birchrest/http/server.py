@@ -96,7 +96,7 @@ class Server:
                 writer.write(response.encode("utf-8"))
                 await writer.drain()
                 return
-            except Exception:
+            except Exception as e:
                 response = (
                     Response().status(400).send({"error": "Malformed request"}).end()
                 )
@@ -110,7 +110,6 @@ class Server:
                 writer.write(res.end().encode("utf-8"))
                 await writer.drain()
         except Exception as e:
-            print(e)
             response = (
                 Response().status(500).send({"error": "Internal server error"}).end()
             )
