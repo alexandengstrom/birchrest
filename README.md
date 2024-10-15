@@ -3,7 +3,6 @@
 [![PyPI version](https://badge.fury.io/py/birchrest.svg)](https://pypi.org/project/birchrest/)
 ![GitHub Release Date](https://img.shields.io/github/release-date/alexandengstrom/birchrest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Python Versions](https://img.shields.io/pypi/pyversions/birchrest.svg)](https://pypi.org/project/birchrest/)
 ![Unit Tests](https://github.com/alexandengstrom/birchrest/actions/workflows/unit_test.yml/badge.svg)
 ![Type Checking](https://github.com/alexandengstrom/birchrest/actions/workflows/type_checking.yml/badge.svg)
 ![Linting](https://github.com/alexandengstrom/birchrest/actions/workflows/linting.yml/badge.svg)
