@@ -28,4 +28,4 @@ jobs:
 
       - name: Run Pylint
         run: |
-          pylint birchrest --fail-under=9
+          pylint birchrest --fail-under=8

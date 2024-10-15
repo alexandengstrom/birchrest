@@ -33,7 +33,7 @@ class UserController(Controller):
             raise NotFound(f"No user with id {req.params.id} exists")
 
     @get()
-    @body(UsersModel)
+    @produces(UsersModel)
     @tag("User")
     async def get_users(self, req: Request, res: Response) -> Response:
         users = await get_users()

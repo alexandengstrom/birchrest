@@ -127,7 +127,7 @@ def route_to_model(route: Route, models: Dict[str, Any] = {}) -> Dict[str, Any]:
         openapi_model[method]["tags"] = getattr(route.func, "_openapi_tags")
 
     if route.validate_params:
-        if is_dataclass(route.validate_params):
+        if is_dataclass(route.validate_params) and isinstance(route.validate_params, type):
             param_model = dataclass_to_model(route.validate_params)
 
             for param_name, param_schema in param_model["properties"].items():
@@ -141,7 +141,7 @@ def route_to_model(route: Route, models: Dict[str, Any] = {}) -> Dict[str, Any]:
                 )
 
     if route.validate_queries:
-        if is_dataclass(route.validate_queries):
+        if is_dataclass(route.validate_queries) and isinstance(route.validate_queries, type):
             query_model = dataclass_to_model(route.validate_queries)
 
             for query_name, query_schema in query_model["properties"].items():
@@ -155,7 +155,7 @@ def route_to_model(route: Route, models: Dict[str, Any] = {}) -> Dict[str, Any]:
                 )
 
     if route.validate_body:
-        if is_dataclass(route.validate_body):
+        if is_dataclass(route.validate_body) and isinstance(route.validate_body, type):
             body_model = dataclass_to_model(route.validate_body)
             body_ref = f"#/components/schemas/{route.validate_body.__name__}"
 
@@ -168,7 +168,7 @@ def route_to_model(route: Route, models: Dict[str, Any] = {}) -> Dict[str, Any]:
                 models[route.validate_body.__name__] = body_model
 
     if hasattr(route, "produces") and route.produces:
-        if is_dataclass(route.produces):
+        if is_dataclass(route.produces) and isinstance(route.produces, type):
             produces_model = dataclass_to_model(route.produces)
             produces_ref = f"#/components/schemas/{route.produces.__name__}"
 
