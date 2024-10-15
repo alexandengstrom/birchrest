@@ -12,6 +12,7 @@
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://alexandengstrom.github.io/birchrest/)
 ![GitHub last commit](https://img.shields.io/github/last-commit/alexandengstrom/birchrest)
 ![Repo Size](https://img.shields.io/github/repo-size/alexandengstrom/birchrest)
+![GitHub issues](https://img.shields.io/github/issues/alexandengstrom/birchrest)
 
 **BirchRest** is a simple, lightweight framework for setting up RESTful APIs with minimal configuration. It is designed to be intuitive and flexible.
 
