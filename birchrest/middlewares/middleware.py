@@ -1,7 +1,7 @@
-import asyncio
 from ..http import Request, Response
 from ..types import NextFunction
 from abc import ABC, abstractmethod
+
 
 class Middleware(ABC):
     """
@@ -16,4 +16,3 @@ class Middleware(ABC):
         It must be an asynchronous function.
         """
         raise NotImplementedError("Middleware must implement the __call__ method")
-

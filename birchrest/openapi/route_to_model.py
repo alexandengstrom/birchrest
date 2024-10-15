@@ -14,22 +14,26 @@ from birchrest.http import HttpStatus
 
 from typing import Type
 
-def extract_error_status_codes(func: Any) -> List[int]:
+
+def extract_status_codes(func: Any) -> Tuple[List[int], List[int]]:
     """
     Extracts all the HTTP status codes from `ApiError` exceptions raised within the given function.
 
     :param func: The function to analyze.
     :return: A list of unique HTTP status codes found in the function.
     """
-    
+
     source = inspect.getsource(func)
     source = textwrap.dedent(source)
 
     tree = ast.parse(source)
 
-    status_codes = set()
+    error_codes = set()
+    success_codes = set()
 
-    api_error_subclasses: Dict[str, Type[Any]] = {cls.__name__: cls for cls in ApiError.__subclasses__()}
+    api_error_subclasses: Dict[str, Type[Any]] = {
+        cls.__name__: cls for cls in ApiError.__subclasses__()
+    }
 
     for node in ast.walk(tree):
         if isinstance(node, ast.Raise):
@@ -37,9 +41,19 @@ def extract_error_status_codes(func: Any) -> List[int]:
                 error_name = node.exc.func.id
                 if error_name in api_error_subclasses:
                     error_class = api_error_subclasses[error_name]
-                    status_codes.add(error_class(user_message="").status_code)
+                    error_codes.add(error_class(user_message="").status_code)
+                    
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
+            if node.func.attr == 'status' and isinstance(node.args[0], ast.Constant):
+                success_code = node.args[0].value
+                if isinstance(success_code, int):
+                    if success_code > 299 or success_code < 200:
+                        error_codes.add(success_code)
+                    else:
+                        success_codes.add(success_code)
 
-    return list(status_codes)
+    return list(success_codes), list(error_codes)
+
 
 def get_route_return_codes(route: Route) -> Dict[str, Any]:
     """
@@ -48,24 +62,38 @@ def get_route_return_codes(route: Route) -> Dict[str, Any]:
     :param route: The Route object to analyze.
     :return: A dictionary containing the return codes and their descriptions.
     """
-    status_codes = set()
+    success_codes = set()
+    error_codes = set()
 
-    status_codes.update(extract_error_status_codes(route.func))
+    route_success_codes, route_error_codes = extract_status_codes(route.func)
+    success_codes.update(route_success_codes)
+    error_codes.update(route_error_codes)
 
     for middleware in route.middlewares:
-        status_codes.update(extract_error_status_codes(middleware))
+        middleware_success_codes, middleware_error_codes = extract_status_codes(middleware)
+        success_codes.update(middleware_success_codes)
+        error_codes.update(middleware_error_codes)
 
     if route.auth_handler:
-        status_codes.update(extract_error_status_codes(route.auth_handler))
+        auth_success_codes, auth_error_codes = extract_status_codes(route.auth_handler)
+        success_codes.update(auth_success_codes)
+        error_codes.update(auth_error_codes)
 
-    return_codes = {
-        str(code): {
+    return_codes = {}
+
+    for code in success_codes:
+        return_codes[str(code)] = {
             "description": f"{HttpStatus.description(code)}",
         }
-        for code in status_codes
-    }
+
+    for code in error_codes:
+        return_codes[str(code)] = {
+            "description": f"{HttpStatus.description(code)}",
+        }
 
     return return_codes
+
+
 
 def route_to_model(route: Route, models: Dict[str, Any] = {}) -> Dict[str, Any]:
     """
@@ -78,7 +106,7 @@ def route_to_model(route: Route, models: Dict[str, Any] = {}) -> Dict[str, Any]:
     openapi_path = re.sub(r":(\w+)", r"{\1}", route.path)
 
     method = route.method.lower()
-    
+
     handler_docstring = inspect.getdoc(route.func) or "No description provided"
 
     openapi_model: Dict[str, Any] = {
@@ -89,44 +117,42 @@ def route_to_model(route: Route, models: Dict[str, Any] = {}) -> Dict[str, Any]:
             "responses": {
                 "200": {
                     "description": "Successful operation",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object"
-                            }
-                        }
-                    }
+                    "content": {"application/json": {"schema": {"type": "object"}}},
                 }
-            }
+            },
         }
     }
+    
+    if hasattr(route.func, "_openapi_tags"):
+        openapi_model[method]["tags"] = getattr(route.func, "_openapi_tags")
 
     if route.validate_params:
         if is_dataclass(route.validate_params):
             param_model = dataclass_to_model(route.validate_params)
 
             for param_name, param_schema in param_model["properties"].items():
-                openapi_model[method]["parameters"].append({
-                    "name": param_name,
-                    "in": "path",
-                    "required": True,
-                    "schema": param_schema
-                })
-
+                openapi_model[method]["parameters"].append(
+                    {
+                        "name": param_name,
+                        "in": "path",
+                        "required": True,
+                        "schema": param_schema,
+                    }
+                )
 
     if route.validate_queries:
         if is_dataclass(route.validate_queries):
             query_model = dataclass_to_model(route.validate_queries)
 
             for query_name, query_schema in query_model["properties"].items():
-                openapi_model[method]["parameters"].append({
-                    "name": query_name,
-                    "in": "query",
-                    "required": query_name in query_model["required"],
-                    "schema": query_schema
-                })
-
-
+                openapi_model[method]["parameters"].append(
+                    {
+                        "name": query_name,
+                        "in": "query",
+                        "required": query_name in query_model["required"],
+                        "schema": query_schema,
+                    }
+                )
 
     if route.validate_body:
         if is_dataclass(route.validate_body):
@@ -134,16 +160,24 @@ def route_to_model(route: Route, models: Dict[str, Any] = {}) -> Dict[str, Any]:
             body_ref = f"#/components/schemas/{route.validate_body.__name__}"
 
             openapi_model[method]["requestBody"] = {
-                "required": True, 
-                "content": {
-                    "application/json": {
-                        "schema": {"$ref": body_ref}
-                    }
-                }
+                "required": True,
+                "content": {"application/json": {"schema": {"$ref": body_ref}}},
             }
 
             if route.validate_body.__name__ not in models:
                 models[route.validate_body.__name__] = body_model
+
+    if hasattr(route, "produces") and route.produces:
+        if is_dataclass(route.produces):
+            produces_model = dataclass_to_model(route.produces)
+            produces_ref = f"#/components/schemas/{route.produces.__name__}"
+
+            openapi_model[method]["responses"]["200"]["content"] = {
+                "application/json": {"schema": {"$ref": produces_ref}}
+            }
+
+            if route.produces.__name__ not in models:
+                models[route.produces.__name__] = produces_model
 
     return_codes = get_route_return_codes(route)
     openapi_model[method]["responses"].update(return_codes)
@@ -178,7 +212,7 @@ def routes_to_openapi(routes: List[Route]) -> Tuple[Dict[str, Any], Dict[str, An
     """
     route_models = []
     models: Dict[str, Any] = {}
-    
+
     for route in routes:
         route_model = route_to_model(route, models)
         route_models.append(route_model)

@@ -1,11 +1,10 @@
 from json import JSONDecodeError
 import socket
-from typing import Callable, Optional, Any, Awaitable
+from typing import Callable, Optional, Awaitable
 import asyncio
 
 from .request import Request
 from .response import Response
-from ..types import RouteHandler
 from ..utils import Logger
 
 

@@ -16,7 +16,7 @@ class Response:
         _is_sent (bool): A flag to indicate if the response has already been sent.
         correlation_id (str): A unique correlation ID for tracking the request-response cycle.
     """
-    
+
     def __init__(self, correlation_id: str = "") -> None:
         """
         Initializes a new Response object with default values.

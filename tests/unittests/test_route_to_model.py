@@ -29,6 +29,11 @@ class UserPathParamsSchema:
 class UserQuerySchema:
     search: Optional[str] = None
     limit: Optional[int] = None
+    
+@dataclass
+class UserProducesSchema:
+    id: str
+    name: str
 
 
 class TestOpenApiGeneration(unittest.TestCase):
@@ -202,6 +207,65 @@ class TestOpenApiGeneration(unittest.TestCase):
 
         self.assertEqual(paths, expected_paths)
         self.assertEqual(models, expected_models)
+        
+    def test_route_with_produces(self) -> None:
+        """
+        Test route_to_model for a route with the produces property.
+        """
+        route = Route(
+            func=mock_handler,
+            method="GET",
+            path="/users/:id",
+            middlewares=[],
+            protected=False,
+            validate_body=None,
+            validate_queries=None,
+            validate_params=UserPathParamsSchema,
+            produces=UserProducesSchema,
+        )
+
+        expected_openapi_model = {
+            "/users/{id}": {
+                "get": {
+                    "summary": "Operation for GET /users/:id",
+                    "description": "No description provided",
+                    "parameters": [
+                        {
+                            "name": "id",
+                            "in": "path",
+                            "required": True,
+                            "schema": {"type": "string"}
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "Successful operation",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/UserProducesSchema"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        expected_models = {
+            "UserProducesSchema": {
+                "type": "object",
+                "properties": {
+                    "id": {"type": "string"},
+                    "name": {"type": "string"}
+                },
+                "required": ["id", "name"]
+            }
+        }
+
+        openapi_model = route_to_model(route)
+        self.assertEqual(openapi_model, expected_openapi_model)
 
 
 if __name__ == '__main__':

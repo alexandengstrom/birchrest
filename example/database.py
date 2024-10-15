@@ -7,7 +7,7 @@ db = {
     "users": [
         {
             "id": 1,
-            "name": "John Doe"
+            "name": "John Doe",
         },
         {
             "id": 2,

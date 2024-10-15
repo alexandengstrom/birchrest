@@ -1,6 +1,5 @@
 from __future__ import annotations
-from typing import Generator, List, Type
-from abc import ABC
+from typing import Generator, List
 from .route import Route
 from ..types import MiddlewareFunction
 from ..utils import Logger
@@ -41,7 +40,7 @@ class Controller:
         self._is_protected: str = getattr(self.__class__, "_is_protected", "")
         self.routes: List[Route] = []
         self.controllers: List[Controller] = []
-        
+
         self._discover_subcontrollers()
 
         for attr_name in dir(self):
@@ -69,6 +68,18 @@ class Controller:
                 if hasattr(method, "_validate_params"):
                     validate_params = getattr(method, "_validate_params")
 
+                produces = None
+                if hasattr(method, "_produces"):
+                    produces = getattr(method, "_produces")
+
+                openapi_tags: List[str] = []
+
+                if hasattr(self, "_openapi_tags"):
+                    openapi_tags = getattr(self, "__openapi_tags")
+
+                if hasattr(method, "_openapi_tags"):
+                    openapi_tags = openapi_tags + getattr(method, "_openapi_tags")
+
                 self.routes.append(
                     Route(
                         method,
@@ -76,12 +87,14 @@ class Controller:
                         method._sub_route,
                         middlewares,
                         protected,
-                        validate_body,
-                        validate_queries,
-                        validate_params,
+                        validate_body=validate_body,
+                        validate_queries=validate_queries,
+                        validate_params=validate_params,
+                        produces=produces,
+                        openapi_tags=openapi_tags,
                     )
                 )
-                
+
     def _discover_subcontrollers(self) -> None:
         """
         Discovers all subclasses of the current `Controller` class and automatically
@@ -110,7 +123,7 @@ class Controller:
 
         new_prefix = prefix.rstrip("/").lstrip("/")
         base_path = self._base_path.lstrip("/")
-        
+
         if new_prefix:
             new_prefix = f"/{new_prefix}/{base_path}".rstrip("/")
         else:
@@ -134,7 +147,7 @@ class Controller:
 
         :yield: The routes defined in this controller and its subcontrollers.
         """
-        
+
         yield from self.routes
 
         for controller in self.controllers:

@@ -1,6 +1,6 @@
 import time
 from collections import defaultdict
-from typing import Callable, Dict, Any
+from typing import Dict, Any
 from ..http import Request
 from ..http import Response
 from ..types import NextFunction

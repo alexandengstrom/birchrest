@@ -56,7 +56,8 @@ packages = [
     "birchrest.types",
     "birchrest.unittest",
     "birchrest.middlewares",
-    "birchrest.utils"
+    "birchrest.utils",
+    "birchrest.openapi"
 ]
 
 [tool.setuptools.package-data]

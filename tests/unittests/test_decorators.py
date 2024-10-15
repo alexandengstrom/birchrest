@@ -16,6 +16,8 @@ from birchrest.decorators import (
     params,
     protected,
     queries,
+    produces,
+    tag
 )
 
 
@@ -172,6 +174,35 @@ class TestDecorators(unittest.TestCase):
             pass
 
         self.assertEqual(getattr(sample_function, "_validate_queries"), model_mock)
+        
+    def test_produces_decorator(self):
+        """Test the produces decorator."""
+        model_mock = Mock()
+
+        @produces(model_mock)
+        def sample_function():
+            pass
+
+        self.assertEqual(getattr(sample_function, "_produces"), model_mock)
+        
+    def test_tag_decorator_on_function(self):
+        """Test the tag decorator on a function."""
+
+        @tag("User", "Admin")
+        def sample_function():
+            pass
+
+        self.assertEqual(getattr(sample_function, "_openapi_tags"), ["User", "Admin"])
+
+    def test_tag_decorator_on_class(self):
+        """Test the tag decorator on a class."""
+
+        @tag("Controller", "API")
+        class SampleController:
+            def get_user(self):
+                pass
+
+        self.assertEqual(getattr(SampleController, "_openapi_tags"), ["Controller", "API"])
 
 
 if __name__ == "__main__":
