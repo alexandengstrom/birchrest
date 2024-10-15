@@ -143,6 +143,9 @@ https://alexandengstrom.github.io/birchrest</p>
 </section>
 <section id="table-of-contents">
 <h3>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h3>
+</section>
+<section id="id1">
+<h3>Table of Contents<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="#introduction"><span class="xref myst">Introduction</span></a></p></li>
 <li><p><a class="reference internal" href="#defining-controllers"><span class="xref myst">Defining Controllers</span></a></p>
@@ -154,7 +157,11 @@ https://alexandengstrom.github.io/birchrest</p>
 </li>
 <li><p><a class="reference internal" href="birchrest.html#birchrest.BirchRest.middleware" title="birchrest.BirchRest.middleware"><span class="xref myst py py-meth">Middleware</span></a></p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#custom-middlewares"><span class="xref myst">Custom Middlewares</span></a></p></li>
+<li><p><a class="reference internal" href="#custom-middlewares"><span class="xref myst">Custom Middlewares</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#requirements"><span class="xref myst">Requirements</span></a></p></li>
+</ul>
+</li>
 <li><p><a class="reference internal" href="#built-in-middlewares"><span class="xref myst">Built-in Middlewares</span></a></p>
 <ul>
 <li><p><a class="reference internal" href="#rate-limiter"><span class="xref myst">Rate Limiter</span></a></p></li>
@@ -165,7 +172,18 @@ https://alexandengstrom.github.io/birchrest</p>
 </li>
 <li><p><a class="reference internal" href="#data-validation"><span class="xref myst">Data Validation</span></a></p>
 <ul class="simple">
+<li><p><a class="reference internal" href="#body-validation"><span class="xref myst">Body Validation</span></a></p></li>
 <li><p><a class="reference internal" href="#query-and-url-param-validation"><span class="xref myst">Query and URL Param Validation</span></a></p></li>
+<li><p><a class="reference internal" href="#supported-validation-constraints"><span class="xref myst">Supported Validation Constraints</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#type-validation"><span class="xref myst">Type Validation</span></a></p></li>
+<li><p><a class="reference internal" href="#string-constraints"><span class="xref myst">String Constraints</span></a></p></li>
+<li><p><a class="reference internal" href="#numeric-constraints"><span class="xref myst">Numeric Constraints</span></a></p></li>
+<li><p><a class="reference internal" href="#optional-fields"><span class="xref myst">Optional Fields</span></a></p></li>
+<li><p><a class="reference internal" href="#list-constraints"><span class="xref myst">List Constraints</span></a></p></li>
+<li><p><a class="reference internal" href="#nested-dataclasses"><span class="xref myst">Nested Dataclasses</span></a></p></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><p><a class="reference internal" href="#authentication"><span class="xref myst">Authentication</span></a></p>
@@ -186,15 +204,23 @@ https://alexandengstrom.github.io/birchrest</p>
 <li><p><a class="reference internal" href="#birchresttestcase"><span class="xref myst">BirchRestTestCase</span></a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#request-and-response-lifecycle-in-birchrest"><span class="xref myst">Request and Response Lifecycle in BirchRest</span></a></p>
+<li><p><a class="reference internal" href="#requests-and-responses"><span class="xref myst">Requests And Responses</span></a></p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#1-receiving-and-parsing-the-request"><span class="xref myst">Receiving and Parsing the Request</span></a></p></li>
-<li><p><a class="reference internal" href="#2-passing-the-request-to-the-app"><span class="xref myst">Passing the Request to the App</span></a></p></li>
-<li><p><a class="reference internal" href="#3-handling-the-request-in-the-app"><span class="xref myst">Handling the Request in the App</span></a></p></li>
-<li><p><a class="reference internal" href="#4-route-execution"><span class="xref myst">Route Execution</span></a></p></li>
-<li><p><a class="reference internal" href="#5-returning-the-response"><span class="xref myst">Returning the Response</span></a></p></li>
+<li><p><a class="reference internal" href="birchrest.http.html#module-birchrest.http.request" title="birchrest.http.request"><span class="xref myst py py-mod">Request</span></a></p></li>
+<li><p><a class="reference internal" href="birchrest.http.html#module-birchrest.http.response" title="birchrest.http.response"><span class="xref myst py py-mod">Response</span></a></p></li>
+<li><p><a class="reference internal" href="#request-and-response-lifecycle"><span class="xref myst">Request and Response Lifecycle</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#1-receiving-and-parsing-the-request"><span class="xref myst">1. Receiving and Parsing the Request</span></a></p></li>
+<li><p><a class="reference internal" href="#2-passing-the-request-to-the-app"><span class="xref myst">2. Passing the Request to the App</span></a></p></li>
+<li><p><a class="reference internal" href="#3-handling-the-request-in-the-app"><span class="xref myst">3. Handling the Request in the App</span></a></p></li>
+<li><p><a class="reference internal" href="#4-route-execution"><span class="xref myst">4. Route Execution</span></a></p></li>
+<li><p><a class="reference internal" href="#5-returning-the-response"><span class="xref myst">5. Returning the Response</span></a></p></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#contributing"><span class="xref myst">Contributing</span></a></p></li>
+<li><p><a class="reference internal" href="#license"><span class="xref myst">License</span></a></p></li>
 </ol>
 </section>
 <section id="introduction">
@@ -357,8 +383,8 @@ https://alexandengstrom.github.io/birchrest</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">window_seconds</span></code>: The length of the time window in seconds during which the requests are counted (default is 10 seconds).</p></li>
 </ul>
 </section>
-<section id="id1">
-<h6>Example:<a class="headerlink" href="#id1" title="Link to this heading"></a></h6>
+<section id="id2">
+<h6>Example:<a class="headerlink" href="#id2" title="Link to this heading"></a></h6>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.middlewares</span> <span class="kn">import</span> <span class="n">RateLimiter</span>
 
 <span class="c1"># Apply rate limiting globally</span>
@@ -371,16 +397,16 @@ https://alexandengstrom.github.io/birchrest</p>
 <section id="cors">
 <h5>Cors<a class="headerlink" href="#cors" title="Link to this heading"></a></h5>
 <p>The CORS (<code class="docutils literal notranslate"><span class="pre">Cross-Origin</span> <span class="pre">Resource</span> <span class="pre">Sharing</span></code>) middleware in BirchRest enables your API to respond to cross-origin requests securely by controlling which origins, methods, and headers are allowed. It also handles preflight (<code class="docutils literal notranslate"><span class="pre">OPTIONS</span></code>) requests for methods other than <code class="docutils literal notranslate"><span class="pre">GET</span></code> and <code class="docutils literal notranslate"><span class="pre">POST</span></code>, or when using custom headers.</p>
-<section id="id2">
-<h6>How It Works:<a class="headerlink" href="#id2" title="Link to this heading"></a></h6>
+<section id="id3">
+<h6>How It Works:<a class="headerlink" href="#id3" title="Link to this heading"></a></h6>
 <ul class="simple">
 <li><p>The middleware inspects each request and adds the necessary CORS headers to the response based on the configured settings. This allows browsers to enforce the CORS policy and determine if the request is permitted.</p></li>
 <li><p>For preflight requests (<code class="docutils literal notranslate"><span class="pre">OPTIONS</span></code> method), it sends the appropriate response headers to indicate which origins, methods, and headers are allowed.</p></li>
 <li><p>For regular requests, it ensures the appropriate headers are added to allow cross-origin resource sharing.</p></li>
 </ul>
 </section>
-<section id="id3">
-<h6>Configuration Options:<a class="headerlink" href="#id3" title="Link to this heading"></a></h6>
+<section id="id4">
+<h6>Configuration Options:<a class="headerlink" href="#id4" title="Link to this heading"></a></h6>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">allow_origins</span></code>: List of allowed origins (default is [“*”], allowing all origins).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">allow_methods</span></code>: List of allowed HTTP methods (default includes GET, POST, PUT, DELETE, PATCH, OPTIONS).</p></li>
@@ -389,8 +415,8 @@ https://alexandengstrom.github.io/birchrest</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">max_age</span></code>: The time (in seconds) that preflight request results can be cached by the browser (default is 86400 seconds or 24 hours).</p></li>
 </ul>
 </section>
-<section id="id4">
-<h6>Example:<a class="headerlink" href="#id4" title="Link to this heading"></a></h6>
+<section id="id5">
+<h6>Example:<a class="headerlink" href="#id5" title="Link to this heading"></a></h6>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.middlewares</span> <span class="kn">import</span> <span class="n">Cors</span>
 
 <span class="c1"># Apply CORS middleware globally with default settings</span>
@@ -408,8 +434,8 @@ https://alexandengstrom.github.io/birchrest</p>
 <p>To be able to use validation, you must also define the models.</p>
 <section id="body-validation">
 <h4>Body Validation<a class="headerlink" href="#body-validation" title="Link to this heading"></a></h4>
-<section id="id5">
-<h5>Example:<a class="headerlink" href="#id5" title="Link to this heading"></a></h5>
+<section id="id6">
+<h5>Example:<a class="headerlink" href="#id6" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Address</span><span class="p">:</span>
     <span class="n">street</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;max_length&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
@@ -455,7 +481,8 @@ https://alexandengstrom.github.io/birchrest</p>
 <h4>Supported Validation Constraints<a class="headerlink" href="#supported-validation-constraints" title="Link to this heading"></a></h4>
 <p>Below is a list of all the validation constraints you can define using <code class="docutils literal notranslate"><span class="pre">field(metadata={...})</span></code>:</p>
 <ol class="arabic">
-<li><p><strong>Type Validation</strong>: Data is automatically validated against the field’s type. Supported types include int, float, str, list, and nested dataclasses.
+<li><p class="rubric" id="type-validation">Type Validation:</p>
+<p>Data is automatically validated against the field’s type. Supported types include int, float, str, list, and nested dataclasses.
 Example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
@@ -463,7 +490,7 @@ Example:</p>
 </pre></div>
 </div>
 </li>
-<li><p><strong>String Constraints</strong></p>
+<li><p class="rubric" id="string-constraints">String Constraints:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">min_length</span></code>: Ensures that the string has at least a certain number of characters.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">max_length</span></code>: Ensures that the string does not exceed a certain number of characters.</p></li>
@@ -478,7 +505,7 @@ Example:</p>
 </pre></div>
 </div>
 </li>
-<li><p><strong>Numeric Constraints</strong>:</p>
+<li><p class="rubric" id="numeric-constraints">Numeric Constraints:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">min_value</span></code>: Ensures that the number is at least a certain value.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">max_value</span></code>: Ensures that the number does not exceed a certain value.</p></li>
@@ -491,7 +518,7 @@ Example:</p>
 </pre></div>
 </div>
 </li>
-<li><p><strong>Optional Fields</strong>:</p>
+<li><p class="rubric" id="optional-fields">Optional Fields:</p>
 <ul class="simple">
 <li><p>Fields can be marked as optional by specifying <code class="docutils literal notranslate"><span class="pre">is_optional:</span> <span class="pre">True</span></code> in the metadata. This allows a field to be omitted from the input data without causing a validation error.</p></li>
 <li><p>Example:</p></li>
@@ -504,7 +531,7 @@ Example:</p>
 </pre></div>
 </div>
 </li>
-<li><p><strong>List Constraints</strong>:</p>
+<li><p class="rubric" id="list-constraints">List Constraints:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">min_items</span></code>: Ensures that a list has at least a certain number of items.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">max_items</span></code>: Ensures that a list does not exceed a certain number of items.</p></li>
@@ -523,7 +550,7 @@ Example:</p>
 </pre></div>
 </div>
 </li>
-<li><p><strong>Nested Dataclasses</strong>:</p>
+<li><p class="rubric" id="nested-dataclasses">Nested Dataclasses:</p>
 <ul class="simple">
 <li><p>You can nest dataclasses inside each other, and BirchRest will automatically validate nested structures.</p></li>
 <li><p>Example:</p></li>
@@ -623,8 +650,8 @@ Example:</p>
 <section id="custom-error-handler">
 <h4>Custom Error Handler<a class="headerlink" href="#custom-error-handler" title="Link to this heading"></a></h4>
 <p>If you need more control over how errors are handled, you can define your own custom error handler. This handler will receive the request, response, and exception as arguments. The handler must manage the exception explicitly; otherwise, a <code class="docutils literal notranslate"><span class="pre">500</span> <span class="pre">Internal</span> <span class="pre">Server</span> <span class="pre">Error</span></code> will be returned by default.</p>
-<section id="id6">
-<h5>Example:<a class="headerlink" href="#id6" title="Link to this heading"></a></h5>
+<section id="id7">
+<h5>Example:<a class="headerlink" href="#id7" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 <span class="kn">from</span> <span class="nn">birchrest.exceptions</span> <span class="kn">import</span> <span class="n">ApiError</span>
 
@@ -646,8 +673,8 @@ Example:</p>
 <h4>Test Adapter<a class="headerlink" href="#test-adapter" title="Link to this heading"></a></h4>
 <p>To simplify testing, the framework includes a test adapter class that simulates sending HTTP requests to your API. This allows you to test everything except the server itself, with all middlewares, authentication handlers, and other components functioning exactly as they would in a real request. The adapter returns the final response object, which you can inspect and assert in your tests.</p>
 <p>The TestAdapter class takes an instance of your app and then provides methods like get, post etc that accepts a path, headers and body.</p>
-<section id="id7">
-<h5>Example<a class="headerlink" href="#id7" title="Link to this heading"></a></h5>
+<section id="id8">
+<h5>Example<a class="headerlink" href="#id8" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span>
 <span class="kn">from</span> <span class="nn">birchrest.unittest</span> <span class="kn">import</span> <span class="n">TestAdapter</span>
 
@@ -676,8 +703,8 @@ Example:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">assertRedirect(response,</span> <span class="pre">expected_url)</span></code>: Asserts that the response status is a redirect (3xx) and that the Location header matches the expected URL.</p></li>
 <li><p>```assertBodyContains(response, expected_key)``: Asserts that the response body contains a specific property or key.</p></li>
 </ul>
-<section id="id8">
-<h5>Example:<a class="headerlink" href="#id8" title="Link to this heading"></a></h5>
+<section id="id9">
+<h5>Example:<a class="headerlink" href="#id9" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
 
 <span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span>
@@ -706,19 +733,124 @@ Example:</p>
 </section>
 </section>
 </section>
-<section id="request-and-response-lifecycle-in-birchrest">
-<h3>Request and Response Lifecycle in BirchRest<a class="headerlink" href="#request-and-response-lifecycle-in-birchrest" title="Link to this heading"></a></h3>
+<section id="requests-and-responses">
+<h3>Requests And Responses<a class="headerlink" href="#requests-and-responses" title="Link to this heading"></a></h3>
+<section id="request">
+<h4>Request<a class="headerlink" href="#request" title="Link to this heading"></a></h4>
+<p>The Request object represents the incoming HTTP request. It encapsulates all relevant information about the request, including the HTTP method, URL path, headers, body, query parameters, and more. The Request object provides access to these components, allowing you to handle and process the request effectively.
+Properties:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">method:</span> <span class="pre">str</span></code>
+The HTTP method used for the request (e.g., GET, POST, PUT, DELETE).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path:</span> <span class="pre">str</span></code>
+The full requested URL path, including any query string (e.g., /api/users?id=123).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">clean_path:</span> <span class="pre">str</span></code>
+The URL path without query parameters (e.g., /api/users).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">version:</span> <span class="pre">str</span></code>
+The HTTP version used for the request (e.g., HTTP/1.1).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">headers:</span> <span class="pre">Dict[str,</span> <span class="pre">str]</span></code>
+A dictionary of all HTTP request headers. Headers are case-insensitive.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">content_type</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content-type&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">queries:</span> <span class="pre">dataclass</span></code>
+A dataclass of query parameters extracted from the URL. If a query parameter has multiple values, it will be a list. Otherwise, it will be a single string. If you have used the <code class="docutils literal notranslate"><span class="pre">&#64;queries</span></code> decorator it will be your custom dataclass, otherwhise the request would have failed.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">search_query</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">params:</span> <span class="pre">dataclass</span></code>
+A dataclass of URL path parameters (if any) extracted from the route. This is populated during route matching. You can also define this via the <code class="docutils literal notranslate"><span class="pre">&#64;params</span></code> decorator.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user_id</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">id</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">body:</span> <span class="pre">dataclass</span></code>
+The parsed body of the request. You can ensure this follows your exact dataclass model by using the <code class="docutils literal notranslate"><span class="pre">&#64;body</span></code> decorator.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user_data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">firstName</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">client_address:</span> <span class="pre">str</span></code>
+The IP address of the client making the request.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">client_port:</span> <span class="pre">Optional[int]</span></code>
+The port number used by the client to send the request. This is helpful for identifying the source of the request.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request received from </span><span class="si">{</span><span class="n">req</span><span class="o">.</span><span class="n">client_address</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">req</span><span class="o">.</span><span class="n">client_port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">correlation_id:</span> <span class="pre">str</span></code>
+A unique ID automatically generated for each request. This can be used to track and correlate requests across different systems.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">received:</span> <span class="pre">datetime</span></code>
+The timestamp indicating when the request was received by the server. This can be useful for logging and performance tracking.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Request received at </span><span class="si">{</span><span class="n">req</span><span class="o">.</span><span class="n">received</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">user:</span> <span class="pre">Optional[Any]</span></code>
+Placeholder for any authenticated user information. This will be populated if the request goes through an authentication handler.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">host:</span> <span class="pre">Optional[str]</span></code>
+The Host header from the request, which indicates the server’s host (domain or IP) to which the request was made.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Host: </span><span class="si">{</span><span class="n">req</span><span class="o">.</span><span class="n">host</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">referrer:</span> <span class="pre">Optional[str]</span></code>
+The Referer header (if present) from the request, which indicates the page from which the request originated.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">user_agent:</span> <span class="pre">Optional[str]</span></code>
+The User-Agent header from the request, which identifies the client software (browser, bot, etc.).</p></li>
+</ul>
+</section>
+<section id="response">
+<h4>Response<a class="headerlink" href="#response" title="Link to this heading"></a></h4>
+<p>The Response object in BirchRest is responsible for crafting the outgoing HTTP response that is sent back to the client. It provides methods to set the status code, headers, and body, with support for automatically sending JSON-encoded responses.</p>
+<section id="important-methods">
+<h5>Important Methods<a class="headerlink" href="#important-methods" title="Link to this heading"></a></h5>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">status(code:</span> <span class="pre">int)</span> <span class="pre">-&gt;</span> <span class="pre">Response</span></code>
+This method sets the HTTP status code for the response. You can either pass an integer representing the status code (e.g., 200 for OK or 404 for Not Found) or use the HttpStatus enum for predefined status codes. However, it is recommended to raise <code class="docutils literal notranslate"><span class="pre">ApiError</span></code> instead if you want to return errors. A good use would be when responding with 201. The status code is set to 200 by default, so if you intend to return that, you dont have to call status method.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">send(data:</span> <span class="pre">Any</span> <span class="pre">=</span> <span class="pre">{})</span> <span class="pre">-&gt;</span> <span class="pre">Response</span></code>
+This method sets the response body by encoding the provided data as JSON and automatically sets the Content-Type header to application/json. The response can only be sent once; attempting to call send a second time will raise an exception.</p>
+<p><em>Note: All responses in BirchRest are automatically sent as JSON.</em></p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Success&quot;</span><span class="p">})</span>  <span class="c1"># Sends a JSON response with a 200 status code</span>
+</pre></div>
+</div>
+<p><strong>Important:</strong></p>
+<ul class="simple">
+<li><p>Once send is called, the response is finalized, and calling send again will result in an error (“Request was sent twice”).</p></li>
+<li><p>The Content-Length header is automatically set based on the length of the JSON-encoded response.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="request-and-response-lifecycle">
+<h4>Request and Response Lifecycle<a class="headerlink" href="#request-and-response-lifecycle" title="Link to this heading"></a></h4>
 <p>The BirchRest framework handles HTTP requests using a structured flow to ensure that all incoming requests are processed correctly, including middleware execution, validation, and error handling. This section explains the lifecycle of a request from when it is received by the server to when a response is sent back to the client.</p>
 <section id="receiving-and-parsing-the-request">
-<h4>1. Receiving and Parsing the Request<a class="headerlink" href="#receiving-and-parsing-the-request" title="Link to this heading"></a></h4>
+<h5>1. Receiving and Parsing the Request<a class="headerlink" href="#receiving-and-parsing-the-request" title="Link to this heading"></a></h5>
 <p>When a client sends an HTTP request to the server, the server parses the raw request data into a Request object. This object encapsulates all details about the incoming request, such as headers, method (e.g., GET, POST), query parameters, URL parameters, and body data.</p>
 </section>
 <section id="passing-the-request-to-the-app">
-<h4>2. Passing the Request to the App<a class="headerlink" href="#passing-the-request-to-the-app" title="Link to this heading"></a></h4>
+<h5>2. Passing the Request to the App<a class="headerlink" href="#passing-the-request-to-the-app" title="Link to this heading"></a></h5>
 <p>Once the request object is created, it is passed to the main application (BirchRest) for handling. The app creates a new Response object, which will later be populated and returned to the client. The app then looks for a matching route by searching through all defined routes based on the request’s URL and HTTP method.</p>
 </section>
 <section id="handling-the-request-in-the-app">
-<h4>3. Handling the Request in the App<a class="headerlink" href="#handling-the-request-in-the-app" title="Link to this heading"></a></h4>
+<h5>3. Handling the Request in the App<a class="headerlink" href="#handling-the-request-in-the-app" title="Link to this heading"></a></h5>
 <p>The main request handling logic is performed by the handle_request method in the app. This method attempts to match the incoming request to a route and execute the following key steps:</p>
 <ul class="simple">
 <li><p><strong>Route Matching</strong>: The app searches through all registered routes to find one that matches the URL path and HTTP method of the request. If a matching route is found, the request proceeds to that route. If no route matches, a <code class="docutils literal notranslate"><span class="pre">404</span> <span class="pre">Not</span> <span class="pre">Found</span></code> error is raised, or if the route exists but the HTTP method is incorrect, a <code class="docutils literal notranslate"><span class="pre">405</span> <span class="pre">Method</span> <span class="pre">Not</span> <span class="pre">Allowed</span></code> error is raised.</p></li>
@@ -727,7 +859,7 @@ Example:</p>
 </ul>
 </section>
 <section id="route-execution">
-<h4>4. Route Execution<a class="headerlink" href="#route-execution" title="Link to this heading"></a></h4>
+<h5>4. Route Execution<a class="headerlink" href="#route-execution" title="Link to this heading"></a></h5>
 <p>Each route in BirchRest is responsible for executing its logic and handling the request:</p>
 <ul>
 <li><p><strong>Middleware Execution</strong>: When the request reaches the matched route, the route begins by executing any middleware associated with it. Middleware can modify the request or response objects, perform tasks such as logging or authentication, and decide whether to continue processing the request. Middleware runs in a chain, meaning each middleware can pass control to the next one, or halt the chain and send a response early.</p>
@@ -739,9 +871,10 @@ Example:</p>
 </ul>
 </section>
 <section id="returning-the-response">
-<h4>5. Returning the Response<a class="headerlink" href="#returning-the-response" title="Link to this heading"></a></h4>
+<h5>5. Returning the Response<a class="headerlink" href="#returning-the-response" title="Link to this heading"></a></h5>
 <p>After the route handler completes, the response object (which was initially created at the beginning of the request) contains the data to be sent back to the client. This includes the HTTP status code, headers, and response body.</p>
 <p>The final response is then returned to the server, which sends it to the client. If any errors occurred during the request lifecycle, they are automatically converted into error responses by the app’s error handler.</p>
+</section>
 </section>
 </section>
 <section id="contributing">

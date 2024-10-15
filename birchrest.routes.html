@@ -242,22 +242,12 @@ with the route’s path and appending any global middlewares.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="birchrest.routes.validator.parse_data_class">
 <span class="sig-prename descclassname"><span class="pre">birchrest.routes.validator.</span></span><span class="sig-name descname"><span class="pre">parse_data_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/birchrest/routes/validator.html#parse_data_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.routes.validator.parse_data_class" title="Link to this definition"></a></dt>
-<dd><p>Parses and validates data against a dataclass, ensuring the data matches the
+<dd><p>Parses and validates data against a dataclass type, ensuring the data matches the
 field types, validation constraints (like min/max lengths, regex), and metadata
 such as default values. This function supports nested dataclasses and collections.</p>
 <p>The function checks if the provided data conforms to the field types and optional
 constraints specified in the dataclass. If the data is invalid, a ValueError
 is raised with a descriptive message.</p>
-<dl class="simple">
-<dt>Supported validations include:</dt><dd><ul class="simple">
-<li><p>Type validation (e.g., int, str, float, etc.)</p></li>
-<li><p>String constraints: min_length, max_length, regex pattern.</p></li>
-<li><p>Numeric constraints: min_value, max_value.</p></li>
-<li><p>List constraints: min_items, max_items, uniqueness of items.</p></li>
-<li><p>Optional fields with ‘is_optional’ metadata.</p></li>
-</ul>
-</dd>
-</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -421,22 +411,12 @@ with the route’s path and appending any global middlewares.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="birchrest.routes.parse_data_class">
 <span class="sig-prename descclassname"><span class="pre">birchrest.routes.</span></span><span class="sig-name descname"><span class="pre">parse_data_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/birchrest/routes/validator.html#parse_data_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.routes.parse_data_class" title="Link to this definition"></a></dt>
-<dd><p>Parses and validates data against a dataclass, ensuring the data matches the
+<dd><p>Parses and validates data against a dataclass type, ensuring the data matches the
 field types, validation constraints (like min/max lengths, regex), and metadata
 such as default values. This function supports nested dataclasses and collections.</p>
 <p>The function checks if the provided data conforms to the field types and optional
 constraints specified in the dataclass. If the data is invalid, a ValueError
 is raised with a descriptive message.</p>
-<dl class="simple">
-<dt>Supported validations include:</dt><dd><ul class="simple">
-<li><p>Type validation (e.g., int, str, float, etc.)</p></li>
-<li><p>String constraints: min_length, max_length, regex pattern.</p></li>
-<li><p>Numeric constraints: min_value, max_value.</p></li>
-<li><p>List constraints: min_items, max_items, uniqueness of items.</p></li>
-<li><p>Optional fields with ‘is_optional’ metadata.</p></li>
-</ul>
-</dd>
-</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

@@ -139,6 +139,21 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="birchrest.utils.dict_to_dataclass">
+<span class="sig-prename descclassname"><span class="pre">birchrest.utils.</span></span><span class="sig-name descname"><span class="pre">dict_to_dataclass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/birchrest/utils/dict_to_dataclass.html#dict_to_dataclass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.utils.dict_to_dataclass" title="Link to this definition"></a></dt>
+<dd><p>Converts a dictionary (or list of dictionaries) into a dataclass with fields matching 
+the dictionary keys and values. Handles nested dictionaries and lists of dictionaries
+by recursively creating dataclasses for them.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>base_name (str): The base name for the generated dataclass.
+data (dict or list): The dictionary (or list of dictionaries) to convert into a dataclass.</p>
+</dd>
+<dt>Returns:</dt><dd><p>An instance of the generated dataclass populated with the dictionary (or list) data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="birchrest.utils.get_artwork">
 <span class="sig-prename descclassname"><span class="pre">birchrest.utils.</span></span><span class="sig-name descname"><span class="pre">get_artwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/birchrest/utils/artwork.html#get_artwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.utils.get_artwork" title="Link to this definition"></a></dt>
 <dd></dd></dl>
