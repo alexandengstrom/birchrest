@@ -1,7 +1,6 @@
 from typing import Any, Dict, Type, get_args, get_origin, Union
 from dataclasses import fields, is_dataclass
 
-
 def python_type_to_openapi(field_type: Any) -> Dict[str, Any]:
     """
     Maps a Python type to the corresponding OpenAPI type.
@@ -16,18 +15,21 @@ def python_type_to_openapi(field_type: Any) -> Dict[str, Any]:
         return {"type": "boolean"}
     return {"type": "object"}
 
-
 def dataclass_to_model(dataclass: Type[Any]) -> Dict[str, Any]:
     """
     Converts a dataclass type to an OpenAPI model definition.
-
+    
     :param dataclass: The dataclass type to convert.
     :return: A dictionary representing the OpenAPI model definition.
     """
     if not is_dataclass(dataclass):
         raise ValueError(f"{dataclass} is not a valid dataclass")
 
-    model: Dict[str, Any] = {"type": "object", "properties": {}, "required": []}
+    model: Dict[str, Any] = {
+        "type": "object",
+        "properties": {},
+        "required": []
+    }
 
     for field in fields(dataclass):
         field_type = field.type
@@ -44,11 +46,14 @@ def dataclass_to_model(dataclass: Type[Any]) -> Dict[str, Any]:
         if get_origin(field_type) is list:
             item_type = get_args(field_type)[0]
             if is_dataclass(item_type):
-                field_schema = {"type": "array", "items": dataclass_to_model(item_type)}
+                field_schema = {
+                    "type": "array",
+                    "items": dataclass_to_model(item_type)
+                }
             else:
                 field_schema = {
                     "type": "array",
-                    "items": python_type_to_openapi(item_type),
+                    "items": python_type_to_openapi(item_type)
                 }
 
             if "min_items" in field_metadata:
@@ -60,7 +65,7 @@ def dataclass_to_model(dataclass: Type[Any]) -> Dict[str, Any]:
 
             model["properties"][field.name] = field_schema
 
-        elif is_dataclass(field_type):
+        elif is_dataclass(field_type) and isinstance(field_type, type):
             model["properties"][field.name] = dataclass_to_model(field_type)
         else:
             field_schema = python_type_to_openapi(field_type)
@@ -82,3 +87,4 @@ def dataclass_to_model(dataclass: Type[Any]) -> Dict[str, Any]:
             model["required"].append(field.name)
 
     return model
+
