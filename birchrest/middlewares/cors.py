@@ -1,4 +1,4 @@
-from typing import List, Callable
+from typing import List
 from ..http import Request
 from ..http import Response
 from ..types import NextFunction

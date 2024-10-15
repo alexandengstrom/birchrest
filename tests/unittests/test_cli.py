@@ -16,7 +16,7 @@ class TestBirchRestCLI(unittest.TestCase):
 
         serve_project(port=5000, host="0.0.0.0", log_level="debug")
 
-        mock_birchrest.assert_called_once_with(log_level="debug")
+        mock_birchrest.assert_called_once_with(log_level="debug", base_path="")
         mock_app_instance.serve.assert_called_once_with(host="0.0.0.0", port=5000)
 
     @patch('argparse.ArgumentParser.parse_args')

@@ -111,7 +111,7 @@ class TestBirchRest(unittest.IsolatedAsyncioTestCase):
 
         self.birch_rest._build_api()
 
-        mock_controller.resolve_paths.assert_called_once_with(middlewares=self.birch_rest.global_middlewares)
+        mock_controller.resolve_paths.assert_called_once_with(prefix="", middlewares=self.birch_rest.global_middlewares)
         mock_controller.collect_routes.assert_called_once()
 
     def test_build_api_with_auth_handler(self):

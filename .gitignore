@@ -163,3 +163,4 @@ cython_debug/
 
 play.py
 load_test_result.txt
+openapi.json

@@ -1,14 +1,12 @@
 from dataclasses import is_dataclass
 import re
-from typing import Any, Dict, List, Optional, Tuple
-import asyncio
-import inspect
+from typing import Any, Dict, List, Optional
 from birchrest.exceptions.invalid_validation_model import InvalidValidationModel
 from birchrest.routes.validator import parse_data_class
 from birchrest.utils import dict_to_dataclass
 from ..types import RouteHandler, MiddlewareFunction, AuthHandlerFunction
 from ..http import Request, Response
-from ..exceptions import MissingAuthHandlerError, Unauthorized, BadRequest, ApiError
+from ..exceptions import MissingAuthHandlerError, Unauthorized, BadRequest
 from ..utils import Logger
 
 
@@ -40,6 +38,8 @@ class Route:
         validate_body: Optional[Any],
         validate_queries: Optional[Any],
         validate_params: Optional[Any],
+        produces: Optional[Any] = None,
+        openapi_tags: List[str] = []
     ) -> None:
         """
         Initializes a new `Route` object with the provided handler, method, path, and configurations.
@@ -52,6 +52,7 @@ class Route:
         :param validate_body: A dataclass or schema to validate the request body, if applicable.
         :param validate_queries: A dataclass or schema to validate the query parameters, if applicable.
         :param validate_params: A dataclass or schema to validate the URL parameters, if applicable.
+        :param produces: A dataclass or schema to show what the route returns.
         """
 
         self.func = func
@@ -62,6 +63,8 @@ class Route:
         self.validate_body = validate_body
         self.validate_queries = validate_queries
         self.validate_params = validate_params
+        self.produces = produces
+        self.openapi_tags = openapi_tags
         self.auth_handler: Optional[AuthHandlerFunction] = None
         self.param_names: List[Any] = []
         self.requires_params = 0
@@ -78,9 +81,9 @@ class Route:
 
         new_prefix = prefix.rstrip("/")
         self.path = f"{new_prefix}/{self.path.lstrip('/')}".rstrip("/")
-        
+
         Logger.debug(f"Generated route {self.path}")
-        
+
         self.middlewares = middlewares + self.middlewares
 
         path_regex = re.sub(r":(\w+)", r"(?P<\1>[^/]+)", self.path)
@@ -112,22 +115,30 @@ class Route:
                 auth_result = await self.auth_handler(req, res)
 
                 if not auth_result:
-                    Logger.debug(f"Request to {self.path} from {req.client_address} was rejected")
+                    Logger.debug(
+                        f"Request to {self.path} from {req.client_address} was rejected"
+                    )
                     raise Unauthorized
 
                 req.user = auth_result
             except Exception as e:
-                Logger.debug(f"Request to {self.path} from {req.client_address} was rejected")
+                Logger.debug(
+                    f"Request to {self.path} from {req.client_address} was rejected"
+                )
                 raise Unauthorized from e
 
         if self.validate_body:
             try:
                 body_data = req.body
                 if not body_data:
-                    Logger.debug(f"Request to {self.path} from {req.client_address} failed body validation")
+                    Logger.debug(
+                        f"Request to {self.path} from {req.client_address} failed body validation"
+                    )
                     raise BadRequest("Request body is required")
-                
-                if isinstance(self.validate_body, type) and is_dataclass(self.validate_body):
+
+                if isinstance(self.validate_body, type) and is_dataclass(
+                    self.validate_body
+                ):
                     parsed_data = parse_data_class(self.validate_body, body_data)
                     req.body = parsed_data
 
@@ -135,14 +146,18 @@ class Route:
                     raise InvalidValidationModel(self.validate_body)
 
             except ValueError as e:
-                Logger.debug(f"Request to {self.path} from {req.client_address} failed body validation")
+                Logger.debug(
+                    f"Request to {self.path} from {req.client_address} failed body validation"
+                )
                 raise BadRequest(f"Body validation failed: {str(e)}") from e
         else:
             req.body = dict_to_dataclass("body", req.body)
 
         if self.validate_queries:
             try:
-                if isinstance(self.validate_body, type) and is_dataclass(self.validate_body):
+                if isinstance(self.validate_body, type) and is_dataclass(
+                    self.validate_body
+                ):
                     parsed_data = parse_data_class(self.validate_body, body_data)
                     req.queries = parsed_data
 
@@ -150,14 +165,18 @@ class Route:
                     raise InvalidValidationModel(self.validate_queries)
 
             except ValueError as e:
-                Logger.debug(f"Request to {self.path} from {req.client_address} failed query validation")
+                Logger.debug(
+                    f"Request to {self.path} from {req.client_address} failed query validation"
+                )
                 raise BadRequest(f"Query validation failed: {str(e)}")
         else:
             req.queries = dict_to_dataclass("queries", req.queries)
 
         if self.validate_params:
             try:
-                if isinstance(self.validate_params, type) and is_dataclass(self.validate_params):
+                if isinstance(self.validate_params, type) and is_dataclass(
+                    self.validate_params
+                ):
                     parsed_data = parse_data_class(self.validate_params, req.params)
                     req.params = parsed_data
 
@@ -165,7 +184,9 @@ class Route:
                     raise InvalidValidationModel(self.validate_params)
 
             except ValueError as e:
-                Logger.debug(f"Request to {self.path} from {req.client_address} failed param validation")
+                Logger.debug(
+                    f"Request to {self.path} from {req.client_address} failed param validation"
+                )
                 raise BadRequest(f"Param validation failed: {str(e)}")
         else:
             req.params = dict_to_dataclass("params", req.params)

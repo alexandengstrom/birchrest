@@ -64,6 +64,8 @@ from .patch import patch
 from .delete import delete
 from .options import options
 from .head import head
+from .produces import produces
+from .tag import tag
 
 __all__ = [
     "get",
@@ -79,4 +81,6 @@ __all__ = [
     "body",
     "queries",
     "params",
+    "produces",
+    "tag"
 ]

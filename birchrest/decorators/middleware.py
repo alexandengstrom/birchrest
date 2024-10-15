@@ -1,7 +1,6 @@
 from typing import Any, Callable, TypeVar
 from ..types import MiddlewareFunction
 
-# Define a generic type T for the decorator
 T = TypeVar('T', bound=Callable[..., Any])
 
 def middleware(handler: MiddlewareFunction) -> Callable[[T], T]:

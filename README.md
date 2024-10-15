@@ -681,6 +681,42 @@ Each route in BirchRest is responsible for executing its logic and handling the 
 After the route handler completes, the response object (which was initially created at the beginning of the request) contains the data to be sent back to the client. This includes the HTTP status code, headers, and response body.
 
 The final response is then returned to the server, which sends it to the client. If any errors occurred during the request lifecycle, they are automatically converted into error responses by the app’s error handler.
+## OpenAPI
+One of the features of the framework is its ability to automatically generate OpenAPI specifications based on the defined routes, parameters, and decorators. This process integrates with the core functionality of the framework to ensure that your API documentation is always up-to-date without requiring manual intervention.
+
+### How It Works
+
+The framework reuses as much information as possible to define the structure of your API, which are then converted into OpenAPI schemas:
+
+- **`@body`**, **`@queries`**, and **`@params`**: These decorators define the request body, query parameters, and path parameters respectively. The framework converts these into OpenAPI-compliant schemas, ensuring the input structure is well-documented.
+  
+- **`@produces`**: This decorator is used to specify the return type of a route, generating the corresponding schema for the response object. Note that while `@produces` defines the schema for the OpenAPI specification, it does not affect the runtime logic of the route itself.
+
+- **`@tag`**: The `@tag` decorator allows you to attach tags to routes or controllers. These tags are used purely for documentation purposes in the OpenAPI spec, helping to categorize and organize your API endpoints.
+
+- **`docstrings`**: The python docstrings for your route handlers will be reused to describe your endpoints.
+
+### Automatic Response Code Detection
+
+The framework analyzes the entire flow of a route to detect what HTTP status codes can be returned. By inspecting the **Abstract Syntax Tree (AST)** of the route handler, auth handler, middlewares, the framework can identify the status codes specified in the code, whether they are success or error codes. This process includes analyzing any exceptions (such as `ApiError`) raised within the route or its middlewares to ensure that all possible responses are captured.
+
+### Customizing OpenAPI Information
+
+In addition to automatically generating endpoint definitions, the framework allows you to specify additional metadata about your API. You can define information such as license, terms of service, and contact details by adding these fields to the `__birch__.py` file in your project. This information will be reflected in the OpenAPI specification's `info` section, making it easy to provide consumers with full details about your API.
+
+### Generating the OpenAPI Spec
+
+To generate the OpenAPI specification, simply run the following command:
+
+```bash
+birch openapi
+```
+
+It will create a file named openapi.json. It is possible to override the filename by providing the flag `--filename`.
+
+```bash
+birch openapi --filename myspec.json
+```
 ## Contributing
 Contributions are welcome! Please refer to the [CONTRIBUTING.md](./CONTRIBUTING.md) file for details on how to get involved, submit pull requests, and report issues.
 

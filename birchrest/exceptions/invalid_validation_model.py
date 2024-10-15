@@ -1,5 +1,6 @@
 from typing import Type, Any
 
+
 class InvalidValidationModel(TypeError):
     """
     Exception raised when the provided class is not a valid dataclass.

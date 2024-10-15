@@ -5,7 +5,6 @@ from birchrest.http.response import Response
 from ..app.birchrest_app import BirchRest
 
 
-
 class TestAdapter:
     """
     A test wrapper for simulating HTTP requests in a BirchRest application.
@@ -15,7 +14,7 @@ class TestAdapter:
     with the BirchRest application instance and can be used to test routes and endpoints
     without requiring a live server.
 
-    This class generates `Request` objects with the appropriate HTTP method, headers, 
+    This class generates `Request` objects with the appropriate HTTP method, headers,
     and body, and passes them to the application for processing. The responses returned
     by the application can then be validated in tests.
 

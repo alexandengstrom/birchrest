@@ -75,12 +75,14 @@ class Request:
             self.queries[key] = value[0] if len(value) < 2 else value
 
         self.clean_path: str = parsed_url.path
-        self.host: Optional[str] = self.get_header('host')
-        self.referrer: Optional[str] = self.get_header('referer')
-        self.user_agent: Optional[str] = self.get_header('user-agent')
+        self.host: Optional[str] = self.get_header("host")
+        self.referrer: Optional[str] = self.get_header("referer")
+        self.user_agent: Optional[str] = self.get_header("user-agent")
 
     @staticmethod
-    def parse(raw_data: str, client_address: str, client_port: Optional[int] = None) -> "Request":
+    def parse(
+        raw_data: str, client_address: str, client_port: Optional[int] = None
+    ) -> "Request":
         """
         Static method to create a Request object from raw HTTP request data.
 
@@ -111,7 +113,9 @@ class Request:
             if len(body) > content_length:
                 body = body[:content_length]
 
-        return Request(method, path, version, headers, body, client_address, client_port)
+        return Request(
+            method, path, version, headers, body, client_address, client_port
+        )
 
     def get_header(self, header_name: str) -> Optional[str]:
         """
