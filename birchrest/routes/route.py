@@ -1,7 +1,9 @@
+from dataclasses import is_dataclass
 import re
 from typing import Any, Dict, List, Optional, Tuple
 import asyncio
 import inspect
+from birchrest.exceptions.invalid_validation_model import InvalidValidationModel
 from birchrest.routes.validator import parse_data_class
 from birchrest.utils import dict_to_dataclass
 from ..types import RouteHandler, MiddlewareFunction, AuthHandlerFunction
@@ -124,10 +126,13 @@ class Route:
                 if not body_data:
                     Logger.debug(f"Request to {self.path} from {req.client_address} failed body validation")
                     raise BadRequest("Request body is required")
+                
+                if isinstance(self.validate_body, type) and is_dataclass(self.validate_body):
+                    parsed_data = parse_data_class(self.validate_body, body_data)
+                    req.body = parsed_data
 
-                parsed_data = parse_data_class(self.validate_body, body_data)
-
-                req.body = parsed_data
+                else:
+                    raise InvalidValidationModel(self.validate_body)
 
             except ValueError as e:
                 Logger.debug(f"Request to {self.path} from {req.client_address} failed body validation")
@@ -137,9 +142,12 @@ class Route:
 
         if self.validate_queries:
             try:
-                parsed_data = parse_data_class(self.validate_queries, req.queries)
+                if isinstance(self.validate_body, type) and is_dataclass(self.validate_body):
+                    parsed_data = parse_data_class(self.validate_body, body_data)
+                    req.queries = parsed_data
 
-                req.queries = parsed_data
+                else:
+                    raise InvalidValidationModel(self.validate_queries)
 
             except ValueError as e:
                 Logger.debug(f"Request to {self.path} from {req.client_address} failed query validation")
@@ -149,9 +157,12 @@ class Route:
 
         if self.validate_params:
             try:
-                parsed_data = parse_data_class(self.validate_params, req.params)
+                if isinstance(self.validate_params, type) and is_dataclass(self.validate_params):
+                    parsed_data = parse_data_class(self.validate_params, req.params)
+                    req.params = parsed_data
 
-                req.params = parsed_data
+                else:
+                    raise InvalidValidationModel(self.validate_params)
 
             except ValueError as e:
                 Logger.debug(f"Request to {self.path} from {req.client_address} failed param validation")

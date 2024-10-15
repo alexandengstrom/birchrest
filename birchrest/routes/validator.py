@@ -109,7 +109,8 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
 
                 for index, item in enumerate(field_value):
                     if isinstance(item, dict) and is_dataclass(item_type):
-                        field_value[index] = parse_data_class(item_type, item)
+                        if isinstance(item_type, type):  # Ensure that item_type is a dataclass type, not an instance
+                            field_value[index] = parse_data_class(item_type, item)
                     elif not isinstance(item, item_type):
                         raise ValueError(f"All items in field '{field_name}' must be of type {item_type}.")
 
@@ -118,7 +119,8 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
 
             # Handle nested dataclasses
             if is_dataclass(field_type) and isinstance(field_value, dict):
-                kwargs[field_name] = parse_data_class(field_type, field_value)
+                if isinstance(field_type, type):  # Ensure field_type is a dataclass type
+                    kwargs[field_name] = parse_data_class(field_type, field_value)
             else:
                 # General type validation
                 if isinstance(field_type, type):
