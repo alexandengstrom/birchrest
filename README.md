@@ -4,13 +4,13 @@
 ![GitHub Release Date](https://img.shields.io/github/release-date/alexandengstrom/birchrest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![GitHub issues](https://img.shields.io/github/issues/alexandengstrom/birchrest)
+![GitHub last commit](https://img.shields.io/github/last-commit/alexandengstrom/birchrest)
 ![Unit Tests](https://github.com/alexandengstrom/birchrest/actions/workflows/unit_test.yml/badge.svg)
 ![Type Checking](https://github.com/alexandengstrom/birchrest/actions/workflows/type_checking.yml/badge.svg)
 ![Linting](https://github.com/alexandengstrom/birchrest/actions/workflows/linting.yml/badge.svg)
 [![codecov](https://codecov.io/gh/alexandengstrom/birchrest/branch/main/graph/badge.svg)](https://codecov.io/gh/alexandengstrom/birchrest)
 [![Downloads](https://img.shields.io/pypi/dm/birchrest)](https://pypi.org/project/birchrest/)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://alexandengstrom.github.io/birchrest/)
-![GitHub last commit](https://img.shields.io/github/last-commit/alexandengstrom/birchrest)
 ![Repo Size](https://img.shields.io/github/repo-size/alexandengstrom/birchrest)
 
 **BirchRest** is a simple, lightweight framework for setting up RESTful APIs with minimal configuration. It is designed to be intuitive and flexible.
