@@ -30,6 +30,9 @@ class TestRoute(unittest.IsolatedAsyncioTestCase):
         self.mock_response = Mock(spec=Response)
         self.mock_auth_handler = AsyncMock()
         self.middlewares = [AsyncMock()]
+        self.mock_request.body = {}
+        self.mock_request.queries = {}
+        self.mock_request.params = {}
 
     def test_initialization(self):
         """Test that Route initializes correctly."""

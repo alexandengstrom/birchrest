@@ -79,10 +79,10 @@ class Server:
                 if len(data) < 1024:
                     break
 
-            client_address = writer.get_extra_info("peername")[0]
+            client_address, client_port = writer.get_extra_info("peername")
 
             try:
-                request = Request.parse(request_data, client_address)
+                request = Request.parse(request_data, client_address, client_port)
             except JSONDecodeError:
                 Logger.warning("Failed to parse request as JSON")
                 response = (
@@ -96,7 +96,7 @@ class Server:
                 writer.write(response.encode("utf-8"))
                 await writer.drain()
                 return
-            except Exception:
+            except Exception as e:
                 response = (
                     Response().status(400).send({"error": "Malformed request"}).end()
                 )
@@ -110,7 +110,6 @@ class Server:
                 writer.write(res.end().encode("utf-8"))
                 await writer.drain()
         except Exception as e:
-            print(e)
             response = (
                 Response().status(500).send({"error": "Internal server error"}).end()
             )

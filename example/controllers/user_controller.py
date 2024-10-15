@@ -4,7 +4,6 @@ from birchrest.http import Request, Response
 from birchrest.exceptions import NotFound
 from example.database import get_user, get_users, create_user
 from example.models import UserId, UserModel
-from example.middlewares.query_blocker import QueryBlocker
 from dataclasses import asdict
 
 
@@ -22,7 +21,6 @@ class UserController(Controller):
             raise NotFound(f"No user with id {req.params.id} exists")
 
     @get()
-    @middleware(QueryBlocker())
     async def get_users(self, req: Request, res: Response) -> Response:
         users = await get_users()
         return res.status(200).send(users)

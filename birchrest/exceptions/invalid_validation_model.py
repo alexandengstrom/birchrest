@@ -11,8 +11,9 @@ class InvalidValidationModel(TypeError):
 
     def __init__(self, invalid_class: Type[Any]):
         self.invalid_class = invalid_class
+        identifier = getattr(invalid_class, "__name__", invalid_class)
         message = (
-            f"Invalid model '{invalid_class.__name__}' provided. "
+            f"Invalid model '{identifier}' provided. "
             "When using validation decorators, you must pass a dataclass as an argument. "
             "Ensure that the model you are passing is a valid dataclass."
         )

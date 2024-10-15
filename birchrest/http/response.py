@@ -26,6 +26,8 @@ class Response:
         self._body: str = ""
         self._is_sent: bool = False
         self.correlation_id = correlation_id
+        self.body: Any
+        self.json: str
 
     def status(self, code: int) -> "Response":
         """

@@ -39,6 +39,7 @@ class Request:
         headers: Dict[str, str],
         body: Optional[str],
         client_address: str,
+        client_port: Optional[int] = None,
     ) -> None:
         """
         Initializes a new Request object with the given HTTP request details.
@@ -52,6 +53,7 @@ class Request:
         :param headers: A dictionary of HTTP request headers
         :param body: The request body, if any (expected as a JSON string)
         :param client_address: The IP address of the client making the request
+        :param client_port: The port used by the client (optional)
         """
         self.method: str = method
         self.path: str = path
@@ -59,6 +61,7 @@ class Request:
         self.headers: Dict[str, str] = headers
         self.body: Any = json.loads(body) if body else None
         self.client_address: str = client_address
+        self.client_port: Optional[int] = client_port
         self.params: Any = {}
         self.correlation_id: str = str(uuid.uuid4())
         self.user: Optional[Any] = None
@@ -72,9 +75,12 @@ class Request:
             self.queries[key] = value[0] if len(value) < 2 else value
 
         self.clean_path: str = parsed_url.path
+        self.host: Optional[str] = self.get_header('host')
+        self.referrer: Optional[str] = self.get_header('referer')
+        self.user_agent: Optional[str] = self.get_header('user-agent')
 
     @staticmethod
-    def parse(raw_data: str, client_address: str) -> "Request":
+    def parse(raw_data: str, client_address: str, client_port: Optional[int] = None) -> "Request":
         """
         Static method to create a Request object from raw HTTP request data.
 
@@ -105,7 +111,7 @@ class Request:
             if len(body) > content_length:
                 body = body[:content_length]
 
-        return Request(method, path, version, headers, body, client_address)
+        return Request(method, path, version, headers, body, client_address, client_port)
 
     def get_header(self, header_name: str) -> Optional[str]:
         """

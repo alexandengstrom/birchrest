@@ -47,11 +47,7 @@ class TestServer(unittest.TestCase):
         response = requests.get("http://127.0.0.1:13337/user")
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.json(), list)
-        
-    def test_get_users_with_queries_which_is_not_allowed(self):
-        response = requests.get("http://127.0.0.1:13337/user?name=john")
-        self.assertEqual(response.status_code, 400)
-        self.assertIsInstance(response.json(), dict)
+
         
     def test_create_user(self):
         response = requests.post("http://127.0.0.1:13337/user", json={
