@@ -75,8 +75,13 @@ https://alexandengstrom.github.io/birchrest
         - [3. Handling the Request in the App](#3-handling-the-request-in-the-app)
         - [4. Route Execution](#4-route-execution)
         - [5. Returning the Response](#5-returning-the-response)
-9. [Contributing](#contributing)
-10. [License](#license)
+9. [OpenAPI](#openapi)
+    - [How It Works](#how-it-works-2)
+    - [Automatic Response Code Detection](#automatic-response-code-detection)
+    - [Customizing](#customizing-openapi-information)
+    - [Generating](#generating-the-openapi-spec)
+10. [Contributing](#contributing)
+11. [License](#license)
 
 
 ## Introduction
