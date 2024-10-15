@@ -5,7 +5,7 @@ import re
 from birchrest.exceptions import InvalidValidationModel
 
 
-def parse_data_class(data_class: Type[Any], data: Any) -> Any:
+def parse_data_class(data_class: Any, data: Any) -> Any:
     """
     Parses and validates data against a dataclass, ensuring the data matches the
     field types, validation constraints (like min/max lengths, regex), and metadata
