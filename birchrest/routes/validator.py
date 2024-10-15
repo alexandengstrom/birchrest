@@ -1,3 +1,5 @@
+# type: ignore
+
 from dataclasses import MISSING, fields, is_dataclass
 from typing import Any, Dict, Type, get_args, get_origin, Union
 import re
