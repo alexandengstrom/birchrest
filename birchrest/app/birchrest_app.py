@@ -13,7 +13,7 @@ Modules imported include:
 - `version`: Holds the current version of the BirchRest framework.
 """
 
-from typing import Awaitable, Dict, List, Optional, Type
+from typing import Awaitable, Dict, List, Optional, Type, Any
 import asyncio
 
 from birchrest.exceptions.api_error import ApiError, MethodNotAllowed, BadRequest, NotFound
@@ -22,6 +22,7 @@ from birchrest.utils import Logger
 from birchrest.routes import Route, Controller
 from birchrest.utils.artwork import get_artwork
 from birchrest.version import __version__
+from birchrest.openapi import routes_to_openapi
 from ..http import Request, Response
 from ..exceptions import InvalidControllerRegistration
 from ..types import MiddlewareFunction, AuthHandlerFunction, ErrorHandler
@@ -45,11 +46,13 @@ class BirchRest:
         error_handler (Optional[ErrorHandler]): Error handler function for handling exceptions.
     """
 
-    def __init__(self, log_level: str = "debug") -> None:
+    def __init__(self, log_level: str = "debug", base_path: str = "") -> None:
         """
         Initializes the BirchRest application with empty lists of controllers,
         global middleware, and optional handlers for authentication and error handling.
         """
+        self.openapi: Dict[str, Any] = {}
+        self.base_path = base_path
         self.controllers: List[Controller] = []
         self.global_middlewares: List[MiddlewareFunction] = []
         self.routes: List[Route] = []
@@ -206,7 +209,7 @@ class BirchRest:
         self.controllers.append(Controller())
 
         for controller in self.controllers:
-            controller.resolve_paths(middlewares=self.global_middlewares)
+            controller.resolve_paths(prefix=self.base_path, middlewares=self.global_middlewares)
 
         for controller in self.controllers:
             for route in controller.collect_routes():
@@ -260,3 +263,33 @@ class BirchRest:
         sys.modules[module_name] = module
         spec.loader.exec_module(module)
         Logger.debug(f"Imported: {module_name} from {birch_file}")
+        
+        if hasattr(module, '__openapi__'):
+            self.openapi = getattr(module, '__openapi__')
+            Logger.debug(f"__openapi__ variable loaded and assigned to self.openapi from {birch_file}")
+        else:
+            Logger.warning(f"No __openapi__ variable found in {birch_file}")
+        
+    def _generate_open_api(self) -> Dict[str, Any]:
+        """
+        Generates the full OpenAPI specification by merging the metadata from self.openapi with the paths
+        generated from the registered routes.
+
+        Returns:
+            Dict[str, Any]: A dictionary representing the complete OpenAPI specification.
+        """
+        self._build_api()
+
+        paths, models = routes_to_openapi(self.routes)
+
+        openapi_spec = {
+            "openapi": "3.0.0",
+            **self.openapi,
+            "paths": paths,
+            "components": {
+                "schemas": models
+            }
+        }
+
+        return openapi_spec
+

@@ -6,6 +6,7 @@ import shutil
 from colorama import Fore, Style, init
 import subprocess
 import platform
+import json
 
 from .app import BirchRest
 
@@ -100,12 +101,12 @@ def init_project(args: Any) -> None:
     print(f"{Fore.GREEN}{Style.BRIGHT}Project initialization complete!{Style.RESET_ALL}")
 
 
-def serve_project(port: int, host: str, log_level: str) -> None:
+def serve_project(port: int, host: str, log_level: str, base_path: str = "") -> None:
     """
     CLI version of starting the server
     """
     sys.path.insert(0, os.getcwd())
-    app = BirchRest(log_level=log_level)
+    app = BirchRest(log_level=log_level, base_path=base_path)
     app.serve(host=host, port=port)
     
 def run_tests(args: Any) -> None:
@@ -140,10 +141,8 @@ def run_lint(args: Any) -> None:
     """ Runs linting with pylint, excluding specified directories. """
     print("Running lint checks with pylint...")
 
-    # Add directories to ignore such as venv, __pycache__, etc.
     exclude_dirs = ["venv", "__pycache__", ".venv", "node_modules"]
 
-    # Create the ignore argument for pylint
     ignore_argument = ",".join(exclude_dirs)
 
     try:
@@ -155,6 +154,27 @@ def run_lint(args: Any) -> None:
         )
     except:
         pass
+    
+def generate_openapi(args: Any) -> None:
+    """
+    Generates the OpenAPI documentation for the BirchRest project and saves it to a file.
+    
+    Args:
+        args: The command-line arguments, including the output filename.
+    """
+    sys.path.insert(0, os.getcwd())
+    app = BirchRest()
+    openapi_spec = app._generate_open_api()
+    
+    output_filename = args.filename or "openapi.json"
+    
+    try:
+        with open(output_filename, "w") as f:
+            json.dump(openapi_spec, f, indent=4)
+        print(f"{Fore.GREEN}OpenAPI documentation generated and saved to {output_filename}.{Style.RESET_ALL}")
+    except Exception as e:
+        print(f"{Fore.RED}Error writing OpenAPI documentation: {e}{Style.RESET_ALL}")
+
 
 def main() -> None:
     """
@@ -166,6 +186,10 @@ def main() -> None:
 
     init_parser = subparsers.add_parser("init", help="Initialize a new BirchREST project")
     init_parser.set_defaults(func=init_project)
+    
+    openapi_parser = subparsers.add_parser("openapi", help="Generate OpenAPI documentation")
+    openapi_parser.add_argument("--filename", type=str, default="openapi.json", help="Output filename for the OpenAPI JSON file (default: openapi.json)")
+    openapi_parser.set_defaults(func=generate_openapi)
 
     serve_parser = subparsers.add_parser("serve", help="Serve the BirchREST project")
 
@@ -189,7 +213,14 @@ def main() -> None:
         help="Log level for the server (default: info)"
     )
     
-    serve_parser.set_defaults(func=lambda args: serve_project(args.port, args.host, args.log_level))
+    serve_parser.add_argument(
+        "--base-bath",
+        type=str,
+        default="",
+        help="Prefix the api with a global basepath (default: None)"
+    )
+    
+    serve_parser.set_defaults(func=lambda args: serve_project(args.port, args.host, args.log_level, args.base_bath))
 
     test_parser = subparsers.add_parser("test", help="Run unit tests")
     test_parser.set_defaults(func=run_tests)
