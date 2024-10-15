@@ -70,8 +70,7 @@
              
   <h1>Source code for birchrest.routes.controller</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">.route</span> <span class="kn">import</span> <span class="n">Route</span>
 <span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">MiddlewareFunction</span>
 <span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">Logger</span>
@@ -114,7 +113,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_is_protected</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">&quot;_is_protected&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">routes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Route</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">controllers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Controller</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_discover_subcontrollers</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -142,6 +141,18 @@
                 <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="s2">&quot;_validate_params&quot;</span><span class="p">):</span>
                     <span class="n">validate_params</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="s2">&quot;_validate_params&quot;</span><span class="p">)</span>
 
+                <span class="n">produces</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="s2">&quot;_produces&quot;</span><span class="p">):</span>
+                    <span class="n">produces</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="s2">&quot;_produces&quot;</span><span class="p">)</span>
+
+                <span class="n">openapi_tags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_openapi_tags&quot;</span><span class="p">):</span>
+                    <span class="n">openapi_tags</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;__openapi_tags&quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="s2">&quot;_openapi_tags&quot;</span><span class="p">):</span>
+                    <span class="n">openapi_tags</span> <span class="o">=</span> <span class="n">openapi_tags</span> <span class="o">+</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="s2">&quot;_openapi_tags&quot;</span><span class="p">)</span>
+
                 <span class="bp">self</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="n">Route</span><span class="p">(</span>
                         <span class="n">method</span><span class="p">,</span>
@@ -149,12 +160,14 @@
                         <span class="n">method</span><span class="o">.</span><span class="n">_sub_route</span><span class="p">,</span>
                         <span class="n">middlewares</span><span class="p">,</span>
                         <span class="n">protected</span><span class="p">,</span>
-                        <span class="n">validate_body</span><span class="p">,</span>
-                        <span class="n">validate_queries</span><span class="p">,</span>
-                        <span class="n">validate_params</span><span class="p">,</span>
+                        <span class="n">validate_body</span><span class="o">=</span><span class="n">validate_body</span><span class="p">,</span>
+                        <span class="n">validate_queries</span><span class="o">=</span><span class="n">validate_queries</span><span class="p">,</span>
+                        <span class="n">validate_params</span><span class="o">=</span><span class="n">validate_params</span><span class="p">,</span>
+                        <span class="n">produces</span><span class="o">=</span><span class="n">produces</span><span class="p">,</span>
+                        <span class="n">openapi_tags</span><span class="o">=</span><span class="n">openapi_tags</span><span class="p">,</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
-                
+
     <span class="k">def</span> <span class="nf">_discover_subcontrollers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Discovers all subclasses of the current `Controller` class and automatically</span>
@@ -185,7 +198,7 @@
 
         <span class="n">new_prefix</span> <span class="o">=</span> <span class="n">prefix</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
         <span class="n">base_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_path</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-        
+
         <span class="k">if</span> <span class="n">new_prefix</span><span class="p">:</span>
             <span class="n">new_prefix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">new_prefix</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">base_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -212,7 +225,7 @@
 
 <span class="sd">        :yield: The routes defined in this controller and its subcontrollers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">routes</span>
 
         <span class="k">for</span> <span class="n">controller</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">controllers</span><span class="p">:</span>

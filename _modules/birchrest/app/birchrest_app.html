@@ -84,15 +84,21 @@
 <span class="sd">- `version`: Holds the current version of the BirchRest framework.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Awaitable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Awaitable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Any</span>
 <span class="kn">import</span> <span class="nn">asyncio</span>
 
-<span class="kn">from</span> <span class="nn">birchrest.exceptions.api_error</span> <span class="kn">import</span> <span class="n">ApiError</span><span class="p">,</span> <span class="n">MethodNotAllowed</span><span class="p">,</span> <span class="n">BadRequest</span><span class="p">,</span> <span class="n">NotFound</span>
+<span class="kn">from</span> <span class="nn">birchrest.exceptions.api_error</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ApiError</span><span class="p">,</span>
+    <span class="n">MethodNotAllowed</span><span class="p">,</span>
+    <span class="n">BadRequest</span><span class="p">,</span>
+    <span class="n">NotFound</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">birchrest.http.server</span> <span class="kn">import</span> <span class="n">Server</span>
 <span class="kn">from</span> <span class="nn">birchrest.utils</span> <span class="kn">import</span> <span class="n">Logger</span>
 <span class="kn">from</span> <span class="nn">birchrest.routes</span> <span class="kn">import</span> <span class="n">Route</span><span class="p">,</span> <span class="n">Controller</span>
 <span class="kn">from</span> <span class="nn">birchrest.utils.artwork</span> <span class="kn">import</span> <span class="n">get_artwork</span>
 <span class="kn">from</span> <span class="nn">birchrest.version</span> <span class="kn">import</span> <span class="n">__version__</span>
+<span class="kn">from</span> <span class="nn">birchrest.openapi</span> <span class="kn">import</span> <span class="n">routes_to_openapi</span>
 <span class="kn">from</span> <span class="nn">..http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 <span class="kn">from</span> <span class="nn">..exceptions</span> <span class="kn">import</span> <span class="n">InvalidControllerRegistration</span>
 <span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">MiddlewareFunction</span><span class="p">,</span> <span class="n">AuthHandlerFunction</span><span class="p">,</span> <span class="n">ErrorHandler</span>
@@ -118,11 +124,13 @@
 <span class="sd">        error_handler (Optional[ErrorHandler]): Error handler function for handling exceptions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_level</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;debug&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_level</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="n">base_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes the BirchRest application with empty lists of controllers,</span>
 <span class="sd">        global middleware, and optional handlers for authentication and error handling.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">openapi</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_path</span> <span class="o">=</span> <span class="n">base_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">controllers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Controller</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">global_middlewares</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MiddlewareFunction</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">routes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Route</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -131,7 +139,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_discover_controllers</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;birchrest_log_level&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;test&quot;</span><span class="p">:</span>
             <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;birchrest_log_level&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">log_level</span>
-
 
 <div class="viewcode-block" id="BirchRest.register">
 <a class="viewcode-back" href="../../../birchrest.app.html#birchrest.BirchRest.register">[docs]</a>
@@ -242,18 +249,12 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">:</span>
                 <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">response</span>
-            
+
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_warn_about_unhandled_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
-                <span class="p">{</span>
-                    <span class="s2">&quot;error&quot;</span><span class="p">:</span> 
-                        <span class="p">{</span>
-                            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> 
-                            <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal Server Error&quot;</span>
-                        <span class="p">}</span>
-                <span class="p">}</span>
+                <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal Server Error&quot;</span><span class="p">}}</span>
             <span class="p">)</span></div>
 
 
@@ -293,11 +294,13 @@
 <span class="sd">        Constructs the API by registering all routes from the controllers and applying</span>
 <span class="sd">        global middleware and authentication handlers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">controllers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Controller</span><span class="p">())</span>
 
         <span class="k">for</span> <span class="n">controller</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">controllers</span><span class="p">:</span>
-            <span class="n">controller</span><span class="o">.</span><span class="n">resolve_paths</span><span class="p">(</span><span class="n">middlewares</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">global_middlewares</span><span class="p">)</span>
+            <span class="n">controller</span><span class="o">.</span><span class="n">resolve_paths</span><span class="p">(</span>
+                <span class="n">prefix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_path</span><span class="p">,</span> <span class="n">middlewares</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">global_middlewares</span>
+            <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">controller</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">controllers</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="n">controller</span><span class="o">.</span><span class="n">collect_routes</span><span class="p">():</span>
@@ -306,30 +309,35 @@
 
     <span class="k">def</span> <span class="nf">_warn_about_unhandled_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">init</span><span class="p">(</span><span class="n">autoreset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">Logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unhandled Exception! Status code 500 was sent to the user&quot;</span><span class="p">,</span> <span class="p">{</span>
-            <span class="s2">&quot;Exception Type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-            <span class="s2">&quot;Exception Message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
-            <span class="s2">&quot;Traceback&quot;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_tb</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">))</span>
-        <span class="p">})</span>
-        
+        <span class="n">Logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+            <span class="s2">&quot;Unhandled Exception! Status code 500 was sent to the user&quot;</span><span class="p">,</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;Exception Type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                <span class="s2">&quot;Exception Message&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+                <span class="s2">&quot;Traceback&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_tb</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)),</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_discover_controllers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Searches for the __birch__.py file starting from the current working directory and imports it, </span>
+<span class="sd">        Searches for the __birch__.py file starting from the current working directory and imports it,</span>
 <span class="sd">        including all controllers and other imports from that file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
 
         <span class="n">birch_files</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">current_dir</span><span class="p">):</span>
-            
-            <span class="n">dirs</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirs</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)]</span>
-            
+
+            <span class="n">dirs</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirs</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">)]</span>
+
             <span class="k">if</span> <span class="s2">&quot;__birch__.py&quot;</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
                 <span class="n">birch_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;__birch__.py&quot;</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">birch_files</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s2">&quot;No __birch__.py file found in the current directory or subdirectories.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+                <span class="s2">&quot;No __birch__.py file found in the current directory or subdirectories.&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">birch_file</span> <span class="ow">in</span> <span class="n">birch_files</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_import_birch_file</span><span class="p">(</span><span class="n">birch_file</span><span class="p">)</span>
@@ -337,7 +345,7 @@
     <span class="k">def</span> <span class="nf">_import_birch_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">birch_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Imports a given __birch__.py file.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            birch_file (str): The path to the __birch__.py file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -350,7 +358,36 @@
         <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">module_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">module_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">module</span>
         <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
-        <span class="n">Logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Imported: </span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">birch_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="n">Logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Imported: </span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">birch_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s2">&quot;__openapi__&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">openapi</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s2">&quot;__openapi__&quot;</span><span class="p">)</span>
+            <span class="n">Logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;__openapi__ variable loaded and assigned to self.openapi from </span><span class="si">{</span><span class="n">birch_file</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No __openapi__ variable found in </span><span class="si">{</span><span class="n">birch_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_generate_open_api</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates the full OpenAPI specification by merging the metadata from self.openapi with the paths</span>
+<span class="sd">        generated from the registered routes.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: A dictionary representing the complete OpenAPI specification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_api</span><span class="p">()</span>
+
+        <span class="n">paths</span><span class="p">,</span> <span class="n">models</span> <span class="o">=</span> <span class="n">routes_to_openapi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">routes</span><span class="p">)</span>
+
+        <span class="n">openapi_spec</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;openapi&quot;</span><span class="p">:</span> <span class="s2">&quot;3.0.0&quot;</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">openapi</span><span class="p">,</span>
+            <span class="s2">&quot;paths&quot;</span><span class="p">:</span> <span class="n">paths</span><span class="p">,</span>
+            <span class="s2">&quot;components&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;schemas&quot;</span><span class="p">:</span> <span class="n">models</span><span class="p">},</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">openapi_spec</span></div>
 
 </pre></div>
 

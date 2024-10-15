@@ -70,7 +70,6 @@
              
   <h1>Source code for birchrest.unittest.birchrest_test_case</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span> <span class="nn">birchrest.http.response</span> <span class="kn">import</span> <span class="n">Response</span>
 
 
@@ -79,8 +78,8 @@
 <span class="k">class</span> <span class="nc">BirchRestTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">IsolatedAsyncioTestCase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A custom TestCase class that adds helper methods for asserting BirchRest HTTP responses.</span>
-<span class="sd">    </span>
-<span class="sd">    This class extends unittest.IsolatedAsyncioTestCase and provides additional assertion methods to </span>
+
+<span class="sd">    This class extends unittest.IsolatedAsyncioTestCase and provides additional assertion methods to</span>
 <span class="sd">    validate HTTP status codes, headers, and response bodies in a simplified manner.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -90,7 +89,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Assert that the response status code is in the range of 2xx (successful responses).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Expected status code to be OK, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected status code to be OK, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BirchRestTestCase.assertNotOk">
@@ -99,25 +101,35 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Assert that the response status code is not in the range of 2xx (indicating failure).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">&gt;=</span> <span class="mi">300</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Expected status code to indicate failure, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">&gt;=</span> <span class="mi">300</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected status code to indicate failure, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
-        
+
 <div class="viewcode-block" id="BirchRestTestCase.assertBadRequest">
 <a class="viewcode-back" href="../../../birchrest.unittest.html#birchrest.unittest.BirchRestTestCase.assertBadRequest">[docs]</a>
     <span class="k">def</span> <span class="nf">assertBadRequest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Assert that the response status is 400.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">==</span> <span class="mi">400</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Expected status code to be 400, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">==</span> <span class="mi">400</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected status code to be 400, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
-        
+
 <div class="viewcode-block" id="BirchRestTestCase.assertNotFound">
 <a class="viewcode-back" href="../../../birchrest.unittest.html#birchrest.unittest.BirchRestTestCase.assertNotFound">[docs]</a>
     <span class="k">def</span> <span class="nf">assertNotFound</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Assert that the response status is 404.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Expected status code to be 404, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected status code to be 404, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="BirchRestTestCase.assertUnauthorized">
 <a class="viewcode-back" href="../../../birchrest.unittest.html#birchrest.unittest.BirchRestTestCase.assertUnauthorized">[docs]</a>
@@ -125,25 +137,34 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Assert that the response status is 401.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Expected status code to be 401, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected status code to be 401, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
-        
+
 <div class="viewcode-block" id="BirchRestTestCase.assertForbidden">
 <a class="viewcode-back" href="../../../birchrest.unittest.html#birchrest.unittest.BirchRestTestCase.assertForbidden">[docs]</a>
     <span class="k">def</span> <span class="nf">assertForbidden</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Assert that the response status is 403.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">==</span> <span class="mi">403</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Expected status code to be 403, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">==</span> <span class="mi">403</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected status code to be 403, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
-        
+
 <div class="viewcode-block" id="BirchRestTestCase.assertInternalServerError">
 <a class="viewcode-back" href="../../../birchrest.unittest.html#birchrest.unittest.BirchRestTestCase.assertInternalServerError">[docs]</a>
     <span class="k">def</span> <span class="nf">assertInternalServerError</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Assert that the response status is 500.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">==</span> <span class="mi">500</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Expected status code to be 500, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">==</span> <span class="mi">500</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected status code to be 500, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BirchRestTestCase.assertStatus">
@@ -156,11 +177,12 @@
 <span class="sd">        :param expected_status: The expected HTTP status code</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
-            <span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="p">,</span> <span class="n">expected_status</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;Expected status </span><span class="si">{</span><span class="n">expected_status</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="p">,</span>
+            <span class="n">expected_status</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected status </span><span class="si">{</span><span class="n">expected_status</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-        
+
 <div class="viewcode-block" id="BirchRestTestCase.assertHasHeader">
 <a class="viewcode-back" href="../../../birchrest.unittest.html#birchrest.unittest.BirchRestTestCase.assertHasHeader">[docs]</a>
     <span class="k">def</span> <span class="nf">assertHasHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="n">expected_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -172,7 +194,9 @@
 
 <div class="viewcode-block" id="BirchRestTestCase.assertHeader">
 <a class="viewcode-back" href="../../../birchrest.unittest.html#birchrest.unittest.BirchRestTestCase.assertHeader">[docs]</a>
-    <span class="k">def</span> <span class="nf">assertHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="n">header_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">assertHeader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="n">header_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Assert that a specific header in the response matches the expected value.</span>
 
@@ -185,21 +209,25 @@
             <span class="n">actual_value</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Header &#39;</span><span class="si">{</span><span class="n">header_name</span><span class="si">}</span><span class="s2">&#39; not found in response&quot;</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
-            <span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;Expected header &#39;</span><span class="si">{</span><span class="n">header_name</span><span class="si">}</span><span class="s2">&#39; to have value &#39;</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s2">&#39;, but got &#39;</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="n">actual_value</span><span class="p">,</span>
+            <span class="n">expected_value</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected header &#39;</span><span class="si">{</span><span class="n">header_name</span><span class="si">}</span><span class="s2">&#39; to have value &#39;</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s2">&#39;, but got &#39;</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-        
+
 <div class="viewcode-block" id="BirchRestTestCase.assertRedirect">
 <a class="viewcode-back" href="../../../birchrest.unittest.html#birchrest.unittest.BirchRestTestCase.assertRedirect">[docs]</a>
     <span class="k">def</span> <span class="nf">assertRedirect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="n">expected_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Assert that the response status is a redirect (3xx) and the Location header matches the expected URL.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">300</span> <span class="o">&lt;=</span> <span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">&lt;</span> <span class="mi">400</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Expected redirect status code, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="mi">300</span> <span class="o">&lt;=</span> <span class="n">response</span><span class="o">.</span><span class="n">_status_code</span> <span class="o">&lt;</span> <span class="mi">400</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected redirect status code, got </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">_status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertHeader</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s2">&quot;Location&quot;</span><span class="p">,</span> <span class="n">expected_url</span><span class="p">)</span></div>
 
-        
+
 <div class="viewcode-block" id="BirchRestTestCase.assertBodyContains">
 <a class="viewcode-back" href="../../../birchrest.unittest.html#birchrest.unittest.BirchRestTestCase.assertBodyContains">[docs]</a>
     <span class="k">def</span> <span class="nf">assertBodyContains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="n">expected_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -208,7 +236,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">expected_key</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span></div>
 </div>
-
 
 </pre></div>
 

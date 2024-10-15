@@ -110,7 +110,7 @@
 GET, POST, PUT, PATCH, DELETE, HEAD, and OPTIONS during testing. It interacts directly
 with the BirchRest application instance and can be used to test routes and endpoints
 without requiring a live server.</p>
-<p>This class generates <cite>Request</cite> objects with the appropriate HTTP method, headers, 
+<p>This class generates <cite>Request</cite> objects with the appropriate HTTP method, headers,
 and body, and passes them to the application for processing. The responses returned
 by the application can then be validated in tests.</p>
 <dl class="simple">
@@ -184,7 +184,7 @@ _generate_request(method, path, headers, body): Helper method to create a <cite>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">birchrest.unittest.</span></span><span class="sig-name descname"><span class="pre">BirchRestTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/birchrest/unittest/birchrest_test_case.html#BirchRestTestCase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#birchrest.unittest.BirchRestTestCase" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IsolatedAsyncioTestCase</span></code></p>
 <p>A custom TestCase class that adds helper methods for asserting BirchRest HTTP responses.</p>
-<p>This class extends unittest.IsolatedAsyncioTestCase and provides additional assertion methods to 
+<p>This class extends unittest.IsolatedAsyncioTestCase and provides additional assertion methods to
 validate HTTP status codes, headers, and response bodies in a simplified manner.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="birchrest.unittest.BirchRestTestCase.assertBadRequest">
@@ -286,7 +286,7 @@ validate HTTP status codes, headers, and response bodies in a simplified manner.
 GET, POST, PUT, PATCH, DELETE, HEAD, and OPTIONS during testing. It interacts directly
 with the BirchRest application instance and can be used to test routes and endpoints
 without requiring a live server.</p>
-<p>This class generates <cite>Request</cite> objects with the appropriate HTTP method, headers, 
+<p>This class generates <cite>Request</cite> objects with the appropriate HTTP method, headers,
 and body, and passes them to the application for processing. The responses returned
 by the application can then be validated in tests.</p>
 <dl class="simple">

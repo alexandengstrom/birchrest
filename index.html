@@ -877,6 +877,39 @@ This method sets the response body by encoding the provided data as JSON and aut
 </section>
 </section>
 </section>
+<section id="openapi">
+<h3>OpenAPI<a class="headerlink" href="#openapi" title="Link to this heading"></a></h3>
+<p>One of the features of the framework is its ability to automatically generate OpenAPI specifications based on the defined routes, parameters, and decorators. This process integrates with the core functionality of the framework to ensure that your API documentation is always up-to-date without requiring manual intervention.</p>
+<section id="id10">
+<h4>How It Works<a class="headerlink" href="#id10" title="Link to this heading"></a></h4>
+<p>The framework reuses as much information as possible to define the structure of your API, which are then converted into OpenAPI schemas:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">&#64;body</span></code></strong>, <strong><code class="docutils literal notranslate"><span class="pre">&#64;queries</span></code></strong>, and <strong><code class="docutils literal notranslate"><span class="pre">&#64;params</span></code></strong>: These decorators define the request body, query parameters, and path parameters respectively. The framework converts these into OpenAPI-compliant schemas, ensuring the input structure is well-documented.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">&#64;produces</span></code></strong>: This decorator is used to specify the return type of a route, generating the corresponding schema for the response object. Note that while <code class="docutils literal notranslate"><span class="pre">&#64;produces</span></code> defines the schema for the OpenAPI specification, it does not affect the runtime logic of the route itself.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">&#64;tag</span></code></strong>: The <code class="docutils literal notranslate"><span class="pre">&#64;tag</span></code> decorator allows you to attach tags to routes or controllers. These tags are used purely for documentation purposes in the OpenAPI spec, helping to categorize and organize your API endpoints.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">docstrings</span></code></strong>: The python docstrings for your route handlers will be reused to describe your endpoints.</p></li>
+</ul>
+</section>
+<section id="automatic-response-code-detection">
+<h4>Automatic Response Code Detection<a class="headerlink" href="#automatic-response-code-detection" title="Link to this heading"></a></h4>
+<p>The framework analyzes the entire flow of a route to detect what HTTP status codes can be returned. By inspecting the <strong>Abstract Syntax Tree (AST)</strong> of the route handler, auth handler, middlewares, the framework can identify the status codes specified in the code, whether they are success or error codes. This process includes analyzing any exceptions (such as <code class="docutils literal notranslate"><span class="pre">ApiError</span></code>) raised within the route or its middlewares to ensure that all possible responses are captured.</p>
+</section>
+<section id="customizing-openapi-information">
+<h4>Customizing OpenAPI Information<a class="headerlink" href="#customizing-openapi-information" title="Link to this heading"></a></h4>
+<p>In addition to automatically generating endpoint definitions, the framework allows you to specify additional metadata about your API. You can define information such as license, terms of service, and contact details by adding these fields to the <code class="docutils literal notranslate"><span class="pre">__birch__.py</span></code> file in your project. This information will be reflected in the OpenAPI specification’s <code class="docutils literal notranslate"><span class="pre">info</span></code> section, making it easy to provide consumers with full details about your API.</p>
+</section>
+<section id="generating-the-openapi-spec">
+<h4>Generating the OpenAPI Spec<a class="headerlink" href="#generating-the-openapi-spec" title="Link to this heading"></a></h4>
+<p>To generate the OpenAPI specification, simply run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>birch<span class="w"> </span>openapi
+</pre></div>
+</div>
+<p>It will create a file named openapi.json. It is possible to override the filename by providing the flag <code class="docutils literal notranslate"><span class="pre">--filename</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>birch<span class="w"> </span>openapi<span class="w"> </span>--filename<span class="w"> </span>myspec.json
+</pre></div>
+</div>
+</section>
+</section>
 <section id="contributing">
 <h3>Contributing<a class="headerlink" href="#contributing" title="Link to this heading"></a></h3>
 <p>Contributions are welcome! Please refer to the <a class="reference internal" href="#./CONTRIBUTING.md"><span class="xref myst">CONTRIBUTING.md</span></a> file for details on how to get involved, submit pull requests, and report issues.</p>
