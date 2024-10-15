@@ -1,13 +1,13 @@
-from dataclasses import MISSING, fields, is_dataclass, asdict
+from dataclasses import MISSING, fields, is_dataclass
 from typing import Any, Dict, Type, get_args, get_origin, Union
 import re
 
 from birchrest.exceptions import InvalidValidationModel
 
 
-def parse_data_class(data_class: Any, data: Any) -> Any:
+def parse_data_class(data_class: Type[Any], data: Any) -> Any:
     """
-    Parses and validates data against a dataclass, ensuring the data matches the
+    Parses and validates data against a dataclass type, ensuring the data matches the
     field types, validation constraints (like min/max lengths, regex), and metadata
     such as default values. This function supports nested dataclasses and collections.
 
@@ -21,7 +21,7 @@ def parse_data_class(data_class: Any, data: Any) -> Any:
     :raises ValueError: If the data is missing required fields or if any validation fails.
     """
 
-    if not is_dataclass(data_class):
+    if not (is_dataclass(data_class) and isinstance(data_class, type)):
         raise InvalidValidationModel(data_class)
 
     kwargs: Dict[str, Any] = {}
