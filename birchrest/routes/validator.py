@@ -15,13 +15,6 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
     constraints specified in the dataclass. If the data is invalid, a ValueError
     is raised with a descriptive message.
 
-    Supported validations include:
-        - Type validation (e.g., int, str, float, etc.)
-        - String constraints: min_length, max_length, regex pattern.
-        - Numeric constraints: min_value, max_value.
-        - List constraints: min_items, max_items, uniqueness of items.
-        - Optional fields with 'is_optional' metadata.
-
     :param data_class: The dataclass type to validate against.
     :param data: The input data to be validated, typically a dictionary.
     :return: An instance of the dataclass with the validated data.
@@ -31,7 +24,7 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
     if not is_dataclass(data_class):
         raise InvalidValidationModel(data_class)
 
-    kwargs: Dict[Any, Any] = {}
+    kwargs: Dict[str, Any] = {}
     for field in fields(data_class):
         field_name = field.name
         field_type = field.type
@@ -50,11 +43,11 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
             else:
                 raise ValueError(f"Missing required field: {field_name}")
         else:
-            field_value = data[field_name]
+            field_value: Any = data[field_name]
 
-            origin_type = get_origin(field_type)
+            origin_type: Any = get_origin(field_type)
             if origin_type is Union:
-                valid_types = get_args(field_type)
+                valid_types: Any = get_args(field_type)
                 valid_types = tuple(t for t in valid_types if t is not type(None))
 
                 if field_value is None and is_optional:
@@ -102,8 +95,8 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
                         f"Field '{field_name}' must be at most {max_value}."
                     )
 
-            if get_origin(field_type) is list:
-                item_type = get_args(field_type)[0]
+            if origin_type is list:
+                item_type: Any = get_args(field_type)[0]
 
                 min_items = field_metadata.get("min_items", None)
                 max_items = field_metadata.get("max_items", None)
