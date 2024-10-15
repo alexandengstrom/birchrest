@@ -113,7 +113,7 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
 
                 for index, item in enumerate(field_value):
                     if isinstance(item, dict) and is_dataclass(item_type):
-                        field_value[index] = parse_data_class(item_type, item)
+                        field_value[index] = parse_data_class(item_type, item) # type: ignore
                     elif not isinstance(item, item_type):
                         raise ValueError(
                             f"All items in field '{field_name}' must be of type {item_type}."
@@ -123,7 +123,7 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
                 continue
 
             if is_dataclass(field_type) and isinstance(field_value, dict):
-                kwargs[field_name] = parse_data_class(field_type, field_value)
+                kwargs[field_name] = parse_data_class(field_type, field_value) # type: ignore
             else:
                 if origin_type is not Union and origin_type is not None:
                     if not isinstance(field_value, origin_type):
@@ -131,9 +131,9 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
                             f"Incorrect type for field '{field_name}', expected {origin_type.__name__}"
                         )
                 else:
-                    if not isinstance(field_value, field_type):
+                    if not isinstance(field_value, field_type): # type: ignore
                         raise ValueError(
-                            f"Incorrect type for field '{field_name}', expected {field_type.__name__}"
+                            f"Incorrect type for field '{field_name}', expected {field_type}"
                         )
 
                 kwargs[field_name] = field_value
