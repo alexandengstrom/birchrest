@@ -47,26 +47,29 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
 
             origin_type = get_origin(field_type)
 
+            # Handle Union types (Optional and others)
             if origin_type is Union:
                 valid_types = get_args(field_type)
-                valid_types = tuple(t for t in valid_types if t is not type(None))
+                valid_types = tuple(t for t in valid_types if t is not type(None))  # Remove NoneType
 
                 if field_value is None and is_optional:
                     kwargs[field_name] = None
                     continue
 
                 if not isinstance(field_value, valid_types):
-                    valid_type_names = [t.__name__ for t in valid_types]
+                    valid_type_names = [t.__name__ for t in valid_types if isinstance(t, type)]
                     raise ValueError(
                         f"Incorrect type for field '{field_name}', expected one of {valid_type_names}"
                     )
 
+            # Handle basic types like int
             if field_type is int:
                 try:
                     field_value = int(field_value)
                 except ValueError as e:
                     raise ValueError(f"Field '{field_name}' must be a valid integer.") from e
 
+            # String validations (regex, min_length, max_length)
             if isinstance(field_value, str):
                 min_length = field_metadata.get("min_length", None)
                 max_length = field_metadata.get("max_length", None)
@@ -79,6 +82,7 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
                 if regex and not re.match(regex, field_value):
                     raise ValueError(f"Field '{field_name}' was malformed")
 
+            # Handle numeric validations (min_value, max_value)
             if isinstance(field_value, (int, float)):
                 min_value = field_metadata.get("min_value", None)
                 max_value = field_metadata.get("max_value", None)
@@ -88,6 +92,7 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
                 if max_value is not None and field_value > max_value:
                     raise ValueError(f"Field '{field_name}' must be at most {max_value}.")
 
+            # Handle lists and their constraints
             if origin_type is list:
                 item_type = get_args(field_type)[0]
 
@@ -111,13 +116,12 @@ def parse_data_class(data_class: Type[Any], data: Any) -> Any:
                 kwargs[field_name] = field_value
                 continue
 
+            # Handle nested dataclasses
             if is_dataclass(field_type) and isinstance(field_value, dict):
                 kwargs[field_name] = parse_data_class(field_type, field_value)
             else:
-                if origin_type is not Union and origin_type is not None:
-                    if not isinstance(field_value, origin_type):
-                        raise ValueError(f"Incorrect type for field '{field_name}', expected {origin_type.__name__}")
-                else:
+                # General type validation
+                if isinstance(field_type, type):
                     if not isinstance(field_value, field_type):
                         raise ValueError(f"Incorrect type for field '{field_name}', expected {field_type.__name__}")
 
