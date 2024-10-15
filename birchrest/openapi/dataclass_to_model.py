@@ -45,7 +45,7 @@ def dataclass_to_model(dataclass: Type[Any]) -> Dict[str, Any]:
 
         if get_origin(field_type) is list:
             item_type = get_args(field_type)[0]
-            if is_dataclass(item_type):
+            if is_dataclass(item_type) and isinstance(item_type, type):
                 field_schema = {
                     "type": "array",
                     "items": dataclass_to_model(item_type)
