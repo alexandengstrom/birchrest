@@ -55,8 +55,8 @@ class Server:
         self._server = await asyncio.start_server(
             self._handle_client, self.host, self.port
         )
-        print(f"\033[92mRunning on: {self.host}:{self.port}\033[0m")
-        print("\033[93mPress Ctrl+C to stop the server.\033[0m")
+        Logger.info(f"Running on: {self.host}:{self.port}")
+        Logger.info("Press Ctrl+C to stop the server.")
 
         async with self._server:
             await self._server.serve_forever()

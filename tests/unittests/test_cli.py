@@ -1,11 +1,12 @@
 # type: ignore
 
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, mock_open
 import sys
-from birchrest.cli import main, serve_project, init_project
+from birchrest.cli import main, serve_project, init_project, generate_openapi, run_lint, run_tests, run_typecheck
 import argparse
-
+import subprocess
+import json
 class TestBirchRestCLI(unittest.TestCase):
 
     @patch('birchrest.cli.BirchRest')
@@ -49,6 +50,69 @@ class TestBirchRestCLI(unittest.TestCase):
         main()
 
         mock_init_project.assert_called_once()
+        
+    @patch('builtins.input', side_effect=['', 'n', 'n', 'n'])
+    @patch('os.mkdir')
+    @patch('shutil.copytree')
+    @patch('shutil.copy2')
+    def test_init_project_no_directory(self, mock_copy2, mock_copytree, mock_mkdir, mock_input):
+        """Test project initialization in the current directory."""
+        with patch('os.path.exists', return_value=True):
+            init_project(None)
+            mock_mkdir.assert_not_called()
+            mock_copy2.assert_called()
+            mock_copytree.assert_called()
+
+    @patch('subprocess.run')
+    def test_run_tests(self, mock_subprocess_run):
+        """Test running unit tests."""
+        run_tests(None)
+        mock_subprocess_run.assert_called_once_with(
+            ["python", "-m", "unittest", "discover", "-s", "tests"],
+            check=True,
+            stdout=sys.stdout,
+            stderr=sys.stderr,
+        )
+
+    @patch('subprocess.run')
+    def test_run_typecheck(self, mock_subprocess_run):
+        """Test running mypy for type checking."""
+        run_typecheck(None)
+        mock_subprocess_run.assert_called_once_with(
+            ["mypy", "."], check=True, stdout=sys.stdout, stderr=sys.stderr
+        )
+
+    @patch('subprocess.run')
+    def test_run_lint(self, mock_subprocess_run):
+        """Test running pylint for linting."""
+        run_lint(None)
+        mock_subprocess_run.assert_called_once_with(
+            ["pylint", ".", "--ignore=venv,__pycache__,.venv,node_modules"],
+            check=True,
+            stdout=sys.stdout,
+            stderr=sys.stderr,
+        )
+
+    @patch('birchrest.cli.BirchRest')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_generate_openapi(self, mock_open_file, mock_birchrest):
+        """Test OpenAPI documentation generation."""
+        mock_app_instance = MagicMock()
+        mock_birchrest.return_value = mock_app_instance
+        mock_app_instance._generate_open_api.return_value = {"openapi": "3.0.0"}
+
+        args = argparse.Namespace(filename="openapi_test.json")
+        generate_openapi(args)
+
+        mock_birchrest.assert_called_once()
+        mock_app_instance._generate_open_api.assert_called_once()
+
+        expected_output = json.dumps({"openapi": "3.0.0"}, indent=4)
+        written_content = ''.join(call.args[0] for call in mock_open_file().write.mock_calls)
+
+        self.assertEqual(written_content, expected_output)
+
+
 
 if __name__ == "__main__":
     unittest.main()

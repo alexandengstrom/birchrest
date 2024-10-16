@@ -1,13 +1,15 @@
 # type: ignore
 
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, mock_open, MagicMock
 from birchrest import BirchRest
 from birchrest.exceptions import InvalidControllerRegistration, ApiError, NotFound
 from birchrest.routes import Controller
 from birchrest.http import Request, Response, HttpStatus
 from birchrest.types import MiddlewareFunction, AuthHandlerFunction, ErrorHandler
 import json
+import asyncio
+import os
 
 
 class MockController(Controller):
@@ -131,6 +133,59 @@ class TestBirchRest(unittest.IsolatedAsyncioTestCase):
 
         mock_route.register_auth_handler.assert_called_with(mock_auth_handler)
 
+    @patch('os.walk', return_value=[('/some/path', ['subdir'], ['__birch__.py'])])
+    @patch('birchrest.BirchRest._import_birch_file')
+    def test_discover_controllers(self, mock_import_birch_file, mock_os_walk):
+        """Test _discover_controllers to ensure it discovers the __birch__.py file and imports it."""
+        self.birch_rest._discover_controllers()
+        mock_import_birch_file.assert_called_once_with('/some/path/__birch__.py')
+
+    @patch('importlib.util.spec_from_file_location')
+    @patch('importlib.util.module_from_spec')
+    def test_import_birch_file_with_openapi(self, mock_module_from_spec, mock_spec_from_file_location):
+        """Test _import_birch_file to ensure OpenAPI is loaded if present."""
+        mock_module = MagicMock()
+        mock_module.__openapi__ = {'info': 'test'}
+        mock_module_from_spec.return_value = mock_module
+
+        spec_mock = MagicMock()
+        mock_spec_from_file_location.return_value = spec_mock
+
+        self.birch_rest._import_birch_file('/some/path/__birch__.py')
+
+        self.assertEqual(self.birch_rest.openapi, {'info': 'test'})
+
+    @patch('birchrest.utils.Logger.warning')
+    @patch('importlib.util.spec_from_file_location')
+    @patch('importlib.util.module_from_spec')
+    def test_import_birch_file_without_openapi(self, mock_module_from_spec, mock_spec_from_file_location, mock_logger_warning):
+        """Test _import_birch_file to ensure OpenAPI is skipped if not present."""
+        mock_module = MagicMock()
+        del mock_module.__openapi__
+        mock_module_from_spec.return_value = mock_module
+
+        spec_mock = MagicMock()
+        mock_spec_from_file_location.return_value = spec_mock
+
+        self.birch_rest._import_birch_file('/some/path/__birch__.py')
+
+        mock_logger_warning.assert_called_once_with('No __openapi__ variable found in /some/path/__birch__.py')
+
+    @patch('traceback.format_tb', return_value=['trace'])
+    @patch('birchrest.utils.Logger.error')
+    def test_warn_about_unhandled_exception(self, mock_logger_error, mock_format_tb):
+        """Test _warn_about_unhandled_exception to ensure unhandled exceptions are logged."""
+        exception = Exception('Test Exception')
+        self.birch_rest._warn_about_unhandled_exception(exception)
+
+        mock_logger_error.assert_called_once_with(
+            "Unhandled Exception! Status code 500 was sent to the user",
+            {
+                "Exception Type": "Exception",
+                "Exception Message": "Test Exception",
+                "Traceback": "trace",
+            },
+        )
 
 if __name__ == '__main__':
     unittest.main()
