@@ -138,7 +138,9 @@ class TestBirchRest(unittest.IsolatedAsyncioTestCase):
     def test_discover_controllers(self, mock_import_birch_file, mock_os_walk):
         """Test _discover_controllers to ensure it discovers the __birch__.py file and imports it."""
         self.birch_rest._discover_controllers()
-        mock_import_birch_file.assert_called_once_with('/some/path/__birch__.py')
+
+        expected_path = os.path.join('/some/path', '__birch__.py')
+        mock_import_birch_file.assert_called_once_with(expected_path)
 
     @patch('importlib.util.spec_from_file_location')
     @patch('importlib.util.module_from_spec')
