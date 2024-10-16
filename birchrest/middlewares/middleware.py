@@ -1,6 +1,7 @@
+from abc import ABC, abstractmethod
+
 from ..http import Request, Response
 from ..types import NextFunction
-from abc import ABC, abstractmethod
 
 
 class Middleware(ABC):

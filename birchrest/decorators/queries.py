@@ -1,4 +1,4 @@
-from typing import Callable, TypeVar, Any, cast
+from typing import Callable, Any, cast
 from functools import wraps
 from ..types import FuncType
 

@@ -48,10 +48,10 @@ class TestResponse(unittest.TestCase):
     def test_send_twice_raises_exception(self):
         self.response.send({"message": "First response"})
         
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(RuntimeError) as context:
             self.response.send({"message": "Second response"})
         
-        self.assertEqual(str(context.exception), "Request was sent twice")
+        self.assertEqual(str(context.exception), "You tried to send the response twice, make sure you only send the response once.")
 
     def test_end_response_format(self):
         data = {"message": "Hello, world"}

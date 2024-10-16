@@ -13,8 +13,14 @@ Modules imported include:
 - `version`: Holds the current version of the BirchRest framework.
 """
 
-from typing import Awaitable, Dict, List, Optional, Type, Any
+import traceback
+import os
+import importlib.util
+import sys
 import asyncio
+
+from typing import Dict, List, Optional, Type, Any
+from colorama import init
 
 from birchrest.exceptions.api_error import (
     ApiError,
@@ -31,11 +37,6 @@ from birchrest.openapi import routes_to_openapi
 from ..http import Request, Response
 from ..exceptions import InvalidControllerRegistration
 from ..types import MiddlewareFunction, AuthHandlerFunction, ErrorHandler
-from colorama import Fore, Style, init
-import traceback
-import os
-import importlib.util
-import sys
 
 
 class BirchRest:
@@ -160,8 +161,7 @@ class BirchRest:
                 await self.error_handler(request, response, e)
                 return response
 
-            else:
-                self._warn_about_unhandled_exception(e)
+            self._warn_about_unhandled_exception(e)
 
             return response.status(500).send(
                 {"error": {"status": 500, "code": "Internal Server Error"}}
@@ -187,14 +187,14 @@ class BirchRest:
         if matched_route:
             if matched_route.requires_params and not path_params:
                 raise BadRequest("400 Bad Request - Missing Parameters")
-            else:
-                request.params = path_params if path_params is not None else {}
-                await matched_route(request, response)
+
+            request.params = path_params if path_params is not None else {}
+            await matched_route(request, response)
         else:
             if route_exists:
                 raise MethodNotAllowed
-            else:
-                raise NotFound
+
+            raise NotFound
 
         return response
 

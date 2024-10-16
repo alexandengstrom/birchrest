@@ -1,19 +1,20 @@
 import sys
 import os
 import argparse
-from typing import Any
 import shutil
-from colorama import Fore, Style, init
 import subprocess
 import platform
 import json
+
+from colorama import Fore, Style, init
+from typing import Any
 
 from .app import BirchRest
 
 init(autoreset=True)
 
 
-def init_project(args: Any) -> None:
+def init_project(_args: Any) -> None:
     """
     Initializes a new project. If a directory name is provided, it creates that directory
     and moves into it. Otherwise, it initializes the project in the current directory.
@@ -150,7 +151,7 @@ def serve_project(port: int, host: str, log_level: str, base_path: str = "") -> 
     app.serve(host=host, port=port)
 
 
-def run_tests(args: Any) -> None:
+def run_tests(_args: Any) -> None:
     """Runs the unit tests using Python's unittest framework."""
     print("Running unit tests...")
     try:
@@ -164,7 +165,7 @@ def run_tests(args: Any) -> None:
         pass
 
 
-def run_typecheck(args: Any) -> None:
+def run_typecheck(_args: Any) -> None:
     """Runs type checking with mypy."""
     print("Running type checks with mypy...")
     try:
@@ -173,7 +174,7 @@ def run_typecheck(args: Any) -> None:
         pass
 
 
-def run_lint(args: Any) -> None:
+def run_lint(_args: Any) -> None:
     """Runs linting with pylint, excluding specified directories."""
     print("Running lint checks with pylint...")
 

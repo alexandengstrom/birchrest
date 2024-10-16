@@ -38,7 +38,7 @@ class RateLimiter(Middleware):
         ]
         client_log["request_count"] = len(client_log["timestamps"])
 
-    async def __call__(self, req: Request, res: Response, next: NextFunction) -> None:
+    async def __call__(self, req: Request, res: Response, _next: NextFunction) -> None:
         """
         Middleware to handle rate limiting for each incoming request.
         :param req: The HTTP request object
@@ -53,7 +53,7 @@ class RateLimiter(Middleware):
         if self.request_log[client_id]["request_count"] >= self.max_requests:
             res.status(429).send({"error": "Too Many Requests"})
             return
-        else:
-            self.request_log[client_id]["timestamps"].append(time.time())
-            self.request_log[client_id]["request_count"] += 1
-            await next()
+
+        self.request_log[client_id]["timestamps"].append(time.time())
+        self.request_log[client_id]["request_count"] += 1
+        await _next()

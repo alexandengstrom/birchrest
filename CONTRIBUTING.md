@@ -18,7 +18,7 @@ When you submit a pull request, some automated checks will run. These checks nee
 1. **Unit Tests**: All unit tests will run on different Python versions (>=3.8) across various operating systems (Windows, macOS, and Linux). This ensures everything works as expected in different environments.
 2. **Code Coverage**: The project requires at least 80% code coverage. If the tests don't cover enough of the code, the pull request will fail.
 3. **Type Checking**: mypy will check the code for correct type annotations. The pull request must pass this check.
-4. **Linting**: pylint will check the code style. If the code doesn’t meet the style requirements, the pull request will need to be updated.
+4. **Linting**: pylint will check the code style. If the code doesn’t meet the style requirements, the pull request will need to be updated. The codebase needs to score at least 9/10 on the pylint test to pass.
 5. **Security Checks**: bandit will run to check the code for common security vulnerabilities, and safety will check for known vulnerabilities in the dependencies. The pull request will fail if any critical security issues are found.
 
 

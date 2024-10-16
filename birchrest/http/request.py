@@ -99,7 +99,7 @@ class Request:
         version = request_line[2]
 
         headers = {}
-        for i, line in enumerate(lines[1:], start=1):
+        for _, line in enumerate(lines[1:], start=1):
             if line == "":
                 break
             header_name, header_value = line.split(":", 1)

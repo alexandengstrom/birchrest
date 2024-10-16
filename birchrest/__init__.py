@@ -18,8 +18,4 @@ from .routes import Controller
 from .middlewares import Middleware
 
 
-__all__ = [
-    "BirchRest",
-    "Controller",
-    "Middleware"
-]
+__all__ = ["BirchRest", "Controller", "Middleware"]

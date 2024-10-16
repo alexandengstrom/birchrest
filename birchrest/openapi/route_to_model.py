@@ -1,18 +1,17 @@
 from dataclasses import is_dataclass
-import textwrap
-from typing import Dict, Any, List, Tuple
-from .dataclass_to_model import dataclass_to_model
-import re
-
-from birchrest.routes import Route
-
 import ast
 import inspect
+import textwrap
+import re
+from typing import Type
+from typing import Dict, Any, List, Tuple
+from .dataclass_to_model import dataclass_to_model
+from birchrest.routes import Route
 from birchrest.exceptions import ApiError
 from birchrest.http import HttpStatus
 
 
-from typing import Type
+
 
 
 def extract_status_codes(func: Any) -> Tuple[List[int], List[int]]:
@@ -42,9 +41,9 @@ def extract_status_codes(func: Any) -> Tuple[List[int], List[int]]:
                 if error_name in api_error_subclasses:
                     error_class = api_error_subclasses[error_name]
                     error_codes.add(error_class(user_message="").status_code)
-                    
+
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
-            if node.func.attr == 'status' and isinstance(node.args[0], ast.Constant):
+            if node.func.attr == "status" and isinstance(node.args[0], ast.Constant):
                 success_code = node.args[0].value
                 if isinstance(success_code, int):
                     if success_code > 299 or success_code < 200:
@@ -70,7 +69,9 @@ def get_route_return_codes(route: Route) -> Dict[str, Any]:
     error_codes.update(route_error_codes)
 
     for middleware in route.middlewares:
-        middleware_success_codes, middleware_error_codes = extract_status_codes(middleware)
+        middleware_success_codes, middleware_error_codes = extract_status_codes(
+            middleware
+        )
         success_codes.update(middleware_success_codes)
         error_codes.update(middleware_error_codes)
 
@@ -92,7 +93,6 @@ def get_route_return_codes(route: Route) -> Dict[str, Any]:
         }
 
     return return_codes
-
 
 
 def route_to_model(route: Route, models: Dict[str, Any] = {}) -> Dict[str, Any]:
@@ -122,12 +122,14 @@ def route_to_model(route: Route, models: Dict[str, Any] = {}) -> Dict[str, Any]:
             },
         }
     }
-    
+
     if hasattr(route.func, "_openapi_tags"):
         openapi_model[method]["tags"] = getattr(route.func, "_openapi_tags")
 
     if route.validate_params:
-        if is_dataclass(route.validate_params) and isinstance(route.validate_params, type):
+        if is_dataclass(route.validate_params) and isinstance(
+            route.validate_params, type
+        ):
             param_model = dataclass_to_model(route.validate_params)
 
             for param_name, param_schema in param_model["properties"].items():
@@ -141,7 +143,9 @@ def route_to_model(route: Route, models: Dict[str, Any] = {}) -> Dict[str, Any]:
                 )
 
     if route.validate_queries:
-        if is_dataclass(route.validate_queries) and isinstance(route.validate_queries, type):
+        if is_dataclass(route.validate_queries) and isinstance(
+            route.validate_queries, type
+        ):
             query_model = dataclass_to_model(route.validate_queries)
 
             for query_name, query_schema in query_model["properties"].items():

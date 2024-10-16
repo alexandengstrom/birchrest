@@ -64,7 +64,9 @@ class Response:
         """
 
         if self._is_sent:
-            raise Exception("Request was sent twice")
+            raise RuntimeError(
+                "You tried to send the response twice, make sure you only send the response once."
+            )
 
         self.body = data
         self.json = json.dumps(data)
