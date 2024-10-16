@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "birchrest"
-version = "1.0.8"
+version = "1.1.0"
 description = "A lightweight Python framework for building REST APIs with a controller-based approach. It includes built-in middleware, error handling, auth handling, automatic response management and more."
 authors = [{ name = "Alexander Engström", email = "alexander@engstrom.ae" }]
 license = { text = "MIT" }
