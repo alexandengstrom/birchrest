@@ -84,8 +84,14 @@
 <span class="sd">- `version`: Holds the current version of the BirchRest framework.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Awaitable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">importlib.util</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">colorama</span> <span class="kn">import</span> <span class="n">init</span>
 
 <span class="kn">from</span> <span class="nn">birchrest.exceptions.api_error</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ApiError</span><span class="p">,</span>
@@ -102,11 +108,6 @@
 <span class="kn">from</span> <span class="nn">..http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 <span class="kn">from</span> <span class="nn">..exceptions</span> <span class="kn">import</span> <span class="n">InvalidControllerRegistration</span>
 <span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">MiddlewareFunction</span><span class="p">,</span> <span class="n">AuthHandlerFunction</span><span class="p">,</span> <span class="n">ErrorHandler</span>
-<span class="kn">from</span> <span class="nn">colorama</span> <span class="kn">import</span> <span class="n">Fore</span><span class="p">,</span> <span class="n">Style</span><span class="p">,</span> <span class="n">init</span>
-<span class="kn">import</span> <span class="nn">traceback</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">importlib.util</span>
-<span class="kn">import</span> <span class="nn">sys</span>
 
 
 <div class="viewcode-block" id="BirchRest">
@@ -250,8 +251,7 @@
                 <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_handler</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">response</span>
 
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_warn_about_unhandled_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_warn_about_unhandled_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
                 <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal Server Error&quot;</span><span class="p">}}</span>
@@ -278,14 +278,14 @@
         <span class="k">if</span> <span class="n">matched_route</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">matched_route</span><span class="o">.</span><span class="n">requires_params</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">path_params</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="s2">&quot;400 Bad Request - Missing Parameters&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">request</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">path_params</span> <span class="k">if</span> <span class="n">path_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
-                <span class="k">await</span> <span class="n">matched_route</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+
+            <span class="n">request</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">path_params</span> <span class="k">if</span> <span class="n">path_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
+            <span class="k">await</span> <span class="n">matched_route</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">route_exists</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">MethodNotAllowed</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">NotFound</span>
+
+            <span class="k">raise</span> <span class="n">NotFound</span>
 
         <span class="k">return</span> <span class="n">response</span>
 

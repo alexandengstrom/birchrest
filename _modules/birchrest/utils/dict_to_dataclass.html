@@ -72,18 +72,19 @@
 <span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">make_dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
+
 <div class="viewcode-block" id="dict_to_dataclass">
 <a class="viewcode-back" href="../../../birchrest.utils.html#birchrest.utils.dict_to_dataclass">[docs]</a>
 <span class="k">def</span> <span class="nf">dict_to_dataclass</span><span class="p">(</span><span class="n">base_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts a dictionary (or list of dictionaries) into a dataclass with fields matching </span>
+<span class="sd">    Converts a dictionary (or list of dictionaries) into a dataclass with fields matching</span>
 <span class="sd">    the dictionary keys and values. Handles nested dictionaries and lists of dictionaries</span>
 <span class="sd">    by recursively creating dataclasses for them.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters:</span>
 <span class="sd">        base_name (str): The base name for the generated dataclass.</span>
 <span class="sd">        data (dict or list): The dictionary (or list of dictionaries) to convert into a dataclass.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns:</span>
 <span class="sd">        An instance of the generated dataclass populated with the dictionary (or list) data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -99,21 +100,27 @@
                 <span class="n">values</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">nested_dataclass</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]))</span>
-                <span class="n">values</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">dict_to_dataclass</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_list&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">value</span><span class="p">]</span>
+                <span class="n">values</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="p">(</span>
+                        <span class="n">dict_to_dataclass</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_list&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+                        <span class="k">else</span> <span class="n">item</span>
+                    <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">value</span>
+                <span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
                 <span class="n">values</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
         <span class="n">dataclass</span> <span class="o">=</span> <span class="n">make_dataclass</span><span class="p">(</span><span class="n">unique_class_name</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dataclass</span><span class="p">(</span><span class="o">**</span><span class="n">values</span><span class="p">)</span>
-    
+
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">):</span>
             <span class="n">dataclass_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">dict_to_dataclass</span><span class="p">(</span><span class="n">base_name</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">dataclass_list</span>
-        
-        <span class="k">return</span> <span class="n">data</span></div>
 
+        <span class="k">return</span> <span class="n">data</span></div>
 
 </pre></div>
 

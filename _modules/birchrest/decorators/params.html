@@ -69,23 +69,25 @@
            <div itemprop="articleBody">
              
   <h1>Source code for birchrest.decorators.params</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">cast</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">cast</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 <span class="kn">from</span> <span class="nn">..types</span> <span class="kn">import</span> <span class="n">FuncType</span>
+
 
 <div class="viewcode-block" id="params">
 <a class="viewcode-back" href="../../../birchrest.decorators.html#birchrest.decorators.params.params">[docs]</a>
 <span class="k">def</span> <span class="nf">params</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">FuncType</span><span class="p">],</span> <span class="n">FuncType</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator to attach a model for parameter validation to a function.&quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">FuncType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FuncType</span><span class="p">:</span>
         <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="s1">&#39;_validate_params&#39;</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="s2">&quot;_validate_params&quot;</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">FuncType</span><span class="p">,</span> <span class="n">wrapper</span><span class="p">)</span>
-    
+
     <span class="k">return</span> <span class="n">decorator</span></div>
 
 </pre></div>
