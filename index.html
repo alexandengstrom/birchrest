@@ -143,9 +143,6 @@ https://alexandengstrom.github.io/birchrest</p>
 </section>
 <section id="table-of-contents">
 <h3>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h3>
-</section>
-<section id="id1">
-<h3>Table of Contents<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="#introduction"><span class="xref myst">Introduction</span></a></p></li>
 <li><p><a class="reference internal" href="#defining-controllers"><span class="xref myst">Defining Controllers</span></a></p>
@@ -391,8 +388,8 @@ https://alexandengstrom.github.io/birchrest</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">window_seconds</span></code>: The length of the time window in seconds during which the requests are counted (default is 10 seconds).</p></li>
 </ul>
 </section>
-<section id="id2">
-<h6>Example:<a class="headerlink" href="#id2" title="Link to this heading"></a></h6>
+<section id="id1">
+<h6>Example:<a class="headerlink" href="#id1" title="Link to this heading"></a></h6>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.middlewares</span> <span class="kn">import</span> <span class="n">RateLimiter</span>
 
 <span class="c1"># Apply rate limiting globally</span>
@@ -405,16 +402,16 @@ https://alexandengstrom.github.io/birchrest</p>
 <section id="cors">
 <h5>Cors<a class="headerlink" href="#cors" title="Link to this heading"></a></h5>
 <p>The CORS (<code class="docutils literal notranslate"><span class="pre">Cross-Origin</span> <span class="pre">Resource</span> <span class="pre">Sharing</span></code>) middleware in BirchRest enables your API to respond to cross-origin requests securely by controlling which origins, methods, and headers are allowed. It also handles preflight (<code class="docutils literal notranslate"><span class="pre">OPTIONS</span></code>) requests for methods other than <code class="docutils literal notranslate"><span class="pre">GET</span></code> and <code class="docutils literal notranslate"><span class="pre">POST</span></code>, or when using custom headers.</p>
-<section id="id3">
-<h6>How It Works:<a class="headerlink" href="#id3" title="Link to this heading"></a></h6>
+<section id="id2">
+<h6>How It Works:<a class="headerlink" href="#id2" title="Link to this heading"></a></h6>
 <ul class="simple">
 <li><p>The middleware inspects each request and adds the necessary CORS headers to the response based on the configured settings. This allows browsers to enforce the CORS policy and determine if the request is permitted.</p></li>
 <li><p>For preflight requests (<code class="docutils literal notranslate"><span class="pre">OPTIONS</span></code> method), it sends the appropriate response headers to indicate which origins, methods, and headers are allowed.</p></li>
 <li><p>For regular requests, it ensures the appropriate headers are added to allow cross-origin resource sharing.</p></li>
 </ul>
 </section>
-<section id="id4">
-<h6>Configuration Options:<a class="headerlink" href="#id4" title="Link to this heading"></a></h6>
+<section id="id3">
+<h6>Configuration Options:<a class="headerlink" href="#id3" title="Link to this heading"></a></h6>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">allow_origins</span></code>: List of allowed origins (default is [“*”], allowing all origins).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">allow_methods</span></code>: List of allowed HTTP methods (default includes GET, POST, PUT, DELETE, PATCH, OPTIONS).</p></li>
@@ -423,8 +420,8 @@ https://alexandengstrom.github.io/birchrest</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">max_age</span></code>: The time (in seconds) that preflight request results can be cached by the browser (default is 86400 seconds or 24 hours).</p></li>
 </ul>
 </section>
-<section id="id5">
-<h6>Example:<a class="headerlink" href="#id5" title="Link to this heading"></a></h6>
+<section id="id4">
+<h6>Example:<a class="headerlink" href="#id4" title="Link to this heading"></a></h6>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.middlewares</span> <span class="kn">import</span> <span class="n">Cors</span>
 
 <span class="c1"># Apply CORS middleware globally with default settings</span>
@@ -442,8 +439,8 @@ https://alexandengstrom.github.io/birchrest</p>
 <p>To be able to use validation, you must also define the models.</p>
 <section id="body-validation">
 <h4>Body Validation<a class="headerlink" href="#body-validation" title="Link to this heading"></a></h4>
-<section id="id6">
-<h5>Example:<a class="headerlink" href="#id6" title="Link to this heading"></a></h5>
+<section id="id5">
+<h5>Example:<a class="headerlink" href="#id5" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Address</span><span class="p">:</span>
     <span class="n">street</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min_length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;max_length&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
@@ -658,8 +655,8 @@ Example:</p>
 <section id="custom-error-handler">
 <h4>Custom Error Handler<a class="headerlink" href="#custom-error-handler" title="Link to this heading"></a></h4>
 <p>If you need more control over how errors are handled, you can define your own custom error handler. This handler will receive the request, response, and exception as arguments. The handler must manage the exception explicitly; otherwise, a <code class="docutils literal notranslate"><span class="pre">500</span> <span class="pre">Internal</span> <span class="pre">Server</span> <span class="pre">Error</span></code> will be returned by default.</p>
-<section id="id7">
-<h5>Example:<a class="headerlink" href="#id7" title="Link to this heading"></a></h5>
+<section id="id6">
+<h5>Example:<a class="headerlink" href="#id6" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest.http</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 <span class="kn">from</span> <span class="nn">birchrest.exceptions</span> <span class="kn">import</span> <span class="n">ApiError</span>
 
@@ -681,8 +678,8 @@ Example:</p>
 <h4>Test Adapter<a class="headerlink" href="#test-adapter" title="Link to this heading"></a></h4>
 <p>To simplify testing, the framework includes a test adapter class that simulates sending HTTP requests to your API. This allows you to test everything except the server itself, with all middlewares, authentication handlers, and other components functioning exactly as they would in a real request. The adapter returns the final response object, which you can inspect and assert in your tests.</p>
 <p>The TestAdapter class takes an instance of your app and then provides methods like get, post etc that accepts a path, headers and body.</p>
-<section id="id8">
-<h5>Example<a class="headerlink" href="#id8" title="Link to this heading"></a></h5>
+<section id="id7">
+<h5>Example<a class="headerlink" href="#id7" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span>
 <span class="kn">from</span> <span class="nn">birchrest.unittest</span> <span class="kn">import</span> <span class="n">TestAdapter</span>
 
@@ -711,8 +708,8 @@ Example:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">assertRedirect(response,</span> <span class="pre">expected_url)</span></code>: Asserts that the response status is a redirect (3xx) and that the Location header matches the expected URL.</p></li>
 <li><p>```assertBodyContains(response, expected_key)``: Asserts that the response body contains a specific property or key.</p></li>
 </ul>
-<section id="id9">
-<h5>Example:<a class="headerlink" href="#id9" title="Link to this heading"></a></h5>
+<section id="id8">
+<h5>Example:<a class="headerlink" href="#id8" title="Link to this heading"></a></h5>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
 
 <span class="kn">from</span> <span class="nn">birchrest</span> <span class="kn">import</span> <span class="n">BirchRest</span>
@@ -888,8 +885,8 @@ This method sets the response body by encoding the provided data as JSON and aut
 <section id="openapi">
 <h3>OpenAPI<a class="headerlink" href="#openapi" title="Link to this heading"></a></h3>
 <p>One of the features of the framework is its ability to automatically generate OpenAPI specifications based on the defined routes, parameters, and decorators. This process integrates with the core functionality of the framework to ensure that your API documentation is always up-to-date without requiring manual intervention.</p>
-<section id="id10">
-<h4>How It Works<a class="headerlink" href="#id10" title="Link to this heading"></a></h4>
+<section id="id9">
+<h4>How It Works<a class="headerlink" href="#id9" title="Link to this heading"></a></h4>
 <p>The framework reuses as much information as possible to define the structure of your API, which are then converted into OpenAPI schemas:</p>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">&#64;body</span></code></strong>, <strong><code class="docutils literal notranslate"><span class="pre">&#64;queries</span></code></strong>, and <strong><code class="docutils literal notranslate"><span class="pre">&#64;params</span></code></strong>: These decorators define the request body, query parameters, and path parameters respectively. The framework converts these into OpenAPI-compliant schemas, ensuring the input structure is well-documented.</p></li>
