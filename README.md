@@ -35,7 +35,6 @@ https://alexandengstrom.github.io/birchrest
     ```
 
 ## Table of Contents
-## Table of Contents
 1. [Introduction](#introduction)
 2. [Defining Controllers](#defining-controllers)
     - [Key Concepts](#key-concepts)
