@@ -408,7 +408,7 @@ class MyController(Controller):
         return res.send({"message": "Hello from the app!"})
 
 app = BirchRest()
-app.register(MyController)
+app.auth(auth_handler)
 app.serve()
 
 ```
